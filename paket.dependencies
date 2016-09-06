@@ -1,4 +1,4 @@
 source https://api.nuget.org/v3/index.json
 
 nuget FAKE
-nuget Amazingant.FSharp.TypeExpansion 0.4.0
+nuget Amazingant.FSharp.TypeExpansion 0.4.1

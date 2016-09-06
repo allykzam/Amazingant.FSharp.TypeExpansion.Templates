@@ -1,0 +1,14 @@
+type file
+id Amazingant.FSharp.TypeExpansion.Templates
+authors Anthony Perez
+description
+    Packaged scripts for use as expansion templates
+projectUrl
+    https://github.com/amazingant/Amazingant.FSharp.TypeExpansion.Templates
+licenseUrl
+    https://github.com/amazingant/Amazingant.FSharp.TypeExpansion.Templates/blob/master/LICENSE
+files
+    templates/**/*.fs ==> content
+    templates/**/*.fsx ==> content
+dependencies
+    Amazingant.FSharp.TypeExpansion

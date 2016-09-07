@@ -4,6 +4,7 @@
 #I "../../packages/Amazingant.FSharp.TypeExpansion/lib/net45"
 #I "../../../Amazingant.FSharp.TypeExpansion/lib/net45"
 #r "Amazingant.FSharp.TypeExpansion.Attributes.dll"
+#r "Amazingant.FSharp.TypeExpansion.dll"
 
 // Load the base file to get access to the attribute
 #load "Lenses_Base.fsx"
@@ -17,6 +18,7 @@ open System.Reflection
 open Amazingant.FSharp.TypeExpansion.Attributes
 
 module LensExpansion =
+    let getTypeName = Amazingant.FSharp.TypeExpansion.TypeIntrospection.GetTemplateFriendlyName
     let notEmpty = Seq.isEmpty >> not
     let joinLines    (x : string seq) = String.Join("\n"  , x)
     // Not sure if this is the best way to detect this, but it works?
@@ -32,7 +34,7 @@ module LensExpansion =
                 makeStaticLens
                     (fun x -> x.%s)
                     (fun v x -> { x with %s = v })"
-                    p.Name t.Name p.PropertyType.FullName p.Name p.Name
+                    p.Name t.Name (getTypeName p.PropertyType) p.Name p.Name
             let m =
                 sprintf "            member self.%s_Lens =
                 Lens.FromStatic self

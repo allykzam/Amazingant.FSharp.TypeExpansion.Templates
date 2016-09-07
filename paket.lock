@@ -1,4 +1,4 @@
 NUGET
   remote: http://api.nuget.org/v3/index.json
-    Amazingant.FSharp.TypeExpansion (0.4.1)
+    Amazingant.FSharp.TypeExpansion (0.5.0)
     FAKE (4.39.1)

@@ -65,6 +65,97 @@ reference to build a template for that lensing library, if doing so will improve
 its usefulness and/or usability.
 
 
+### FromXml
+
+This template provides a `FromXmlNode` extension method for any type provided to
+it. Types which have the `XmlNode` attribute will additionally receive two
+`FromXmlDoc` extension methods, the first of which takes a
+`System.Xml.XmlDocument` object, and the second of which takes a string and
+loads it as an `XmlDocument` object before calling the first function.
+
+These extension methods serve to load a record type and any nested types from an
+XML document. These methods are intended to build F# record types only, and are
+not likely to work with custom classes, and the XML processing done is very
+simplistic. If more advanced processing is needed, the [XML type
+provider][xml-provider] from from F# Data should be considered instead.
+
+A basic example:
+
+```FSharp
+[<XmlNode("Item_Data"); ExpandableType([| "FromXml" |])>]
+type ItemData =
+    {
+        ItemId : string;
+        PromotionStart : DateTimeOffset;
+        [<XmlAttr("free_shipping")>]
+        HasFreeShipping : bool;
+    }
+```
+
+Note that the above example makes use of both the `XmlNode` and `XmlAttr`
+attributes; the `XmlNode` attribute can be used on both the record type, and
+individual fields, whereas the `XmlAttr` attribute can only be used on the
+record's fields. Either node indicates to this template what part of the XML to
+process. The result is that the following XML can be passed to
+`ItemData.FromXmlDoc`, and a valid `ItemData` value will be produced:
+
+```XML
+<ITEM_DATA FREE_SHIPPING="true">
+    <ITEM_ID>123abc</ITEM_ID>
+    <PROMOTION_START>2016-01-01 12:34:56 +00:00</PROMOTION_START>
+</ITEM_DATA>
+```
+
+In addition to the basic information provided below, more advanced processing
+can be done. Individual fields in the processed record type can be optional, or
+one of the three main collection types used in F# code (arrays, F#'s `list`, and
+`seq`). These can be combined in a handful of ways, and the template will
+provide an error if it cannot process the combination provided.
+
+If a record field is of a type that also has an `XmlNode` attribute on it, the
+`FromXmlNode` method for that type will be used to process it. Nested types like
+this improve the levels of `Option<'T>` and the collection types which can be
+used. As an example, the above `ItemData` type could be modified to contain a
+`Promotions` field:
+
+```FSharp
+[<XmlNode("Sales_Promotion"); ExpandableType([| "FromXml" |])>]
+type Promotion =
+    {
+        ...
+    }
+
+[<XmlNode("Item_Data"); ExpandableType([| "FromXml" |])>]
+type ItemData =
+    {
+        ...
+        [<XmlNode("Promotions")>]
+        Promotions : (Promotion list) option;
+    }
+```
+
+If the `Promotions` node was empty or not present during processing, the
+`Promotions` field would be set to `None`. But if the `Promotions` node was
+present and contained one or more `Sales_Promotion` nodes, each
+`Sales_Promotion` node would be processed into a `Promotion` value and stored in
+the resulting list.
+
+The rules around nesting levels of `list` and `option` are a bit flexible, so
+feel free to play around with them; however, be sure to test the result with
+sample XML documents to ensure that the result matches the expectations.
+
+An additional point of note, when specifying `XmlNode("Item_Data")` or
+`XmlAttr("free_shipping")`, the name specified is case-insensitive. The
+specified name is free to be all lowercase while your data source provides
+uppercased XML nodes, or visa versa. However, when neither `XmlNode` nor
+`XmlAttr` are used for a field, the processing code will additionally strip out
+underscores in the XML node and attribute names while processing. This means
+that in the initial example, the `ItemId` field in the record type will
+successfully match XML nodes or attributes named e.g. `ITEM_ID`, `itemid`, or
+even `I_t_E_m_I_d`. Of course, one should not take this as a suggestion to go
+crazy with mixed upper and lower case letters or underscores.
+
+
 License
 -------
 
@@ -73,4 +164,5 @@ licensed under the MIT license. See the [LICENSE file][license] for more
 details.
 
 
+[xml-provider]: https://fsharp.github.io/FSharp.Data/library/XmlProvider.html
 [license]: https://github.com/amazingant/Amazingant.FSharp.TypeExpansion.Templates/blob/master/LICENSE

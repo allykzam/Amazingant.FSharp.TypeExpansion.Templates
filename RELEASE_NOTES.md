@@ -1,3 +1,7 @@
+#### 1.1.1 - 2016-09-09
+* #1: Fix some non-valid F# value names being used due to lowercasing of the
+  source property names
+
 #### 1.1.0 - 2016-09-08
 * Add FromXml template for simple processing of XML documents into record types
 

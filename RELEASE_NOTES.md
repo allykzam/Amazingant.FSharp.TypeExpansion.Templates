@@ -1,3 +1,6 @@
+#### 1.1.2 - 2016-09-09
+* #2: Fix some compilation errors in the Lenses template
+
 #### 1.1.1 - 2016-09-09
 * #1: Fix some non-valid F# value names being used due to lowercasing of the
   source property names

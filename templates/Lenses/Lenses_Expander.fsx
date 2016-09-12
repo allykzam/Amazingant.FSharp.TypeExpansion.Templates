@@ -99,6 +99,7 @@ module LensExpansion =
             ""
         else
             sprintf "namespace %s
+    open Amazingant.FSharp.TypeExpansion.Templates.Lenses
     [<AutoOpen>]
     module %s_Lenses_Extensions =
         type %s with

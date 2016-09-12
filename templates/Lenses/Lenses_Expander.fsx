@@ -31,7 +31,7 @@ module LensExpansion =
             let s =
                 sprintf "
             static member %s_StaticLens : StaticLens<%s, %s> =
-                makeStaticLens
+                MakeStaticLens
                     (fun x -> x.%s)
                     (fun v x -> { x with %s = v })"
                     p.Name t.Name (getTypeName p.PropertyType) p.Name p.Name
@@ -55,7 +55,7 @@ module LensExpansion =
             let sProp =
                 sprintf "
             static member %s =
-                compose
+                Compose
                     %s.%sStaticLens
                     %s.%s_StaticLens"
                     sLens
@@ -99,6 +99,7 @@ module LensExpansion =
             ""
         else
             sprintf "namespace %s
+    open Amazingant.FSharp.TypeExpansion.Templates.Lenses
     [<AutoOpen>]
     module %s_Lenses_Extensions =
         type %s with

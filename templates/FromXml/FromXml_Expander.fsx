@@ -362,9 +362,13 @@ module Expander =
     /// Type expansion template for writing FromXml functions for simple types
     [<TypeExpander("FromXml")>]
     let FromXml (t : Type) =
+        let isRecordField (p : System.Reflection.PropertyInfo) =
+            p.GetCustomAttributes(typeof<CompilationMappingAttribute>, false)
+            |> Seq.isEmpty |> not
         let joinLines (x : string seq) = System.String.Join("\n" , x)
         let (builders, setters) =
             t.GetProperties()
+            |> Seq.filter isRecordField
             |> Seq.map MakeBuilderAndSetter
             |> Seq.toArray
             |> Array.unzip

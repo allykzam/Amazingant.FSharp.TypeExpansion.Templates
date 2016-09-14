@@ -22,7 +22,7 @@ module LensExpansion =
     let notEmpty = Seq.isEmpty >> not
     let joinLines    (x : string seq) = String.Join("\n"  , x)
     // Not sure if this is the best way to detect this, but it works?
-    let isUnionField (p : PropertyInfo) = p.GetCustomAttributes(typeof<CompilationMappingAttribute>, false) |> notEmpty
+    let isRecordField (p : PropertyInfo) = p.GetCustomAttributes(typeof<CompilationMappingAttribute>, false) |> notEmpty
     let hasAttribute (a : Type) = a.GetCustomAttributes(typeof<LensAttribute>, false) |> notEmpty
 
     // Builds two lenses (one static, one not) for the given type
@@ -43,7 +43,7 @@ module LensExpansion =
             [s;m]
 
         t.GetProperties()
-        |> Seq.filter isUnionField
+        |> Seq.filter isRecordField
         |> Seq.collect buildForProp
 
 
@@ -76,18 +76,18 @@ module LensExpansion =
                     Seq.empty
                 else
                     p.PropertyType.GetProperties()
-                    |> Seq.filter isUnionField
+                    |> Seq.filter isRecordField
                     |> Seq.collect (fun x -> doNested (sprintf "%s%s_" nestings p.Name) x)
 
             Seq.append [sProp;mProp] nested
 
         t.GetProperties()
         |> Seq.filter (fun x -> x.PropertyType |> hasAttribute)
-        |> Seq.filter isUnionField
+        |> Seq.filter isRecordField
         |> Seq.collect
             (fun x ->
                 x.PropertyType.GetProperties()
-                |> Seq.filter isUnionField
+                |> Seq.filter isRecordField
                 |> Seq.collect (doNested (x.Name + "_"))
             )
 

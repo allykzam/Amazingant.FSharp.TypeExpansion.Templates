@@ -1,3 +1,7 @@
+#### 1.1.3 - 2016-09-14
+* #3: Fix FromXml template trying to set properties as though they were part of
+  the main record definition
+
 #### 1.1.2 - 2016-09-09
 * #2: Fix some compilation errors in the Lenses template
 

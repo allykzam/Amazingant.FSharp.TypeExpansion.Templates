@@ -286,4 +286,4 @@ module Helpers =
     let tryInnerText (x : XmlNode) =
         match Option.ofObj x with
         | None -> None
-        | Some x -> Option.ofObj x
+        | Some x -> Option.ofObj x.InnerText

@@ -278,12 +278,12 @@ module Helpers =
 
 
     /// Gets the inner text of every node in the given collection
-    let getInnerTexts (xs : XmlNodeList) =
+    let getInnerTexts (xs : XmlNodeList) : string seq =
         System.Linq.Enumerable.Cast<XmlNode> xs
         |> Seq.map (fun x -> x.InnerText)
     /// Tries to get the inner text of a node, and returns None if the node or
     /// its contents are null
-    let tryInnerText (x : XmlNode) =
+    let tryInnerText (x : XmlNode) : string option =
         match Option.ofObj x with
         | None -> None
-        | Some x -> Option.ofObj x
+        | Some x -> Option.ofObj x.InnerText

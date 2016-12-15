@@ -79,6 +79,10 @@ module Expander =
         (^T : (member GetCustomAttributes : Type -> bool -> obj []) (r, typeof<XmlNodeAttribute>, false))
         |> Array.map (fun x -> x :?> XmlNodeAttribute)
 
+    let inline GetXPathAttribute< ^T when ^T : (member GetCustomAttributes : Type -> bool -> obj [])> (r : ^T) =
+        (^T : (member GetCustomAttributes : Type -> bool -> obj []) (r, typeof<XPathAttribute>, false))
+        |> Array.map (fun x -> x :?> XPathAttribute)
+
 
     /// Super-long function that builds two strings for a given property. The
     /// first string is valid F# code that can be used to get the property from
@@ -90,6 +94,7 @@ module Expander =
             (GetXmlNodeAttribute p)
             |> Seq.map (fun x -> x :> IXmlAttribute)
             |> Seq.append (GetXmlAttrAttribute p |> Seq.map (fun x -> x :> IXmlAttribute))
+            |> Seq.append (GetXPathAttribute   p |> Seq.map (fun x -> x :> IXmlAttribute))
             |> Seq.tryHead
         let l1 = TypeLevel.ForType p.PropertyType
         let l2 = TypeLevel.ForType l1.InnerType

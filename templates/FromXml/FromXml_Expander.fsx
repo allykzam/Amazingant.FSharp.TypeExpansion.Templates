@@ -79,6 +79,10 @@ module Expander =
         (^T : (member GetCustomAttributes : Type -> bool -> obj []) (r, typeof<XmlNodeAttribute>, false))
         |> Array.map (fun x -> x :?> XmlNodeAttribute)
 
+    let inline GetXPathAttribute< ^T when ^T : (member GetCustomAttributes : Type -> bool -> obj [])> (r : ^T) =
+        (^T : (member GetCustomAttributes : Type -> bool -> obj []) (r, typeof<XPathAttribute>, false))
+        |> Array.map (fun x -> x :?> XPathAttribute)
+
 
     /// Super-long function that builds two strings for a given property. The
     /// first string is valid F# code that can be used to get the property from
@@ -90,6 +94,7 @@ module Expander =
             (GetXmlNodeAttribute p)
             |> Seq.map (fun x -> x :> IXmlAttribute)
             |> Seq.append (GetXmlAttrAttribute p |> Seq.map (fun x -> x :> IXmlAttribute))
+            |> Seq.append (GetXPathAttribute   p |> Seq.map (fun x -> x :> IXmlAttribute))
             |> Seq.tryHead
         let l1 = TypeLevel.ForType p.PropertyType
         let l2 = TypeLevel.ForType l1.InnerType
@@ -187,7 +192,100 @@ module Expander =
             // and none of the above cases matched, then the data cannot be
             // processed.
             | None, None, _, _, _, _ ->
-                failwithf "Properties with simple types cannot be parsed at levels beyond an optional collection. You will need to either add an attribute somewhere, or simplify your data model."
+                failwithf "Properties with simple types cannot be parsed at levels beyond an optional collection. You will need to either add an attribute somewhere, or simplify your data model. Processing expansion for %s.%s"
+                    p.DeclaringType.FullName
+                    p.Name
+
+
+            // If the property has an XPath attribute, and the type is neither
+            // optional nor a collection, and the type happens to be
+            // System.String...
+            | Some x, None, NormalType t, _, _, _ when (x :? XPathAttribute) && t = typeof<string> ->
+                sprintf "\t\t\t\tlet ``%s`` = xml.SelectSingleNode(\"%s\").InnerText"
+                    tempName
+                    x.Name
+
+
+            // If the property has an XPath attribute, and the type is optional
+            // but not a collection, and the type happens to be System.String...
+            | Some x, None, Option _, NormalType t, _, _ when (x :? XPathAttribute) && t = typeof<string> ->
+                sprintf "\t\t\t\tlet ``%s`` = xml.SelectSingleNode(\"%s\").InnerText |> Option.ofObj"
+                    tempName
+                    x.Name
+
+
+            // If the property has an XPath attribute, and the type is not an
+            // option but is a collection, and the type happens to be
+            // System.String...
+            | Some x, None, Collection _, NormalType t, _, _ when (x :? XPathAttribute) && t = typeof<string> ->
+                sprintf "\t\t\t\tlet ``%s`` = xml.SelectNodes(\"%s\") |> getInnerTexts |> Seq.toArray%s"
+                    tempName
+                    x.Name
+                    l1.ToCollection
+
+
+            // If the property has an XPath attribute, and the type is an
+            // optional collection, and the type happens to be System.String...
+            | Some x, None, Option _, Collection _, NormalType t, _ when (x :? XPathAttribute) && t = typeof<string> ->
+                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tlet xs = xml.SelectNodes(\"%s\") |> getInnerTexts |> Seq.toArray\n\t\t\t\t\tif xs.Length = 0 then None\n\t\t\t\t\telse xs%s |> Some"
+                    tempName
+                    x.Name
+                    l2.ToCollection
+
+
+            // If the property has an XPath attribute, and the type is neither
+            // optional nor a collection...
+            | Some x, None, NormalType t, _, _, _ when (x :? XPathAttribute) ->
+                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\txml.SelectSingleNode(\"%s\").InnerText\n\t\t\t\t\t|> (parse %s.%s \"%s\")"
+                    tempName
+                    x.Name
+                    t.FullName
+                    x.ParseFunction
+                    tempName
+
+
+            // If the property has an XPath attribute, and the type is optional,
+            // and the type is not a collection...
+            | Some x, None, Option _, NormalType t, _, _ when (x :? XPathAttribute) ->
+                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\txml.SelectSingleNode(\"%s\")\n\t\t\t\t\t|> tryInnerText\n\t\t\t\t\t|> (tryParse %s.%s \"%s\")"
+                    tempName
+                    x.Name
+                    t.FullName
+                    x.ParseFunction
+                    tempName
+
+
+            // If the property has an XPath attribute, and the type is not
+            // optional but is a collection...
+            | Some x, None, Collection _, NormalType t, _, _ when (x :? XPathAttribute) ->
+                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\txml.SelectNodes(\"%s\")\n\t\t\t\t\t|> getInnerTexts\n\t\t\t\t\t|> Seq.map (parse %s.%s \"%s\")\n\t\t\t\t\t|> Seq.toArray%s"
+                    tempName
+                    x.Name
+                    t.FullName
+                    x.ParseFunction
+                    tempName
+                    l1.ToCollection
+
+
+            // If the property has an XPath attribute, and the type is an
+            // optional collection...
+            | Some x, None, Option _, Collection _, NormalType t, _ when (x :? XPathAttribute) ->
+                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tlet xs = xml.SelectNodes(\"%s\") |> getInnerTexts |> Seq.toArray\n\t\t\t\t\tif xs.Length = 0 then None\n\t\t\t\t\telse xs |> Array.map (parse %s.%s \"%s\")%s |> Some"
+                    tempName
+                    x.Name
+                    t.FullName
+                    x.ParseFunction
+                    tempName
+                    l2.ToCollection
+
+
+            // If the property has an XPath attribute, and none of the above
+            // cases handled it...
+            | Some x, _, _, _, _, _ when (x :? XPathAttribute) ->
+                failwithf "Currently cannot create a nested XML type from an XPath. Please post on GitHub if you need this. Processing expansion for %s.%s"
+                    p.DeclaringType.FullName
+                    p.Name
+
 
             // If the property has an XML attribute and its type does not, and
             // the type is neither optional nor a collection, and the type
@@ -285,7 +383,9 @@ module Expander =
             // its type is a collection of collections, inform the user that
             // this does not work.
             | Some _, None, Collection _, Collection _, _, _ ->
-                failwithf "Cannot create a collection of collections of normal types. Did you mean to use a custom type, or perhaps a simple collection?"
+                failwithf "Cannot create a collection of collections of normal types. Did you mean to use a custom type, or perhaps a simple collection? Processing expansion for %s.%s"
+                    p.DeclaringType.FullName
+                    p.Name
 
             // If the property does not have an XML attribute but its type does,
             // and the type is neither optional nor a collection...
@@ -341,13 +441,17 @@ module Expander =
             // and the type is a collection of collections, inform the user that
             // this does not work.
             | None, Some _, Collection _, Collection _, _, _ ->
-                failwithf "Cannot create a collection of collections of XML types unless the field has an XmlNode attribute on it. Did you mean to supply one?"
+                failwithf "Cannot create a collection of collections of XML types unless the field has an XmlNode attribute on it. Did you mean to supply one? Processing expansion for %s.%s"
+                    p.DeclaringType.FullName
+                    p.Name
 
             // If the property AND the type have XML attributes but the
             // property's attribute is an XmlAttr attribute, inform the user
             // that the value cannot be parsed thusly.
             | Some x, Some _, _, _, _, _ when (x :? XmlAttrAttribute) ->
-                failwithf "Cannot create a nested XML type from an XML attribute. Did you mean to use the XmlNode attribute instead?"
+                failwithf "Cannot create a nested XML type from an XML attribute. Did you mean to use the XmlNode attribute instead? Processing expansion for %s.%s"
+                    p.DeclaringType.FullName
+                    p.Name
 
 #if TYPE_EXPANSION
             | _ -> failwithf "No handler for this case?"

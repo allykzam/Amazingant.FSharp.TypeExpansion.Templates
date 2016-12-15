@@ -116,6 +116,49 @@ type XmlAttrAttribute (name : string, parseFunc : string) =
 
 
 
+[<AttributeUsage(
+    AttributeTargets.Field    |||
+    AttributeTargets.Property
+    )>]
+/// <summary>
+/// Indicates a value that can be set using the contents of a value to be
+/// gathered via an XPath
+/// </summary>
+/// <param name="path">
+/// The XPath to gather data from for processing
+/// </param>
+/// <param name="parseFunc">
+/// The name of a parser function on the target type to use when processing the
+/// XML node's InnerText property. The named function must take a string and
+/// return a boolean and the target type, where the boolean indicates whether or
+/// not the input string was valid.
+/// </param>
+type XPathAttribute (path : string, parseFunc : string) =
+    inherit Attribute()
+
+    /// <summary>
+    /// Creates a new instance of this attribute.
+    /// </summary>
+    /// <param name="path">
+    /// The XPath to gather data from for processing
+    /// </param>
+    /// <remarks>
+    /// This constructor defaults to using the "TryParse" function on the target
+    /// type to process the XML attribute contents
+    /// </remarks>
+    new (path) = XPathAttribute(path, "TryParse")
+
+    /// The XPath to use when gathering the target data
+    member __.Path = path
+    /// The name of the function that will be used to process the target data
+    member __.ParseFunction = parseFunc
+    interface IXmlAttribute with
+        member __.Name = path
+        member __.ParseFunction = parseFunc
+        member __.SourceCollection = ""
+
+
+
 open System.Xml
 
 [<AutoOpen>]

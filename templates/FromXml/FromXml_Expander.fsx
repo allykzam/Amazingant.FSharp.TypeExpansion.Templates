@@ -431,7 +431,7 @@ module Expander =
             // property's XML attribute is the Node attribute, and the type is
             // an optional collection...
             | None, Some x, Option _, Collection _, NormalType t, _ | Some x, Some _, Option _, Collection _, NormalType t, _ when (x :? XmlNodeAttribute) ->
-                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tlet xs = findAllNodes children \"%s\"\n\t\t\t\t\t|> Seq.toArray\n\t\t\t\t\tif xs.Length = 0 then None\n\t\t\t\t\telse xs |> Array.map %s.FromXmlNode%s"
+                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tlet xs = Seq.toArray (findAllNodes children \"%s\")\n\t\t\t\t\tif xs.Length = 0 then None\n\t\t\t\t\telse xs |> Array.map %s.FromXmlNode%s |> Some"
                     tempName
                     x.Name
                     t.FullName

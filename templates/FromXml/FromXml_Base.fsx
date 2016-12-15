@@ -281,3 +281,9 @@ module Helpers =
     let getInnerTexts (xs : XmlNodeList) =
         System.Linq.Enumerable.Cast<XmlNode> xs
         |> Seq.map (fun x -> x.InnerText)
+    /// Tries to get the inner text of a node, and returns None if the node or
+    /// its contents are null
+    let tryInnerText (x : XmlNode) =
+        match Option.ofObj x with
+        | None -> None
+        | Some x -> Option.ofObj x

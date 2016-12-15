@@ -156,6 +156,45 @@ even `I_t_E_m_I_d`. Of course, one should not take this as a suggestion to go
 crazy with mixed upper and lower case letters or underscores.
 
 
+For cases where XML nodes are nested in containers such as the following
+example, the `XPath` attribute can be used with an XPath specifier.
+
+```XML
+<ITEM_DATA FREE_SHIPPING="true">
+    <ITEM_ID>123abc</ITEM_ID>
+    <PROMOTIONS>
+        <PROMOTION>Free Shipping</PROMOTION>
+        <PROMOTION>10% Off</PROMOTION>
+    </PROMOTIONS>
+</ITEM_DATA>
+```
+
+In such a case, creating a `Promotions` type just to access the `PROMOTION`
+nodes is needlessly required. An XPath specifier can be used to avoid this:
+
+```FSharp
+[<XmlNode("Item_Data"); ExpandableType([| "FromXml" |])>]
+type ItemData =
+    {
+        ...
+        [<XPath("PROMOTIONS/PROMOTION")>]
+        Promotions : string list;
+    }
+```
+
+Points of note with the `XPath` attribute:
+
+* Fields that are tagged with the `XPath` attribute currently cannot be of
+  another type with an `XmlNode` attribute
+* Any valid XPath specifier can be used, but those which contain double-quotes
+  (`"`) will cause a compiler error after expansion is complete. Prefer
+  single-quotes (`'`) within the XPath string to avoid this.
+* Escaped characters will need to be prefixed with two extra backslashes to
+  account for the fact that the string is going to be dumped into an F# source
+  file and compiled again (fun, right?)
+
+
+
 License
 -------
 

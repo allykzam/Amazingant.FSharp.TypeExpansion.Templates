@@ -1,3 +1,8 @@
+#### 1.2.1 - 2016-12-15
+* #5: Fix the tryInnerText FromXml helper returning the wrong type
+* #6: Fix indentation and return type in FromXml handling of optional
+  collections of nested types
+
 #### 1.2.0 - 2016-12-15
 * #4: Add new XPath attribute to the FromXml template with some basic support
   for simple types

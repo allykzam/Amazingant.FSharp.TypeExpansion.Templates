@@ -275,3 +275,9 @@ module Helpers =
         |> function
            | None -> failwithf "No nodes or attributes could be found matching the name '%s'" x
            | Some x -> x
+
+
+    /// Gets the inner text of every node in the given collection
+    let getInnerTexts (xs : XmlNodeList) =
+        System.Linq.Enumerable.Cast<XmlNode> xs
+        |> Seq.map (fun x -> x.InnerText)

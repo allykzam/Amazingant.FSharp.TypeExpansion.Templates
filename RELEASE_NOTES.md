@@ -1,3 +1,7 @@
+#### 1.2.0 - 2016-12-15
+* #4: Add new XPath attribute to the FromXml template with some basic support
+  for simple types
+
 #### 1.1.3 - 2016-09-14
 * #3: Fix FromXml template trying to set properties as though they were part of
   the main record definition

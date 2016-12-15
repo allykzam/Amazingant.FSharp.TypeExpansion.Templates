@@ -9,8 +9,15 @@ open System
 /// Represents an XML attribute that contains basic information needed for
 /// handling XML processing for a type
 type IXmlAttribute =
+    /// For XmlNode and XmlAttr attributes, this is the XML node or attribute
+    /// name to gather data from. For XPath attributes, this is the XPath to
+    /// follow.
     abstract member Name : string
+    /// The name of the function to use when processing the gathered data
     abstract member ParseFunction : string
+    /// For XmlNode and XmlAttr attributes, indicates which collection of
+    /// elements to search through; either `children` or `xmlAttrs`. For XPath
+    /// attributes, this value is unused and therefore empty.
     abstract member SourceCollection : string
 
 

@@ -192,7 +192,9 @@ module Expander =
             // and none of the above cases matched, then the data cannot be
             // processed.
             | None, None, _, _, _, _ ->
-                failwithf "Properties with simple types cannot be parsed at levels beyond an optional collection. You will need to either add an attribute somewhere, or simplify your data model."
+                failwithf "Properties with simple types cannot be parsed at levels beyond an optional collection. You will need to either add an attribute somewhere, or simplify your data model. Processing expansion for %s.%s"
+                    p.DeclaringType.FullName
+                    p.Name
 
 
             // If the property has an XPath attribute, and the type is neither
@@ -280,7 +282,9 @@ module Expander =
             // If the property has an XPath attribute, and none of the above
             // cases handled it...
             | Some x, _, _, _, _, _ when (x :? XPathAttribute) ->
-                failwithf "Currently cannot create a nested XML type from an XPath. Please post on GitHub if you need this."
+                failwithf "Currently cannot create a nested XML type from an XPath. Please post on GitHub if you need this. Processing expansion for %s.%s"
+                    p.DeclaringType.FullName
+                    p.Name
 
 
             // If the property has an XML attribute and its type does not, and
@@ -379,7 +383,9 @@ module Expander =
             // its type is a collection of collections, inform the user that
             // this does not work.
             | Some _, None, Collection _, Collection _, _, _ ->
-                failwithf "Cannot create a collection of collections of normal types. Did you mean to use a custom type, or perhaps a simple collection?"
+                failwithf "Cannot create a collection of collections of normal types. Did you mean to use a custom type, or perhaps a simple collection? Processing expansion for %s.%s"
+                    p.DeclaringType.FullName
+                    p.Name
 
             // If the property does not have an XML attribute but its type does,
             // and the type is neither optional nor a collection...
@@ -435,13 +441,17 @@ module Expander =
             // and the type is a collection of collections, inform the user that
             // this does not work.
             | None, Some _, Collection _, Collection _, _, _ ->
-                failwithf "Cannot create a collection of collections of XML types unless the field has an XmlNode attribute on it. Did you mean to supply one?"
+                failwithf "Cannot create a collection of collections of XML types unless the field has an XmlNode attribute on it. Did you mean to supply one? Processing expansion for %s.%s"
+                    p.DeclaringType.FullName
+                    p.Name
 
             // If the property AND the type have XML attributes but the
             // property's attribute is an XmlAttr attribute, inform the user
             // that the value cannot be parsed thusly.
             | Some x, Some _, _, _, _, _ when (x :? XmlAttrAttribute) ->
-                failwithf "Cannot create a nested XML type from an XML attribute. Did you mean to use the XmlNode attribute instead?"
+                failwithf "Cannot create a nested XML type from an XML attribute. Did you mean to use the XmlNode attribute instead? Processing expansion for %s.%s"
+                    p.DeclaringType.FullName
+                    p.Name
 
 #if TYPE_EXPANSION
             | _ -> failwithf "No handler for this case?"

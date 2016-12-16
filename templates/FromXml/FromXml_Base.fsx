@@ -124,6 +124,8 @@ type XmlAttrAttribute (name : string, parseFunc : string) =
 
 
 [<AttributeUsage(
+    AttributeTargets.Class    |||
+    AttributeTargets.Struct   |||
     AttributeTargets.Field    |||
     AttributeTargets.Property
     )>]

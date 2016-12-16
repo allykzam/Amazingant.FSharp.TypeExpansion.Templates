@@ -494,12 +494,13 @@ module Expander =
             | _::_, [] -> failwithf "The %s type has multiple XmlNode attributes." t.FullName
         let fromDoc =
             let nodeName = t.GetCustomAttributes(typeof<XmlNodeAttribute>, false)
-            match nodeName with
-            | [||] -> ""
-            | _ ->
+            let pathName = t.GetCustomAttributes(typeof<XPathAttribute>, false)
+            match nodeName, pathName with
+            | [||], [||] -> ""
+            | _, [||] ->
                 let nodeName = (nodeName.[0] :?> XmlNodeAttribute).Name
-                // This builds functions for loading an array of the target type out
-                // of a single XML document, in case the type is stored as a
+                // This builds functions for loading an array of the target type
+                // out of a single XML document, in case the type is stored as a
                 // collection in the XML
                 sprintf """
             static member FromXmlDoc (doc : XmlDocument) : %s array =
@@ -514,6 +515,25 @@ module Expander =
                     t.Name
                     mainNodeName
                     t.Name
+                    t.Name
+                    t.Name
+
+            | [||], _ ->
+                let pathName = (pathName.[0] :?> XPathAttribute).Path
+                // This builds functions for loading an array of the target type
+                // out of a single XML document, in case the type is stored as a
+                // collection in the XML
+                sprintf """
+            static member FromXmlDoc (doc : XmlDocument) =
+                doc.SelectNodes("%s")
+                |> Seq.map %s.FromXmlNode
+                |> Seq.toArray
+            static member FromXmlDoc (xml : string) =
+                let doc = XmlDocument()
+                doc.LoadXml xml
+                %s.FromXmlDoc doc
+"""
+                    pathName
                     t.Name
                     t.Name
 

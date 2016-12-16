@@ -525,7 +525,7 @@ module Expander =
                 // collection in the XML
                 sprintf """
             static member FromXmlDoc (doc : XmlDocument) =
-                doc.SelectNodes("%s")
+                Enumerable.Cast<XmlNode> (doc.SelectNodes("%s"))
                 |> Seq.map %s.FromXmlNode
                 |> Seq.toArray
             static member FromXmlDoc (xml : string) =

@@ -536,6 +536,9 @@ module Expander =
                     pathName
                     t.Name
                     t.Name
+            // This case should never match, as it should have been caught above
+            // when binding the `mainNodeName` value
+            | _, _ -> failwithf "The %s type either has both XmlNode and XPath attributes, multiples of one attribute, or some combination thereof." t.FullName
 
         // Start main result
         sprintf """namespace %s

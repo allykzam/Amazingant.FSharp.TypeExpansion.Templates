@@ -483,7 +483,15 @@ module Expander =
             |> Array.unzip
             |> fun (builders, setters) ->
                 (builders |> joinLines), (setters |> joinLines)
-        let mainNodeName = (t.GetCustomAttributes(typeof<XmlNodeAttribute>, false).[0] :?> XmlNodeAttribute).Name
+        let mainNodeName =
+            let nodeAttr = (t.GetCustomAttributes(typeof<XmlNodeAttribute>, false)) |> Array.toList
+            let pathAttr = (t.GetCustomAttributes(typeof<XPathAttribute>, false)) |> Array.toList
+            match nodeAttr, pathAttr with
+            | [], [] -> failwithf "The %s type is flagged for expansion by the FromXml expander, but does not have the XmlNode or XPath attribute." t.FullName
+            | [x], [] | [], [x] -> (x :?> IXmlAttribute).Name
+            | _::_, _::_ -> failwithf "The %s type has both the XmlNode and XPath attributes; the FromXml expander can only process one or the other." t.FullName
+            | [], _::_ -> failwithf "The %s type has multiple XPath attributes." t.FullName
+            | _::_, [] -> failwithf "The %s type has multiple XmlNode attributes." t.FullName
         let fromDoc =
             let nodeName = t.GetCustomAttributes(typeof<XmlNodeAttribute>, false)
             match nodeName with

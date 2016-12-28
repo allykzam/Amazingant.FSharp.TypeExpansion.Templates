@@ -124,6 +124,114 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
 
 namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     [<AutoOpen>]
+    module Path_FromXml_Extensions =
+
+        open Amazingant.FSharp.TypeExpansion.Templates.FromXml
+        open System.Linq
+        open System.Xml
+
+        type Path with
+            static member FromXmlNode (xml : XmlNode) : Path =
+                let children = Enumerable.Cast<XmlNode> xml.ChildNodes
+                let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
+                let ``field`` = findEither children xmlAttrs "field"
+                {
+                    ``Field`` = ``field``;
+                }
+
+            static member FromXmlDoc (doc : XmlDocument) : Path array =
+                Enumerable.Cast<XmlNode> (doc.SelectNodes("xpath/path"))
+                |> Seq.map Path.FromXmlNode
+                |> Seq.toArray
+            static member FromXmlDoc (xml : string) : Path array =
+                let doc = XmlDocument()
+                doc.LoadXml xml
+                Path.FromXmlDoc doc
+
+
+namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
+    [<AutoOpen>]
+    module PathOpt_FromXml_Extensions =
+
+        open Amazingant.FSharp.TypeExpansion.Templates.FromXml
+        open System.Linq
+        open System.Xml
+
+        type PathOpt with
+            static member FromXmlNode (xml : XmlNode) : PathOpt =
+                let children = Enumerable.Cast<XmlNode> xml.ChildNodes
+                let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
+                let ``field`` = findEither children xmlAttrs "field"
+                {
+                    ``Field`` = ``field``;
+                }
+
+            static member FromXmlDoc (doc : XmlDocument) : PathOpt array =
+                Enumerable.Cast<XmlNode> (doc.SelectNodes("xpath/path_opt"))
+                |> Seq.map PathOpt.FromXmlNode
+                |> Seq.toArray
+            static member FromXmlDoc (xml : string) : PathOpt array =
+                let doc = XmlDocument()
+                doc.LoadXml xml
+                PathOpt.FromXmlDoc doc
+
+
+namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
+    [<AutoOpen>]
+    module PathColl_FromXml_Extensions =
+
+        open Amazingant.FSharp.TypeExpansion.Templates.FromXml
+        open System.Linq
+        open System.Xml
+
+        type PathColl with
+            static member FromXmlNode (xml : XmlNode) : PathColl =
+                let children = Enumerable.Cast<XmlNode> xml.ChildNodes
+                let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
+                let ``field`` = findEither children xmlAttrs "field"
+                {
+                    ``Field`` = ``field``;
+                }
+
+            static member FromXmlDoc (doc : XmlDocument) : PathColl array =
+                Enumerable.Cast<XmlNode> (doc.SelectNodes("xpath/path_coll"))
+                |> Seq.map PathColl.FromXmlNode
+                |> Seq.toArray
+            static member FromXmlDoc (xml : string) : PathColl array =
+                let doc = XmlDocument()
+                doc.LoadXml xml
+                PathColl.FromXmlDoc doc
+
+
+namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
+    [<AutoOpen>]
+    module PathOptColl_FromXml_Extensions =
+
+        open Amazingant.FSharp.TypeExpansion.Templates.FromXml
+        open System.Linq
+        open System.Xml
+
+        type PathOptColl with
+            static member FromXmlNode (xml : XmlNode) : PathOptColl =
+                let children = Enumerable.Cast<XmlNode> xml.ChildNodes
+                let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
+                let ``field`` = findEither children xmlAttrs "field"
+                {
+                    ``Field`` = ``field``;
+                }
+
+            static member FromXmlDoc (doc : XmlDocument) : PathOptColl array =
+                Enumerable.Cast<XmlNode> (doc.SelectNodes("xpath/path_opt_coll"))
+                |> Seq.map PathOptColl.FromXmlNode
+                |> Seq.toArray
+            static member FromXmlDoc (xml : string) : PathOptColl array =
+                let doc = XmlDocument()
+                doc.LoadXml xml
+                PathOptColl.FromXmlDoc doc
+
+
+namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
+    [<AutoOpen>]
     module TestFields_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml

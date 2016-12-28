@@ -16,6 +16,13 @@ open Amazingant.FSharp.TypeExpansion.Attributes
 [<XmlNode("node_coll"    ); ExpandableType([| "FromXml" |])>] type NodeColl    = { Field : string; }
 [<XmlNode("node_opt_coll"); ExpandableType([| "FromXml" |])>] type NodeOptColl = { Field : string; }
 
+// These are here for test fields that need a "nested" type with the XPath
+// attribute specifically. Otherwise, they should match the Node types above.
+[<XPath("xpath/path"         ); ExpandableType([| "FromXml" |])>] type Path        = { Field : string; }
+[<XPath("xpath/path_opt"     ); ExpandableType([| "FromXml" |])>] type PathOpt     = { Field : string; }
+[<XPath("xpath/path_coll"    ); ExpandableType([| "FromXml" |])>] type PathColl    = { Field : string; }
+[<XPath("xpath/path_opt_coll"); ExpandableType([| "FromXml" |])>] type PathOptColl = { Field : string; }
+
 
 [<XmlNode("Test"); ExpandableType([| "FromXml" |])>]
 type TestFields =

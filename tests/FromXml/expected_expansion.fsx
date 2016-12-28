@@ -23,7 +23,7 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
         open System.Xml
 
         type Node with
-            static member FromXmlNode (xml : XmlNode) =
+            static member FromXmlNode (xml : XmlNode) : Node =
                 let children = Enumerable.Cast<XmlNode> xml.ChildNodes
                 let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
                 let ``field`` = findEither children xmlAttrs "field"
@@ -31,11 +31,11 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``Field`` = ``field``;
                 }
 
-            static member FromXmlDoc (doc : XmlDocument) =
+            static member FromXmlDoc (doc : XmlDocument) : Node array =
                 Enumerable.Cast<XmlNode> (doc.GetElementsByTagName("node"))
                 |> Seq.map Node.FromXmlNode
                 |> Seq.toArray
-            static member FromXmlDoc (xml : string) =
+            static member FromXmlDoc (xml : string) : Node array =
                 let doc = XmlDocument()
                 doc.LoadXml xml
                 Node.FromXmlDoc doc
@@ -50,7 +50,7 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
         open System.Xml
 
         type NodeOpt with
-            static member FromXmlNode (xml : XmlNode) =
+            static member FromXmlNode (xml : XmlNode) : NodeOpt =
                 let children = Enumerable.Cast<XmlNode> xml.ChildNodes
                 let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
                 let ``field`` = findEither children xmlAttrs "field"
@@ -58,11 +58,11 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``Field`` = ``field``;
                 }
 
-            static member FromXmlDoc (doc : XmlDocument) =
+            static member FromXmlDoc (doc : XmlDocument) : NodeOpt array =
                 Enumerable.Cast<XmlNode> (doc.GetElementsByTagName("node_opt"))
                 |> Seq.map NodeOpt.FromXmlNode
                 |> Seq.toArray
-            static member FromXmlDoc (xml : string) =
+            static member FromXmlDoc (xml : string) : NodeOpt array =
                 let doc = XmlDocument()
                 doc.LoadXml xml
                 NodeOpt.FromXmlDoc doc
@@ -77,7 +77,7 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
         open System.Xml
 
         type NodeColl with
-            static member FromXmlNode (xml : XmlNode) =
+            static member FromXmlNode (xml : XmlNode) : NodeColl =
                 let children = Enumerable.Cast<XmlNode> xml.ChildNodes
                 let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
                 let ``field`` = findEither children xmlAttrs "field"
@@ -85,11 +85,11 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``Field`` = ``field``;
                 }
 
-            static member FromXmlDoc (doc : XmlDocument) =
+            static member FromXmlDoc (doc : XmlDocument) : NodeColl array =
                 Enumerable.Cast<XmlNode> (doc.GetElementsByTagName("node_coll"))
                 |> Seq.map NodeColl.FromXmlNode
                 |> Seq.toArray
-            static member FromXmlDoc (xml : string) =
+            static member FromXmlDoc (xml : string) : NodeColl array =
                 let doc = XmlDocument()
                 doc.LoadXml xml
                 NodeColl.FromXmlDoc doc
@@ -104,7 +104,7 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
         open System.Xml
 
         type NodeOptColl with
-            static member FromXmlNode (xml : XmlNode) =
+            static member FromXmlNode (xml : XmlNode) : NodeOptColl =
                 let children = Enumerable.Cast<XmlNode> xml.ChildNodes
                 let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
                 let ``field`` = findEither children xmlAttrs "field"
@@ -112,11 +112,11 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``Field`` = ``field``;
                 }
 
-            static member FromXmlDoc (doc : XmlDocument) =
+            static member FromXmlDoc (doc : XmlDocument) : NodeOptColl array =
                 Enumerable.Cast<XmlNode> (doc.GetElementsByTagName("node_opt_coll"))
                 |> Seq.map NodeOptColl.FromXmlNode
                 |> Seq.toArray
-            static member FromXmlDoc (xml : string) =
+            static member FromXmlDoc (xml : string) : NodeOptColl array =
                 let doc = XmlDocument()
                 doc.LoadXml xml
                 NodeOptColl.FromXmlDoc doc
@@ -131,7 +131,7 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
         open System.Xml
 
         type TestFields with
-            static member FromXmlNode (xml : XmlNode) =
+            static member FromXmlNode (xml : XmlNode) : TestFields =
                 let children = Enumerable.Cast<XmlNode> xml.ChildNodes
                 let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
                 let ``simplestring`` = findEither children xmlAttrs "simplestring"
@@ -380,11 +380,11 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``MaybeAttrFieldSeq`` = ``maybeattrfieldseq``;
                 }
 
-            static member FromXmlDoc (doc : XmlDocument) =
+            static member FromXmlDoc (doc : XmlDocument) : TestFields array =
                 Enumerable.Cast<XmlNode> (doc.GetElementsByTagName("Test"))
                 |> Seq.map TestFields.FromXmlNode
                 |> Seq.toArray
-            static member FromXmlDoc (xml : string) =
+            static member FromXmlDoc (xml : string) : TestFields array =
                 let doc = XmlDocument()
                 doc.LoadXml xml
                 TestFields.FromXmlDoc doc

@@ -498,16 +498,18 @@ module Expander =
                 // of a single XML document, in case the type is stored as a
                 // collection in the XML
                 sprintf """
-            static member FromXmlDoc (doc : XmlDocument) =
+            static member FromXmlDoc (doc : XmlDocument) : %s array =
                 Enumerable.Cast<XmlNode> (doc.GetElementsByTagName("%s"))
                 |> Seq.map %s.FromXmlNode
                 |> Seq.toArray
-            static member FromXmlDoc (xml : string) =
+            static member FromXmlDoc (xml : string) : %s array =
                 let doc = XmlDocument()
                 doc.LoadXml xml
                 %s.FromXmlDoc doc
 """
+                    t.Name
                     mainNodeName
+                    t.Name
                     t.Name
                     t.Name
 
@@ -521,7 +523,7 @@ module Expander =
         open System.Xml
 
         type %s with
-            static member FromXmlNode (xml : XmlNode) =
+            static member FromXmlNode (xml : XmlNode) : %s =
                 let children = Enumerable.Cast<XmlNode> xml.ChildNodes
                 let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
 %s
@@ -530,6 +532,7 @@ module Expander =
                 }
 %s"""
             t.Namespace
+            t.Name
             t.Name
             t.Name
             builders

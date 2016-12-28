@@ -210,7 +210,7 @@ module Expander =
             // If the property has an XPath attribute, and the type is optional
             // but not a collection, and the type happens to be System.String...
             | Some x, None, Option _, NormalType t, _, _ when (x :? XPathAttribute) && t = typeof<string> ->
-                sprintf "\t\t\t\tlet ``%s`` = xml.SelectSingleNode(\"%s\").InnerText |> Option.ofObj"
+                sprintf "\t\t\t\tlet ``%s`` = xml.SelectSingleNode(\"%s\") |> tryInnerText"
                     tempName
                     x.Name
 

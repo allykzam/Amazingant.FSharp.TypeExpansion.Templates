@@ -169,7 +169,7 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     if xs.Length = 0 then None
                     else xs |> Array.map (parse System.Int32.TryParse "maybefieldseq") |> Array.toSeq |> Some
                 let ``simplexpathstring`` = xml.SelectSingleNode("string").InnerText
-                let ``maybexpathstring`` = xml.SelectSingleNode("string_opt").InnerText |> Option.ofObj
+                let ``maybexpathstring`` = xml.SelectSingleNode("string_opt") |> tryInnerText
                 let ``xpathstringlist`` = xml.SelectNodes("string_coll") |> getInnerTexts |> Seq.toArray |> Array.toList
                 let ``xpathstringarray`` = xml.SelectNodes("string_coll") |> getInnerTexts |> Seq.toArray
                 let ``xpathstringseq`` = xml.SelectNodes("string_coll") |> getInnerTexts |> Seq.toArray |> Array.toSeq

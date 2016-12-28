@@ -101,4 +101,24 @@ type TestFields =
         [<XmlAttr("int_opt_coll"   )>]  MaybeAttrFieldList   : (int    list ) option;
         [<XmlAttr("int_opt_coll"   )>]  MaybeAttrFieldArray  : (int    array) option;
         [<XmlAttr("int_opt_coll"   )>]  MaybeAttrFieldSeq    : (int    seq  ) option;
+
+        // **** Fields with an XmlNode attribute on the type **** //
+        SimpleNestedField      :  Node                     ;
+         MaybeNestedField      :  NodeOpt            option;
+              NestedFieldList  :  NodeColl    list         ;
+              NestedFieldArray :  NodeColl    array        ;
+              NestedFieldSeq   :  NodeColl    seq          ;
+         MaybeNestedFieldList  : (NodeOptColl list ) option;
+         MaybeNestedFieldArray : (NodeOptColl array) option;
+         MaybeNestedFieldSeq   : (NodeOptColl seq  ) option;
+
+        // **** Fields with an XmlNode attribute on the type and an XmlNode attribute on the field **** //
+        [<XmlNode("other_node"         )>] SimpleMultiAttrField      :  Node              ;
+        [<XmlNode("other_node_opt"     )>]  MaybeMultiAttrField      :  Node        option;
+        [<XmlNode("other_node_coll"    )>]       MultiAttrFieldList  :  Node list         ;
+        [<XmlNode("other_node_coll"    )>]       MultiAttrFieldArray :  Node array        ;
+        [<XmlNode("other_node_coll"    )>]       MultiAttrFieldSeq   :  Node seq          ;
+        [<XmlNode("other_node_opt_coll")>]  MaybeMultiAttrFieldList  : (Node list ) option;
+        [<XmlNode("other_node_opt_coll")>]  MaybeMultiAttrFieldArray : (Node array) option;
+        [<XmlNode("other_node_opt_coll")>]  MaybeMultiAttrFieldSeq   : (Node seq  ) option;
     }

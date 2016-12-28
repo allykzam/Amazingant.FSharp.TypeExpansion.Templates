@@ -313,6 +313,66 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     let xs = findAllAttr xmlAttrs "int_opt_coll" |> Seq.toArray
                     if xs.Length = 0 then None
                     else xs |> Array.map (parse System.Int32.TryParse "int_opt_coll") |> Array.toSeq |> Some
+                let ``simplenestedfield`` =
+                    findNode children "node"
+                    |> Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
+                let ``maybenestedfield`` =
+                    tryFindNode children "node_opt"
+                    |> Option.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeOpt.FromXmlNode
+                let ``nestedfieldlist`` =
+                    findAllNodes children "node_coll"
+                    |> Seq.toArray
+                    |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeColl.FromXmlNode |> Array.toList
+                let ``nestedfieldarray`` =
+                    findAllNodes children "node_coll"
+                    |> Seq.toArray
+                    |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeColl.FromXmlNode
+                let ``nestedfieldseq`` =
+                    findAllNodes children "node_coll"
+                    |> Seq.toArray
+                    |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeColl.FromXmlNode |> Array.toSeq
+                let ``maybenestedfieldlist`` =
+                    let xs = Seq.toArray (findAllNodes children "node_opt_coll")
+                    if xs.Length = 0 then None
+                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeOptColl.FromXmlNode |> Array.toList |> Some
+                let ``maybenestedfieldarray`` =
+                    let xs = Seq.toArray (findAllNodes children "node_opt_coll")
+                    if xs.Length = 0 then None
+                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeOptColl.FromXmlNode |> Some
+                let ``maybenestedfieldseq`` =
+                    let xs = Seq.toArray (findAllNodes children "node_opt_coll")
+                    if xs.Length = 0 then None
+                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeOptColl.FromXmlNode |> Array.toSeq |> Some
+                let ``simplemultiattrfield`` =
+                    findNode children "other_node"
+                    |> Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
+                let ``maybemultiattrfield`` =
+                    tryFindNode children "other_node_opt"
+                    |> Option.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
+                let ``multiattrfieldlist`` =
+                    findAllNodes children "other_node_coll"
+                    |> Seq.toArray
+                    |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode |> Array.toList
+                let ``multiattrfieldarray`` =
+                    findAllNodes children "other_node_coll"
+                    |> Seq.toArray
+                    |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
+                let ``multiattrfieldseq`` =
+                    findAllNodes children "other_node_coll"
+                    |> Seq.toArray
+                    |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode |> Array.toSeq
+                let ``maybemultiattrfieldlist`` =
+                    let xs = Seq.toArray (findAllNodes children "other_node_opt_coll")
+                    if xs.Length = 0 then None
+                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode |> Array.toList |> Some
+                let ``maybemultiattrfieldarray`` =
+                    let xs = Seq.toArray (findAllNodes children "other_node_opt_coll")
+                    if xs.Length = 0 then None
+                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode |> Some
+                let ``maybemultiattrfieldseq`` =
+                    let xs = Seq.toArray (findAllNodes children "other_node_opt_coll")
+                    if xs.Length = 0 then None
+                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode |> Array.toSeq |> Some
                 {
                     ``SimpleString`` = ``simplestring``;
                     ``MaybeString`` = ``maybestring``;
@@ -378,6 +438,22 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``MaybeAttrFieldList`` = ``maybeattrfieldlist``;
                     ``MaybeAttrFieldArray`` = ``maybeattrfieldarray``;
                     ``MaybeAttrFieldSeq`` = ``maybeattrfieldseq``;
+                    ``SimpleNestedField`` = ``simplenestedfield``;
+                    ``MaybeNestedField`` = ``maybenestedfield``;
+                    ``NestedFieldList`` = ``nestedfieldlist``;
+                    ``NestedFieldArray`` = ``nestedfieldarray``;
+                    ``NestedFieldSeq`` = ``nestedfieldseq``;
+                    ``MaybeNestedFieldList`` = ``maybenestedfieldlist``;
+                    ``MaybeNestedFieldArray`` = ``maybenestedfieldarray``;
+                    ``MaybeNestedFieldSeq`` = ``maybenestedfieldseq``;
+                    ``SimpleMultiAttrField`` = ``simplemultiattrfield``;
+                    ``MaybeMultiAttrField`` = ``maybemultiattrfield``;
+                    ``MultiAttrFieldList`` = ``multiattrfieldlist``;
+                    ``MultiAttrFieldArray`` = ``multiattrfieldarray``;
+                    ``MultiAttrFieldSeq`` = ``multiattrfieldseq``;
+                    ``MaybeMultiAttrFieldList`` = ``maybemultiattrfieldlist``;
+                    ``MaybeMultiAttrFieldArray`` = ``maybemultiattrfieldarray``;
+                    ``MaybeMultiAttrFieldSeq`` = ``maybemultiattrfieldseq``;
                 }
 
             static member FromXmlDoc (doc : XmlDocument) : TestFields array =

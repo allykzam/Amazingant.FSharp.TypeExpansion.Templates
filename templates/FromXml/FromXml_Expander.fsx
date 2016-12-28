@@ -397,7 +397,6 @@ module Expander =
             // property's XML attribute is the Node attribute, and the type is
             // neither optional nor a collection...
             | None, Some x, NormalType t, _, _, _ | Some x, Some _, NormalType t, _, _, _ when (x :? XmlNodeAttribute) ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tfindNode children \"%s\"\n\t\t\t\t\t|> %s.FromXmlNode"
                     tempName
                     x.Name
@@ -410,7 +409,6 @@ module Expander =
             // property's XML attribute is the Node attribute, and the type is
             // optional, and the type is not a collection...
             | None, Some x, Option _, NormalType t, _, _ | Some x, Some _, Option _, NormalType t, _, _ when (x :? XmlNodeAttribute) ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\ttryFindNode children \"%s\"\n\t\t\t\t\t|> Option.map %s.FromXmlNode"
                     tempName
                     x.Name
@@ -423,7 +421,6 @@ module Expander =
             // property's XML attribute is the Node attribute, and the type is
             // not optional, but the type is a collection...
             | None, Some x, Collection _, NormalType t, _, _ | Some x, Some _, Collection _, NormalType t, _, _ when (x :? XmlNodeAttribute) ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tfindAllNodes children \"%s\"\n\t\t\t\t\t|> Seq.toArray\n\t\t\t\t\t|> Array.map %s.FromXmlNode%s"
                     tempName
                     x.Name
@@ -437,7 +434,6 @@ module Expander =
             // property's XML attribute is the Node attribute, and the type is
             // an optional collection...
             | None, Some x, Option _, Collection _, NormalType t, _ | Some x, Some _, Option _, Collection _, NormalType t, _ when (x :? XmlNodeAttribute) ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tlet xs = Seq.toArray (findAllNodes children \"%s\")\n\t\t\t\t\tif xs.Length = 0 then None\n\t\t\t\t\telse xs |> Array.map %s.FromXmlNode%s |> Some"
                     tempName
                     x.Name

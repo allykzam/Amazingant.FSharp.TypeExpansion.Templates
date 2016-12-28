@@ -192,6 +192,7 @@ module Expander =
             // and none of the above cases matched, then the data cannot be
             // processed.
             | None, None, _, _, _, _ ->
+                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 failwithf "Properties with simple types cannot be parsed at levels beyond an optional collection. You will need to either add an attribute somewhere, or simplify your data model. Processing expansion for %s.%s"
                     p.DeclaringType.FullName
                     p.Name
@@ -282,6 +283,7 @@ module Expander =
             // If the property has an XPath attribute, and none of the above
             // cases handled it...
             | Some x, _, _, _, _, _ when (x :? XPathAttribute) ->
+                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 failwithf "Currently cannot create a nested XML type from an XPath. Please post on GitHub if you need this. Processing expansion for %s.%s"
                     p.DeclaringType.FullName
                     p.Name
@@ -383,6 +385,7 @@ module Expander =
             // its type is a collection of collections, inform the user that
             // this does not work.
             | Some _, None, Collection _, Collection _, _, _ ->
+                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 failwithf "Cannot create a collection of collections of normal types. Did you mean to use a custom type, or perhaps a simple collection? Processing expansion for %s.%s"
                     p.DeclaringType.FullName
                     p.Name
@@ -441,6 +444,7 @@ module Expander =
             // and the type is a collection of collections, inform the user that
             // this does not work.
             | None, Some _, Collection _, Collection _, _, _ ->
+                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 failwithf "Cannot create a collection of collections of XML types unless the field has an XmlNode attribute on it. Did you mean to supply one? Processing expansion for %s.%s"
                     p.DeclaringType.FullName
                     p.Name
@@ -449,6 +453,7 @@ module Expander =
             // property's attribute is an XmlAttr attribute, inform the user
             // that the value cannot be parsed thusly.
             | Some x, Some _, _, _, _, _ when (x :? XmlAttrAttribute) ->
+                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 failwithf "Cannot create a nested XML type from an XML attribute. Did you mean to use the XmlNode attribute instead? Processing expansion for %s.%s"
                     p.DeclaringType.FullName
                     p.Name
@@ -489,16 +494,18 @@ module Expander =
                 // of a single XML document, in case the type is stored as a
                 // collection in the XML
                 sprintf """
-            static member FromXmlDoc (doc : XmlDocument) =
+            static member FromXmlDoc (doc : XmlDocument) : %s array =
                 Enumerable.Cast<XmlNode> (doc.GetElementsByTagName("%s"))
                 |> Seq.map %s.FromXmlNode
                 |> Seq.toArray
-            static member FromXmlDoc (xml : string) =
+            static member FromXmlDoc (xml : string) : %s array =
                 let doc = XmlDocument()
                 doc.LoadXml xml
                 %s.FromXmlDoc doc
 """
+                    t.Name
                     mainNodeName
+                    t.Name
                     t.Name
                     t.Name
 
@@ -512,7 +519,7 @@ module Expander =
         open System.Xml
 
         type %s with
-            static member FromXmlNode (xml : XmlNode) =
+            static member FromXmlNode (xml : XmlNode) : %s =
                 let children = Enumerable.Cast<XmlNode> xml.ChildNodes
                 let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
 %s
@@ -521,6 +528,7 @@ module Expander =
                 }
 %s"""
             t.Namespace
+            t.Name
             t.Name
             t.Name
             builders

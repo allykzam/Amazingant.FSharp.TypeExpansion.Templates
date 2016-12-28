@@ -102,7 +102,11 @@ module Expander =
         let l4 = TypeLevel.ForType l3.InnerType
         let l5 = TypeLevel.ForType l4.InnerType
         match l5 with NormalType _ -> () | _ -> failwithf "Cannot handle types nested more than four layers deep in Option<'T> or any type of collection. Did you mean to create another type to be processed instead?"
-        let nAttr = GetXmlNodeAttribute l5.InnerType |> Seq.map (fun x -> x :> IXmlAttribute) |> Seq.tryHead
+        let nAttr =
+            GetXmlNodeAttribute l5.InnerType
+            |> Seq.map (fun x -> x :> IXmlAttribute)
+            |> Seq.append (GetXPathAttribute l5.InnerType |> Seq.map (fun x -> x :> IXmlAttribute))
+            |> Seq.tryHead
 
         let tempName = p.Name.ToLowerInvariant()
         let setter (builder) =

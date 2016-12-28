@@ -185,6 +185,40 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     let xs = xml.SelectNodes("string_opt_coll") |> getInnerTexts |> Seq.toArray
                     if xs.Length = 0 then None
                     else xs |> Array.toSeq |> Some
+                let ``simplexpathfield`` =
+                    xml.SelectSingleNode("int").InnerText
+                    |> (parse System.Int32.TryParse "simplexpathfield")
+                let ``maybexpathfield`` =
+                    xml.SelectSingleNode("int_opt")
+                    |> tryInnerText
+                    |> (tryParse System.Int32.TryParse "maybexpathfield")
+                let ``xpathfieldlist`` =
+                    xml.SelectNodes("int_coll")
+                    |> getInnerTexts
+                    |> Seq.map (parse System.Int32.TryParse "xpathfieldlist")
+                    |> Seq.toArray |> Array.toList
+                let ``xpathfieldarray`` =
+                    xml.SelectNodes("int_coll")
+                    |> getInnerTexts
+                    |> Seq.map (parse System.Int32.TryParse "xpathfieldarray")
+                    |> Seq.toArray
+                let ``xpathfieldseq`` =
+                    xml.SelectNodes("int_coll")
+                    |> getInnerTexts
+                    |> Seq.map (parse System.Int32.TryParse "xpathfieldseq")
+                    |> Seq.toArray |> Array.toSeq
+                let ``maybexpathfieldlist`` =
+                    let xs = xml.SelectNodes("int_opt_coll") |> getInnerTexts |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.map (parse System.Int32.TryParse "maybexpathfieldlist") |> Array.toList |> Some
+                let ``maybexpathfieldarray`` =
+                    let xs = xml.SelectNodes("int_opt_coll") |> getInnerTexts |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.map (parse System.Int32.TryParse "maybexpathfieldarray") |> Some
+                let ``maybexpathfieldseq`` =
+                    let xs = xml.SelectNodes("int_opt_coll") |> getInnerTexts |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.map (parse System.Int32.TryParse "maybexpathfieldseq") |> Array.toSeq |> Some
                 {
                     ``SimpleString`` = ``simplestring``;
                     ``MaybeString`` = ``maybestring``;
@@ -210,6 +244,14 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``MaybeXPathStringList`` = ``maybexpathstringlist``;
                     ``MaybeXPathStringArray`` = ``maybexpathstringarray``;
                     ``MaybeXPathStringSeq`` = ``maybexpathstringseq``;
+                    ``SimpleXPathField`` = ``simplexpathfield``;
+                    ``MaybeXPathField`` = ``maybexpathfield``;
+                    ``XPathFieldList`` = ``xpathfieldlist``;
+                    ``XPathFieldArray`` = ``xpathfieldarray``;
+                    ``XPathFieldSeq`` = ``xpathfieldseq``;
+                    ``MaybeXPathFieldList`` = ``maybexpathfieldlist``;
+                    ``MaybeXPathFieldArray`` = ``maybexpathfieldarray``;
+                    ``MaybeXPathFieldSeq`` = ``maybexpathfieldseq``;
                 }
 
             static member FromXmlDoc (doc : XmlDocument) =

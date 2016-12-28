@@ -237,7 +237,6 @@ module Expander =
             // If the property has an XPath attribute, and the type is neither
             // optional nor a collection...
             | Some x, None, NormalType t, _, _, _ when (x :? XPathAttribute) ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\txml.SelectSingleNode(\"%s\").InnerText\n\t\t\t\t\t|> (parse %s.%s \"%s\")"
                     tempName
                     x.Name
@@ -249,7 +248,6 @@ module Expander =
             // If the property has an XPath attribute, and the type is optional,
             // and the type is not a collection...
             | Some x, None, Option _, NormalType t, _, _ when (x :? XPathAttribute) ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\txml.SelectSingleNode(\"%s\")\n\t\t\t\t\t|> tryInnerText\n\t\t\t\t\t|> (tryParse %s.%s \"%s\")"
                     tempName
                     x.Name
@@ -261,7 +259,6 @@ module Expander =
             // If the property has an XPath attribute, and the type is not
             // optional but is a collection...
             | Some x, None, Collection _, NormalType t, _, _ when (x :? XPathAttribute) ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\txml.SelectNodes(\"%s\")\n\t\t\t\t\t|> getInnerTexts\n\t\t\t\t\t|> Seq.map (parse %s.%s \"%s\")\n\t\t\t\t\t|> Seq.toArray%s"
                     tempName
                     x.Name
@@ -274,7 +271,6 @@ module Expander =
             // If the property has an XPath attribute, and the type is an
             // optional collection...
             | Some x, None, Option _, Collection _, NormalType t, _ when (x :? XPathAttribute) ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tlet xs = xml.SelectNodes(\"%s\") |> getInnerTexts |> Seq.toArray\n\t\t\t\t\tif xs.Length = 0 then None\n\t\t\t\t\telse xs |> Array.map (parse %s.%s \"%s\")%s |> Some"
                     tempName
                     x.Name

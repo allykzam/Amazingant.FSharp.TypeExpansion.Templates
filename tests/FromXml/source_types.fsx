@@ -52,4 +52,13 @@ type TestFields =
         [<XPath("string_opt_coll")>]  MaybeXPathStringList  : (string list ) option;
         [<XPath("string_opt_coll")>]  MaybeXPathStringArray : (string array) option;
         [<XPath("string_opt_coll")>]  MaybeXPathStringSeq   : (string seq  ) option;
+        // Non-string fields with an XPath attribute on the field
+        [<XPath("int"            )>] SimpleXPathField       :  int                 ;
+        [<XPath("int_opt"        )>]  MaybeXPathField       :  int           option;
+        [<XPath("int_coll"       )>]       XPathFieldList   :  int    list         ;
+        [<XPath("int_coll"       )>]       XPathFieldArray  :  int    array        ;
+        [<XPath("int_coll"       )>]       XPathFieldSeq    :  int    seq          ;
+        [<XPath("int_opt_coll"   )>]  MaybeXPathFieldList   : (int    list ) option;
+        [<XPath("int_opt_coll"   )>]  MaybeXPathFieldArray  : (int    array) option;
+        [<XPath("int_opt_coll"   )>]  MaybeXPathFieldSeq    : (int    seq  ) option;
     }

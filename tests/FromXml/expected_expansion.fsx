@@ -219,6 +219,23 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     let xs = xml.SelectNodes("int_opt_coll") |> getInnerTexts |> Seq.toArray
                     if xs.Length = 0 then None
                     else xs |> Array.map (parse System.Int32.TryParse "maybexpathfieldseq") |> Array.toSeq |> Some
+                let ``simplenodestring`` = find children "string"
+                let ``maybenodestring`` = tryFind children "string_opt"
+                let ``nodestringlist`` = findAll children "string_coll" |> Seq.toArray |> Array.toList
+                let ``nodestringarray`` = findAll children "string_coll" |> Seq.toArray
+                let ``nodestringseq`` = findAll children "string_coll" |> Seq.toArray |> Array.toSeq
+                let ``maybenodestringlist`` =
+                    let xs = findAll children "string_opt_coll" |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.toList |> Some
+                let ``maybenodestringarray`` =
+                    let xs = findAll children "string_opt_coll" |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Some
+                let ``maybenodestringseq`` =
+                    let xs = findAll children "string_opt_coll" |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.toSeq |> Some
                 {
                     ``SimpleString`` = ``simplestring``;
                     ``MaybeString`` = ``maybestring``;
@@ -252,6 +269,14 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``MaybeXPathFieldList`` = ``maybexpathfieldlist``;
                     ``MaybeXPathFieldArray`` = ``maybexpathfieldarray``;
                     ``MaybeXPathFieldSeq`` = ``maybexpathfieldseq``;
+                    ``SimpleNodeString`` = ``simplenodestring``;
+                    ``MaybeNodeString`` = ``maybenodestring``;
+                    ``NodeStringList`` = ``nodestringlist``;
+                    ``NodeStringArray`` = ``nodestringarray``;
+                    ``NodeStringSeq`` = ``nodestringseq``;
+                    ``MaybeNodeStringList`` = ``maybenodestringlist``;
+                    ``MaybeNodeStringArray`` = ``maybenodestringarray``;
+                    ``MaybeNodeStringSeq`` = ``maybenodestringseq``;
                 }
 
             static member FromXmlDoc (doc : XmlDocument) =

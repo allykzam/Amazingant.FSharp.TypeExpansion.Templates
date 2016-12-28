@@ -293,7 +293,6 @@ module Expander =
             // the type is neither optional nor a collection, and the type
             // happens to be System.String...
             | Some x, None, NormalType t, _, _, _ when t = typeof<string> ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` = find%s %s \"%s\""
                     tempName
                     (attrStr x)
@@ -304,7 +303,6 @@ module Expander =
             // the type is optional but not a collection, and the type happens
             // to be System.String...
             | Some x, None, Option _, NormalType t, _, _ when t = typeof<string> ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` = tryFind%s %s \"%s\""
                     tempName
                     (attrStr x)
@@ -315,7 +313,6 @@ module Expander =
             // the type is not an option but is a collection, and the type
             // happens to be System.String...
             | Some x, None, Collection _, NormalType t, _, _ when t = typeof<string> ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` = findAll%s %s \"%s\" |> Seq.toArray%s"
                     tempName
                     (attrStr x)
@@ -327,7 +324,6 @@ module Expander =
             // the type is an optional collection, and the type happens to be
             // System.String...
             | Some x, None, Option _, Collection _, NormalType t, _ when t = typeof<string> ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tlet xs = findAll%s %s \"%s\" |> Seq.toArray\n\t\t\t\t\tif xs.Length = 0 then None\n\t\t\t\t\telse xs%s |> Some"
                     tempName
                     (attrStr x)

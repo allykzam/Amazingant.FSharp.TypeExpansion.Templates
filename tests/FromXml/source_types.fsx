@@ -61,4 +61,15 @@ type TestFields =
         [<XPath("int_opt_coll"   )>]  MaybeXPathFieldList   : (int    list ) option;
         [<XPath("int_opt_coll"   )>]  MaybeXPathFieldArray  : (int    array) option;
         [<XPath("int_opt_coll"   )>]  MaybeXPathFieldSeq    : (int    seq  ) option;
+
+        // **** XmlNode fields **** //
+        // Strings with an XmlNode attribute on the field
+        [<XmlNode("string"         )>] SimpleNodeString      :  string              ;
+        [<XmlNode("string_opt"     )>]  MaybeNodeString      :  string        option;
+        [<XmlNode("string_coll"    )>]       NodeStringList  :  string list         ;
+        [<XmlNode("string_coll"    )>]       NodeStringArray :  string array        ;
+        [<XmlNode("string_coll"    )>]       NodeStringSeq   :  string seq          ;
+        [<XmlNode("string_opt_coll")>]  MaybeNodeStringList  : (string list ) option;
+        [<XmlNode("string_opt_coll")>]  MaybeNodeStringArray : (string array) option;
+        [<XmlNode("string_opt_coll")>]  MaybeNodeStringSeq   : (string seq  ) option;
     }

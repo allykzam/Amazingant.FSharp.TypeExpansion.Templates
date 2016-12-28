@@ -168,6 +168,23 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     let xs = findAllEither children xmlAttrs "maybefieldseq" |> Seq.toArray
                     if xs.Length = 0 then None
                     else xs |> Array.map (parse System.Int32.TryParse "maybefieldseq") |> Array.toSeq |> Some
+                let ``simplexpathstring`` = xml.SelectSingleNode("string").InnerText
+                let ``maybexpathstring`` = xml.SelectSingleNode("string_opt").InnerText |> Option.ofObj
+                let ``xpathstringlist`` = xml.SelectNodes("string_coll") |> getInnerTexts |> Seq.toArray |> Array.toList
+                let ``xpathstringarray`` = xml.SelectNodes("string_coll") |> getInnerTexts |> Seq.toArray
+                let ``xpathstringseq`` = xml.SelectNodes("string_coll") |> getInnerTexts |> Seq.toArray |> Array.toSeq
+                let ``maybexpathstringlist`` =
+                    let xs = xml.SelectNodes("string_opt_coll") |> getInnerTexts |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.toList |> Some
+                let ``maybexpathstringarray`` =
+                    let xs = xml.SelectNodes("string_opt_coll") |> getInnerTexts |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Some
+                let ``maybexpathstringseq`` =
+                    let xs = xml.SelectNodes("string_opt_coll") |> getInnerTexts |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.toSeq |> Some
                 {
                     ``SimpleString`` = ``simplestring``;
                     ``MaybeString`` = ``maybestring``;
@@ -185,6 +202,14 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``MaybeFieldList`` = ``maybefieldlist``;
                     ``MaybeFieldArray`` = ``maybefieldarray``;
                     ``MaybeFieldSeq`` = ``maybefieldseq``;
+                    ``SimpleXPathString`` = ``simplexpathstring``;
+                    ``MaybeXPathString`` = ``maybexpathstring``;
+                    ``XPathStringList`` = ``xpathstringlist``;
+                    ``XPathStringArray`` = ``xpathstringarray``;
+                    ``XPathStringSeq`` = ``xpathstringseq``;
+                    ``MaybeXPathStringList`` = ``maybexpathstringlist``;
+                    ``MaybeXPathStringArray`` = ``maybexpathstringarray``;
+                    ``MaybeXPathStringSeq`` = ``maybexpathstringseq``;
                 }
 
             static member FromXmlDoc (doc : XmlDocument) =

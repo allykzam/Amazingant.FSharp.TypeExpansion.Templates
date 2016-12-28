@@ -41,4 +41,15 @@ type TestFields =
          MaybeFieldList   : (int    list ) option;
          MaybeFieldArray  : (int    array) option;
          MaybeFieldSeq    : (int    seq  ) option;
+
+        // **** XPath fields **** //
+        // Strings with an XPath attribute on the field
+        [<XPath("string"         )>] SimpleXPathString      :  string              ;
+        [<XPath("string_opt"     )>]  MaybeXPathString      :  string        option;
+        [<XPath("string_coll"    )>]       XPathStringList  :  string list         ;
+        [<XPath("string_coll"    )>]       XPathStringArray :  string array        ;
+        [<XPath("string_coll"    )>]       XPathStringSeq   :  string seq          ;
+        [<XPath("string_opt_coll")>]  MaybeXPathStringList  : (string list ) option;
+        [<XPath("string_opt_coll")>]  MaybeXPathStringArray : (string array) option;
+        [<XPath("string_opt_coll")>]  MaybeXPathStringSeq   : (string seq  ) option;
     }

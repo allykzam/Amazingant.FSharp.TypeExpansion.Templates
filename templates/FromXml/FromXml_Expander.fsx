@@ -202,7 +202,6 @@ module Expander =
             // optional nor a collection, and the type happens to be
             // System.String...
             | Some x, None, NormalType t, _, _, _ when (x :? XPathAttribute) && t = typeof<string> ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` = xml.SelectSingleNode(\"%s\").InnerText"
                     tempName
                     x.Name
@@ -211,7 +210,6 @@ module Expander =
             // If the property has an XPath attribute, and the type is optional
             // but not a collection, and the type happens to be System.String...
             | Some x, None, Option _, NormalType t, _, _ when (x :? XPathAttribute) && t = typeof<string> ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` = xml.SelectSingleNode(\"%s\").InnerText |> Option.ofObj"
                     tempName
                     x.Name
@@ -221,7 +219,6 @@ module Expander =
             // option but is a collection, and the type happens to be
             // System.String...
             | Some x, None, Collection _, NormalType t, _, _ when (x :? XPathAttribute) && t = typeof<string> ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` = xml.SelectNodes(\"%s\") |> getInnerTexts |> Seq.toArray%s"
                     tempName
                     x.Name
@@ -231,7 +228,6 @@ module Expander =
             // If the property has an XPath attribute, and the type is an
             // optional collection, and the type happens to be System.String...
             | Some x, None, Option _, Collection _, NormalType t, _ when (x :? XPathAttribute) && t = typeof<string> ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tlet xs = xml.SelectNodes(\"%s\") |> getInnerTexts |> Seq.toArray\n\t\t\t\t\tif xs.Length = 0 then None\n\t\t\t\t\telse xs%s |> Some"
                     tempName
                     x.Name

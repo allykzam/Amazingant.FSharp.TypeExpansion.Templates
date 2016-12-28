@@ -120,7 +120,6 @@ module Expander =
             // and the type is neither optional nor a collection, and the type
             //  happens to be System.String...
             | None, None, NormalType t, _, _, _ when t = typeof<string> ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` = findEither children xmlAttrs \"%s\""
                     tempName
                     tempName
@@ -129,7 +128,6 @@ module Expander =
             // and the type is optional but not a collection, and the type
             // happens to be System.String...
             | None, None, Option _, NormalType t, _, _ when t = typeof<string> ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` = tryFindEither children xmlAttrs \"%s\""
                     tempName
                     tempName
@@ -138,7 +136,6 @@ module Expander =
             // and the type is not an option but is a collection, and the type
             // happens to be System.String...
             | None, None, Collection _, NormalType t, _, _ when t = typeof<string> ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` = findAllEither children xmlAttrs \"%s\" |> Seq.toArray%s"
                     tempName
                     tempName
@@ -148,7 +145,6 @@ module Expander =
             // and the type is an optional collection, and the type happens to
             // be System.String...
             | None, None, Option _, Collection _, NormalType t, _ when t = typeof<string> ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tlet xs = findAllEither children xmlAttrs \"%s\" |> Seq.toArray\n\t\t\t\t\tif xs.Length = 0 then None\n\t\t\t\t\telse xs%s |> Some"
                     tempName
                     tempName

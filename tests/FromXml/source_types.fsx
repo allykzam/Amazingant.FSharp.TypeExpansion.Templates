@@ -23,4 +23,11 @@ type TestFields =
         // **** Simple fields **** //
         // Strings are treated differently than other types
         SimpleString      :  string              ;
+         MaybeString      :  string        option;
+              StringList  :  string list         ;
+              StringArray :  string array        ;
+              StringSeq   :  string seq          ;
+         MaybeStringList  : (string list ) option;
+         MaybeStringArray : (string array) option;
+         MaybeStringSeq   : (string seq  ) option;
     }

@@ -524,16 +524,18 @@ module Expander =
                 // out of a single XML document, in case the type is stored as a
                 // collection in the XML
                 sprintf """
-            static member FromXmlDoc (doc : XmlDocument) =
+            static member FromXmlDoc (doc : XmlDocument) : %s array =
                 Enumerable.Cast<XmlNode> (doc.SelectNodes("%s"))
                 |> Seq.map %s.FromXmlNode
                 |> Seq.toArray
-            static member FromXmlDoc (xml : string) =
+            static member FromXmlDoc (xml : string) : %s array =
                 let doc = XmlDocument()
                 doc.LoadXml xml
                 %s.FromXmlDoc doc
 """
+                    t.Name
                     pathName
+                    t.Name
                     t.Name
                     t.Name
             // This case should never match, as it should have been caught above

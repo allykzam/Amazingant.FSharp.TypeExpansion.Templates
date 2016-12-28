@@ -81,4 +81,24 @@ type TestFields =
         [<XmlNode("int_opt_coll"   )>]  MaybeNodeFieldList   : (int    list ) option;
         [<XmlNode("int_opt_coll"   )>]  MaybeNodeFieldArray  : (int    array) option;
         [<XmlNode("int_opt_coll"   )>]  MaybeNodeFieldSeq    : (int    seq  ) option;
+
+        // **** XmlAttr fields **** //
+        // Strings with an XmlAttr attribute on the field
+        [<XmlAttr("string"         )>] SimpleAttrString      :  string              ;
+        [<XmlAttr("string_opt"     )>]  MaybeAttrString      :  string        option;
+        [<XmlAttr("string_coll"    )>]       AttrStringList  :  string list         ;
+        [<XmlAttr("string_coll"    )>]       AttrStringArray :  string array        ;
+        [<XmlAttr("string_coll"    )>]       AttrStringSeq   :  string seq          ;
+        [<XmlAttr("string_opt_coll")>]  MaybeAttrStringList  : (string list ) option;
+        [<XmlAttr("string_opt_coll")>]  MaybeAttrStringArray : (string array) option;
+        [<XmlAttr("string_opt_coll")>]  MaybeAttrStringSeq   : (string seq  ) option;
+        // Non-string fields with an XmlAttr attribute on the field
+        [<XmlAttr("int"            )>] SimpleAttrField       :  int                 ;
+        [<XmlAttr("int_opt"        )>]  MaybeAttrField       :  int           option;
+        [<XmlAttr("int_coll"       )>]       AttrFieldList   :  int    list         ;
+        [<XmlAttr("int_coll"       )>]       AttrFieldArray  :  int    array        ;
+        [<XmlAttr("int_coll"       )>]       AttrFieldSeq    :  int    seq          ;
+        [<XmlAttr("int_opt_coll"   )>]  MaybeAttrFieldList   : (int    list ) option;
+        [<XmlAttr("int_opt_coll"   )>]  MaybeAttrFieldArray  : (int    array) option;
+        [<XmlAttr("int_opt_coll"   )>]  MaybeAttrFieldSeq    : (int    seq  ) option;
     }

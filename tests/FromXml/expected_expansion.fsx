@@ -266,6 +266,53 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     let xs = findAll children "int_opt_coll" |> Seq.toArray
                     if xs.Length = 0 then None
                     else xs |> Array.map (parse System.Int32.TryParse "int_opt_coll") |> Array.toSeq |> Some
+                let ``simpleattrstring`` = findAttr xmlAttrs "string"
+                let ``maybeattrstring`` = tryFindAttr xmlAttrs "string_opt"
+                let ``attrstringlist`` = findAllAttr xmlAttrs "string_coll" |> Seq.toArray |> Array.toList
+                let ``attrstringarray`` = findAllAttr xmlAttrs "string_coll" |> Seq.toArray
+                let ``attrstringseq`` = findAllAttr xmlAttrs "string_coll" |> Seq.toArray |> Array.toSeq
+                let ``maybeattrstringlist`` =
+                    let xs = findAllAttr xmlAttrs "string_opt_coll" |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.toList |> Some
+                let ``maybeattrstringarray`` =
+                    let xs = findAllAttr xmlAttrs "string_opt_coll" |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Some
+                let ``maybeattrstringseq`` =
+                    let xs = findAllAttr xmlAttrs "string_opt_coll" |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.toSeq |> Some
+                let ``simpleattrfield`` =
+                    findAttr xmlAttrs "int"
+                    |> (parse System.Int32.TryParse "int")
+                let ``maybeattrfield`` =
+                    tryFindAttr xmlAttrs "int_opt"
+                    |> (tryParse System.Int32.TryParse "int_opt")
+                let ``attrfieldlist`` =
+                    findAllAttr xmlAttrs "int_coll"
+                    |> Seq.toArray
+                    |> Array.map (parse System.Int32.TryParse "int_coll") |> Array.toList
+                let ``attrfieldarray`` =
+                    findAllAttr xmlAttrs "int_coll"
+                    |> Seq.toArray
+                    |> Array.map (parse System.Int32.TryParse "int_coll")
+                let ``attrfieldseq`` =
+                    findAllAttr xmlAttrs "int_coll"
+                    |> Seq.toArray
+                    |> Array.map (parse System.Int32.TryParse "int_coll") |> Array.toSeq
+                let ``maybeattrfieldlist`` =
+                    let xs = findAllAttr xmlAttrs "int_opt_coll" |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.map (parse System.Int32.TryParse "int_opt_coll") |> Array.toList |> Some
+                let ``maybeattrfieldarray`` =
+                    let xs = findAllAttr xmlAttrs "int_opt_coll" |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.map (parse System.Int32.TryParse "int_opt_coll") |> Some
+                let ``maybeattrfieldseq`` =
+                    let xs = findAllAttr xmlAttrs "int_opt_coll" |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.map (parse System.Int32.TryParse "int_opt_coll") |> Array.toSeq |> Some
                 {
                     ``SimpleString`` = ``simplestring``;
                     ``MaybeString`` = ``maybestring``;
@@ -315,6 +362,22 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``MaybeNodeFieldList`` = ``maybenodefieldlist``;
                     ``MaybeNodeFieldArray`` = ``maybenodefieldarray``;
                     ``MaybeNodeFieldSeq`` = ``maybenodefieldseq``;
+                    ``SimpleAttrString`` = ``simpleattrstring``;
+                    ``MaybeAttrString`` = ``maybeattrstring``;
+                    ``AttrStringList`` = ``attrstringlist``;
+                    ``AttrStringArray`` = ``attrstringarray``;
+                    ``AttrStringSeq`` = ``attrstringseq``;
+                    ``MaybeAttrStringList`` = ``maybeattrstringlist``;
+                    ``MaybeAttrStringArray`` = ``maybeattrstringarray``;
+                    ``MaybeAttrStringSeq`` = ``maybeattrstringseq``;
+                    ``SimpleAttrField`` = ``simpleattrfield``;
+                    ``MaybeAttrField`` = ``maybeattrfield``;
+                    ``AttrFieldList`` = ``attrfieldlist``;
+                    ``AttrFieldArray`` = ``attrfieldarray``;
+                    ``AttrFieldSeq`` = ``attrfieldseq``;
+                    ``MaybeAttrFieldList`` = ``maybeattrfieldlist``;
+                    ``MaybeAttrFieldArray`` = ``maybeattrfieldarray``;
+                    ``MaybeAttrFieldSeq`` = ``maybeattrfieldseq``;
                 }
 
             static member FromXmlDoc (doc : XmlDocument) =

@@ -236,6 +236,36 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     let xs = findAll children "string_opt_coll" |> Seq.toArray
                     if xs.Length = 0 then None
                     else xs |> Array.toSeq |> Some
+                let ``simplenodefield`` =
+                    find children "int"
+                    |> (parse System.Int32.TryParse "int")
+                let ``maybenodefield`` =
+                    tryFind children "int_opt"
+                    |> (tryParse System.Int32.TryParse "int_opt")
+                let ``nodefieldlist`` =
+                    findAll children "int_coll"
+                    |> Seq.toArray
+                    |> Array.map (parse System.Int32.TryParse "int_coll") |> Array.toList
+                let ``nodefieldarray`` =
+                    findAll children "int_coll"
+                    |> Seq.toArray
+                    |> Array.map (parse System.Int32.TryParse "int_coll")
+                let ``nodefieldseq`` =
+                    findAll children "int_coll"
+                    |> Seq.toArray
+                    |> Array.map (parse System.Int32.TryParse "int_coll") |> Array.toSeq
+                let ``maybenodefieldlist`` =
+                    let xs = findAll children "int_opt_coll" |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.map (parse System.Int32.TryParse "int_opt_coll") |> Array.toList |> Some
+                let ``maybenodefieldarray`` =
+                    let xs = findAll children "int_opt_coll" |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.map (parse System.Int32.TryParse "int_opt_coll") |> Some
+                let ``maybenodefieldseq`` =
+                    let xs = findAll children "int_opt_coll" |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.map (parse System.Int32.TryParse "int_opt_coll") |> Array.toSeq |> Some
                 {
                     ``SimpleString`` = ``simplestring``;
                     ``MaybeString`` = ``maybestring``;
@@ -277,6 +307,14 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``MaybeNodeStringList`` = ``maybenodestringlist``;
                     ``MaybeNodeStringArray`` = ``maybenodestringarray``;
                     ``MaybeNodeStringSeq`` = ``maybenodestringseq``;
+                    ``SimpleNodeField`` = ``simplenodefield``;
+                    ``MaybeNodeField`` = ``maybenodefield``;
+                    ``NodeFieldList`` = ``nodefieldlist``;
+                    ``NodeFieldArray`` = ``nodefieldarray``;
+                    ``NodeFieldSeq`` = ``nodefieldseq``;
+                    ``MaybeNodeFieldList`` = ``maybenodefieldlist``;
+                    ``MaybeNodeFieldArray`` = ``maybenodefieldarray``;
+                    ``MaybeNodeFieldSeq`` = ``maybenodefieldseq``;
                 }
 
             static member FromXmlDoc (doc : XmlDocument) =

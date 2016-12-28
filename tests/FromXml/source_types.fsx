@@ -72,4 +72,13 @@ type TestFields =
         [<XmlNode("string_opt_coll")>]  MaybeNodeStringList  : (string list ) option;
         [<XmlNode("string_opt_coll")>]  MaybeNodeStringArray : (string array) option;
         [<XmlNode("string_opt_coll")>]  MaybeNodeStringSeq   : (string seq  ) option;
+        // Non-string fields with an XmlNode attribute on the field
+        [<XmlNode("int"            )>] SimpleNodeField       :  int                 ;
+        [<XmlNode("int_opt"        )>]  MaybeNodeField       :  int           option;
+        [<XmlNode("int_coll"       )>]       NodeFieldList   :  int    list         ;
+        [<XmlNode("int_coll"       )>]       NodeFieldArray  :  int    array        ;
+        [<XmlNode("int_coll"       )>]       NodeFieldSeq    :  int    seq          ;
+        [<XmlNode("int_opt_coll"   )>]  MaybeNodeFieldList   : (int    list ) option;
+        [<XmlNode("int_opt_coll"   )>]  MaybeNodeFieldArray  : (int    array) option;
+        [<XmlNode("int_opt_coll"   )>]  MaybeNodeFieldSeq    : (int    seq  ) option;
     }

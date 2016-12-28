@@ -30,4 +30,15 @@ type TestFields =
          MaybeStringList  : (string list ) option;
          MaybeStringArray : (string array) option;
          MaybeStringSeq   : (string seq  ) option;
+        // Now the simple fields; these use `int`, but any other type should be
+        // fine so long as the type itself does not have one of the FromXml
+        // attributes on it
+        SimpleField       :  int                 ;
+         MaybeField       :  int           option;
+              FieldList   :  int    list         ;
+              FieldArray  :  int    array        ;
+              FieldSeq    :  int    seq          ;
+         MaybeFieldList   : (int    list ) option;
+         MaybeFieldArray  : (int    array) option;
+         MaybeFieldSeq    : (int    seq  ) option;
     }

@@ -153,7 +153,6 @@ module Expander =
             // If the property and its type have neither of the XML attributes,
             // and the type is neither optional nor a collection...
             | None, None, NormalType t, _, _, _ ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` = findEither children xmlAttrs \"%s\" |> (parse %s.TryParse \"%s\")"
                     tempName
                     tempName
@@ -163,7 +162,6 @@ module Expander =
             // If the property and its type have neither of the XML attributes,
             // and the type is optional, and the type is not a collection...
             | None, None, Option _, NormalType t, _, _ ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` = tryFindEither children xmlAttrs \"%s\" |> (tryParse %s.TryParse \"%s\")"
                     tempName
                     tempName
@@ -173,7 +171,6 @@ module Expander =
             // If the property and its type have neither of the XML attributes,
             // and the type is not optional but is a collection...
             | None, None, Collection _, NormalType t, _, _ ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` = findAllEither children xmlAttrs \"%s\" |> Seq.map (parse %s.TryParse \"%s\") |> Seq.toArray%s"
                     tempName
                     tempName
@@ -184,7 +181,6 @@ module Expander =
             // If the property and its type have neither of the XML attributes,
             // and the type is an optional collection...
             | None, None, Option _, Collection _, NormalType t, _ ->
-                failwithf "This combination has not been tested yet; pAttr=%A, nAttr=%A, L1=%A, L2=%A, L3=%A, L4=%A; p=%s.%s" pAttr nAttr l1 l2 l3 l4 p.DeclaringType.FullName p.Name
                 sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tlet xs = findAllEither children xmlAttrs \"%s\" |> Seq.toArray\n\t\t\t\t\tif xs.Length = 0 then None\n\t\t\t\t\telse xs |> Array.map (parse %s.TryParse \"%s\")%s |> Some"
                     tempName
                     tempName

@@ -151,6 +151,23 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     let xs = findAllEither children xmlAttrs "maybestringseq" |> Seq.toArray
                     if xs.Length = 0 then None
                     else xs |> Array.toSeq |> Some
+                let ``simplefield`` = findEither children xmlAttrs "simplefield" |> (parse System.Int32.TryParse "simplefield")
+                let ``maybefield`` = tryFindEither children xmlAttrs "maybefield" |> (tryParse System.Int32.TryParse "maybefield")
+                let ``fieldlist`` = findAllEither children xmlAttrs "fieldlist" |> Seq.map (parse System.Int32.TryParse "fieldlist") |> Seq.toArray |> Array.toList
+                let ``fieldarray`` = findAllEither children xmlAttrs "fieldarray" |> Seq.map (parse System.Int32.TryParse "fieldarray") |> Seq.toArray
+                let ``fieldseq`` = findAllEither children xmlAttrs "fieldseq" |> Seq.map (parse System.Int32.TryParse "fieldseq") |> Seq.toArray |> Array.toSeq
+                let ``maybefieldlist`` =
+                    let xs = findAllEither children xmlAttrs "maybefieldlist" |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.map (parse System.Int32.TryParse "maybefieldlist") |> Array.toList |> Some
+                let ``maybefieldarray`` =
+                    let xs = findAllEither children xmlAttrs "maybefieldarray" |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.map (parse System.Int32.TryParse "maybefieldarray") |> Some
+                let ``maybefieldseq`` =
+                    let xs = findAllEither children xmlAttrs "maybefieldseq" |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.map (parse System.Int32.TryParse "maybefieldseq") |> Array.toSeq |> Some
                 {
                     ``SimpleString`` = ``simplestring``;
                     ``MaybeString`` = ``maybestring``;
@@ -160,6 +177,14 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``MaybeStringList`` = ``maybestringlist``;
                     ``MaybeStringArray`` = ``maybestringarray``;
                     ``MaybeStringSeq`` = ``maybestringseq``;
+                    ``SimpleField`` = ``simplefield``;
+                    ``MaybeField`` = ``maybefield``;
+                    ``FieldList`` = ``fieldlist``;
+                    ``FieldArray`` = ``fieldarray``;
+                    ``FieldSeq`` = ``fieldseq``;
+                    ``MaybeFieldList`` = ``maybefieldlist``;
+                    ``MaybeFieldArray`` = ``maybefieldarray``;
+                    ``MaybeFieldSeq`` = ``maybefieldseq``;
                 }
 
             static member FromXmlDoc (doc : XmlDocument) =

@@ -511,7 +511,7 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     let xs = System.Linq.Enumerable.Cast<XmlNode> (xml.SelectNodes("xpath/path_opt_coll")) |> Seq.toArray
                     if xs.Length = 0 then None
                     else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathOptColl.FromXmlNode |> Array.toSeq |> Some
-                let ``simplemultixpathfield`` =
+                let ``simplenestedxpathfield`` =
                     xml.SelectSingleNode("other_node")
                     |> Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
                 let ``maybenestedxpathfield`` =
@@ -630,7 +630,7 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``MaybeXPathNestedFieldList`` = ``maybexpathnestedfieldlist``;
                     ``MaybeXPathNestedFieldArray`` = ``maybexpathnestedfieldarray``;
                     ``MaybeXPathNestedFieldSeq`` = ``maybexpathnestedfieldseq``;
-                    ``SimpleMultiXPathField`` = ``simplemultixpathfield``;
+                    ``SimpleNestedXPathField`` = ``simplenestedxpathfield``;
                     ``MaybeNestedXPathField`` = ``maybenestedxpathfield``;
                     ``NestedXPathFieldList`` = ``nestedxpathfieldlist``;
                     ``NestedXPathFieldArray`` = ``nestedxpathfieldarray``;

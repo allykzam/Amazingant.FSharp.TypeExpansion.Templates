@@ -323,6 +323,47 @@ module Expander =
                     l2.ToCollection
 
 
+            // If the property has an XPath attribute and the type has any of
+            // our xml attributes, and the type is neither optional nor a
+            // collection...
+            | Some x, Some _, NormalType t, _, _, _ when (x :? XPathAttribute) ->
+                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\txml.SelectSingleNode(\"%s\")\n\t\t\t\t\t|> %s.FromXmlNode"
+                    tempName
+                    x.Name
+                    t.FullName
+
+
+            // If the property has an XPath attribute and the type has any of
+            // our xml attributes, and the type is optional, and the type is not
+            // a collection...
+            | Some x, Some _, Option _, NormalType t, _, _ when (x :? XPathAttribute) ->
+                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\txml.SelectSingleNode(\"%s\")\n\t\t\t\t\t|> Option.ofObj\n\t\t\t\t\t|> Option.map %s.FromXmlNode"
+                    tempName
+                    x.Name
+                    t.FullName
+
+
+            // If the property has an XPath attribute and the type has any of
+            // our xml attributes, and the type is not an option but is a
+            // collection...
+            | Some x, Some _, Collection _, NormalType t, _, _ when (x :? XPathAttribute) ->
+                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\txPathToXS xml \"%s\"\n\t\t\t\t\t\t%s.FromXmlNode\n\t\t\t\t\t%s"
+                    tempName
+                    x.Name
+                    t.FullName
+                    l1.ToCollection
+
+
+            // If the property has an XPath attribute and the type has any of
+            // our xml attributes, and the type is an optional collection...
+            | Some x, Some _, Option _, Collection _, NormalType t, _ when (x :? XPathAttribute) ->
+                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tlet xs = xPathToNodes xml \"%s\"\n\t\t\t\t\tif xs.Length = 0 then None\n\t\t\t\t\telse xs |> Array.map %s.FromXmlNode%s |> Some"
+                    tempName
+                    x.Name
+                    t.FullName
+                    l2.ToCollection
+
+
             // If the property has an XPath attribute, and none of the above
             // cases handled it...
             | Some x, _, _, _, _, _ when (x :? XPathAttribute) ->

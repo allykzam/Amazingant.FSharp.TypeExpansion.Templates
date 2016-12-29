@@ -138,4 +138,14 @@ type TestFields =
          MaybeXPathNestedFieldList  : (PathOptColl list ) option;
          MaybeXPathNestedFieldArray : (PathOptColl array) option;
          MaybeXPathNestedFieldSeq   : (PathOptColl seq  ) option;
+
+        // **** Fields with an XPath attribute on the field and an XmlNode attribute on the type **** //
+        [<XPath("other_node"         )>] SimpleMultiXPathField       :  Node              ;
+        [<XPath("other_node_opt"     )>]  MaybeNestedXPathField      :  Node        option;
+        [<XPath("other_node_coll"    )>]       NestedXPathFieldList  :  Node list         ;
+        [<XPath("other_node_coll"    )>]       NestedXPathFieldArray :  Node array        ;
+        [<XPath("other_node_coll"    )>]       NestedXPathFieldSeq   :  Node seq          ;
+        [<XPath("other_node_opt_coll")>]  MaybeNestedXPathFieldList  : (Node list ) option;
+        [<XPath("other_node_opt_coll")>]  MaybeNestedXPathFieldArray : (Node array) option;
+        [<XPath("other_node_opt_coll")>]  MaybeNestedXPathFieldSeq   : (Node seq  ) option;
     }

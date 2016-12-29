@@ -306,7 +306,7 @@ module Expander =
             // If the property has no attribute but the type has an XPath
             // attribute, and the type is not an option but is a collection...
             | None, Some x, Collection _, NormalType t, _, _ when (x :? XPathAttribute) ->
-                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tSystem.Linq.Enumerable.Cast<XmlNode> (xml.SelectNodes(\"%s\"))\n\t\t\t\t\t|> Seq.map %s.FromXmlNode\n\t\t\t\t\t|> Seq.toArray%s"
+                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\txPathToXS xml \"%s\"\n\t\t\t\t\t\t%s.FromXmlNode\n\t\t\t\t\t%s"
                     tempName
                     x.Name
                     t.FullName

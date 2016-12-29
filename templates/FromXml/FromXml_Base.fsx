@@ -289,3 +289,10 @@ module Helpers =
         match Option.ofObj x with
         | None -> None
         | Some x -> Option.ofObj x.InnerText
+
+
+    // Uses the provided XPath to gets an array of XmlNodes
+    let xPathToNodes (source : XmlNode) (path : string) : XmlNode array =
+        source.SelectNodes(path)
+        |> System.Linq.Enumerable.Cast
+        |> Seq.toArray

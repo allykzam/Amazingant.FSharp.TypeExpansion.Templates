@@ -543,7 +543,7 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode |> Array.toSeq |> Some
                 let ``simplexpathnestedxpathfield`` =
                     xml.SelectSingleNode("other_node")
-                    |> Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
+                    |> Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode
                 let ``maybexpathnestedxpathfield`` =
                     xml.SelectSingleNode("other_node_opt")
                     |> Option.ofObj

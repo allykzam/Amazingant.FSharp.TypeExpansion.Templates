@@ -24,7 +24,7 @@ open Amazingant.FSharp.TypeExpansion.Attributes
 [<XPath("xpath/path_opt_coll"); ExpandableType([| "FromXml" |])>] type PathOptColl = { Field : string; }
 
 
-[<XmlNode("Test"); ExpandableType([| "FromXml" |])>]
+[<XmlNode("test"); ExpandableType([| "FromXml" |])>]
 type TestFields =
     {
         // **** Simple fields **** //

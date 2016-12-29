@@ -679,7 +679,7 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                 }
 
             static member FromXmlDoc (doc : XmlDocument) : TestFields array =
-                Enumerable.Cast<XmlNode> (doc.GetElementsByTagName("Test"))
+                Enumerable.Cast<XmlNode> (doc.GetElementsByTagName("test"))
                 |> Seq.map TestFields.FromXmlNode
                 |> Seq.toArray
             static member FromXmlDoc (xml : string) : TestFields array =

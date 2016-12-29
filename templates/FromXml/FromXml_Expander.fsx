@@ -507,7 +507,7 @@ module Expander =
 
 
         // Return the builder and setter; setter will be empty if the builder is
-        let builder = builder.Replace("\t", "    ")
+        let builder = builder.Replace("\t", "    ").TrimEnd()
         builder, (setter builder)
 
 

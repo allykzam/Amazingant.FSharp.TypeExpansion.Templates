@@ -296,3 +296,12 @@ module Helpers =
         source.SelectNodes(path)
         |> System.Linq.Enumerable.Cast
         |> Seq.toArray
+
+    // Gathers nodes from the given source node using the given XPath, and then
+    // pushes them through the specified parser. Returned result is an array to
+    // ensure that the data is cached, regardless of the target collection type.
+    let xPathToXS (source : XmlNode) (path : string) (parser : XmlNode -> 'a) : 'a array =
+        source.SelectNodes path
+        |> System.Linq.Enumerable.Cast
+        |> Seq.map parser
+        |> Seq.toArray

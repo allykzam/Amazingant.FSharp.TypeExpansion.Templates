@@ -55,16 +55,19 @@ let ValidateSample (xmlPath : string) (fromXmlDoc : string -> 'T array) (exp : M
             if isNull prop then failwithf "Property '%s' does not exist?" property
             let getter = prop.GetGetMethod()
             let actual = getter.Invoke(x, [||])
-            let eT = expected.GetType()
-            let aT = actual.GetType()
-            if eT <> aT then
-                failwithf "Property '%s' should be of type '%s' but is '%s'"
-                    property eT.FullName aT.FullName
-            let expected = sprintf "%A" expected
-            let actual = sprintf "%A" actual
-            if expected <> actual then
-                failwithf "Property '%s' is not valid\nExpected: %s\nGot: %s"
-                    property expected actual
+            match expected, actual with
+            | null, null -> ()
+            | _, _ ->
+                let eT = expected.GetType()
+                let aT = actual.GetType()
+                if eT <> aT then
+                    failwithf "Property '%s' should be of type '%s' but is '%s'"
+                        property eT.FullName aT.FullName
+                let expected = sprintf "%A" expected
+                let actual = sprintf "%A" actual
+                if expected <> actual then
+                    failwithf "Property '%s' is not valid\nExpected: %s\nGot: %s"
+                        property expected actual
         )
     printfn "Successfully validated XML file '%s'" xmlPath
 

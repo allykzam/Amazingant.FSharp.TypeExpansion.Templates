@@ -148,4 +148,15 @@ type TestFields =
         [<XPath("other_node_opt_coll")>]  MaybeNestedXPathFieldList  : (Node list ) option;
         [<XPath("other_node_opt_coll")>]  MaybeNestedXPathFieldArray : (Node array) option;
         [<XPath("other_node_opt_coll")>]  MaybeNestedXPathFieldSeq   : (Node seq  ) option;
+
+        // **** Fields with an XPath attribute on the field and an XPath attribute on the type **** //
+        // These tests should hit the same match cases as the above fields
+        [<XPath("other_node"         )>] SimpleXPathNestedXPathField      :  Node              ;
+        [<XPath("other_node_opt"     )>]  MaybeXPathNestedXPathField      :  Path        option;
+        [<XPath("other_node_coll"    )>]       XPathNestedXPathFieldList  :  Path list         ;
+        [<XPath("other_node_coll"    )>]       XPathNestedXPathFieldArray :  Path array        ;
+        [<XPath("other_node_coll"    )>]       XPathNestedXPathFieldSeq   :  Path seq          ;
+        [<XPath("other_node_opt_coll")>]  MaybeXPathNestedXPathFieldList  : (Path list ) option;
+        [<XPath("other_node_opt_coll")>]  MaybeXPathNestedXPathFieldArray : (Path array) option;
+        [<XPath("other_node_opt_coll")>]  MaybeXPathNestedXPathFieldSeq   : (Path seq  ) option;
     }

@@ -27,8 +27,11 @@ let CheckExpansion() =
         |> System.IO.File.ReadAllLines
     let actual = f "actual_expansion.fsx"
     let expected = f "expected_expansion.fsx"
-    actual = expected
+    if actual = expected
+    then printfn "Expanded code matches expected code"
+    else failwithf "Expanded code does not match expected code"
 
+CheckExpansion()
 
 #load "actual_expansion.fsx"
 

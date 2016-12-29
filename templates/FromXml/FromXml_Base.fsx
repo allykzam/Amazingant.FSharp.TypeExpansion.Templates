@@ -124,6 +124,8 @@ type XmlAttrAttribute (name : string, parseFunc : string) =
 
 
 [<AttributeUsage(
+    AttributeTargets.Class    |||
+    AttributeTargets.Struct   |||
     AttributeTargets.Field    |||
     AttributeTargets.Property
     )>]
@@ -287,3 +289,19 @@ module Helpers =
         match Option.ofObj x with
         | None -> None
         | Some x -> Option.ofObj x.InnerText
+
+
+    // Uses the provided XPath to gets an array of XmlNodes
+    let xPathToNodes (source : XmlNode) (path : string) : XmlNode array =
+        source.SelectNodes(path)
+        |> System.Linq.Enumerable.Cast
+        |> Seq.toArray
+
+    // Gathers nodes from the given source node using the given XPath, and then
+    // pushes them through the specified parser. Returned result is an array to
+    // ensure that the data is cached, regardless of the target collection type.
+    let xPathToXS (source : XmlNode) (path : string) (parser : XmlNode -> 'a) : 'a array =
+        source.SelectNodes path
+        |> System.Linq.Enumerable.Cast
+        |> Seq.map parser
+        |> Seq.toArray

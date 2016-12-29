@@ -16,6 +16,13 @@ open Amazingant.FSharp.TypeExpansion.Attributes
 [<XmlNode("node_coll"    ); ExpandableType([| "FromXml" |])>] type NodeColl    = { Field : string; }
 [<XmlNode("node_opt_coll"); ExpandableType([| "FromXml" |])>] type NodeOptColl = { Field : string; }
 
+// These are here for test fields that need a "nested" type with the XPath
+// attribute specifically. Otherwise, they should match the Node types above.
+[<XPath("xpath/path"         ); ExpandableType([| "FromXml" |])>] type Path        = { Field : string; }
+[<XPath("xpath/path_opt"     ); ExpandableType([| "FromXml" |])>] type PathOpt     = { Field : string; }
+[<XPath("xpath/path_coll"    ); ExpandableType([| "FromXml" |])>] type PathColl    = { Field : string; }
+[<XPath("xpath/path_opt_coll"); ExpandableType([| "FromXml" |])>] type PathOptColl = { Field : string; }
+
 
 [<XmlNode("Test"); ExpandableType([| "FromXml" |])>]
 type TestFields =
@@ -121,4 +128,35 @@ type TestFields =
         [<XmlNode("other_node_opt_coll")>]  MaybeMultiAttrFieldList  : (Node list ) option;
         [<XmlNode("other_node_opt_coll")>]  MaybeMultiAttrFieldArray : (Node array) option;
         [<XmlNode("other_node_opt_coll")>]  MaybeMultiAttrFieldSeq   : (Node seq  ) option;
+
+        // **** Fields with an XPath attribute on the type **** //
+        SimpleXPathNestedField      :  Path                     ;
+         MaybeXPathNestedField      :  PathOpt            option;
+              XPathNestedFieldList  :  PathColl    list         ;
+              XPathNestedFieldArray :  PathColl    array        ;
+              XPathNestedFieldSeq   :  PathColl    seq          ;
+         MaybeXPathNestedFieldList  : (PathOptColl list ) option;
+         MaybeXPathNestedFieldArray : (PathOptColl array) option;
+         MaybeXPathNestedFieldSeq   : (PathOptColl seq  ) option;
+
+        // **** Fields with an XPath attribute on the field and an XmlNode attribute on the type **** //
+        [<XPath("other_node"         )>] SimpleNestedXPathField      :  Node              ;
+        [<XPath("other_node_opt"     )>]  MaybeNestedXPathField      :  Node        option;
+        [<XPath("other_node_coll"    )>]       NestedXPathFieldList  :  Node list         ;
+        [<XPath("other_node_coll"    )>]       NestedXPathFieldArray :  Node array        ;
+        [<XPath("other_node_coll"    )>]       NestedXPathFieldSeq   :  Node seq          ;
+        [<XPath("other_node_opt_coll")>]  MaybeNestedXPathFieldList  : (Node list ) option;
+        [<XPath("other_node_opt_coll")>]  MaybeNestedXPathFieldArray : (Node array) option;
+        [<XPath("other_node_opt_coll")>]  MaybeNestedXPathFieldSeq   : (Node seq  ) option;
+
+        // **** Fields with an XPath attribute on the field and an XPath attribute on the type **** //
+        // These tests should hit the same match cases as the above fields
+        [<XPath("other_node"         )>] SimpleXPathNestedXPathField      :  Node              ;
+        [<XPath("other_node_opt"     )>]  MaybeXPathNestedXPathField      :  Path        option;
+        [<XPath("other_node_coll"    )>]       XPathNestedXPathFieldList  :  Path list         ;
+        [<XPath("other_node_coll"    )>]       XPathNestedXPathFieldArray :  Path array        ;
+        [<XPath("other_node_coll"    )>]       XPathNestedXPathFieldSeq   :  Path seq          ;
+        [<XPath("other_node_opt_coll")>]  MaybeXPathNestedXPathFieldList  : (Path list ) option;
+        [<XPath("other_node_opt_coll")>]  MaybeXPathNestedXPathFieldArray : (Path array) option;
+        [<XPath("other_node_opt_coll")>]  MaybeXPathNestedXPathFieldSeq   : (Path seq  ) option;
     }

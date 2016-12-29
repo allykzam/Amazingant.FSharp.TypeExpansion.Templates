@@ -124,6 +124,114 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
 
 namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     [<AutoOpen>]
+    module Path_FromXml_Extensions =
+
+        open Amazingant.FSharp.TypeExpansion.Templates.FromXml
+        open System.Linq
+        open System.Xml
+
+        type Path with
+            static member FromXmlNode (xml : XmlNode) : Path =
+                let children = Enumerable.Cast<XmlNode> xml.ChildNodes
+                let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
+                let ``field`` = findEither children xmlAttrs "field"
+                {
+                    ``Field`` = ``field``;
+                }
+
+            static member FromXmlDoc (doc : XmlDocument) : Path array =
+                Enumerable.Cast<XmlNode> (doc.SelectNodes("xpath/path"))
+                |> Seq.map Path.FromXmlNode
+                |> Seq.toArray
+            static member FromXmlDoc (xml : string) : Path array =
+                let doc = XmlDocument()
+                doc.LoadXml xml
+                Path.FromXmlDoc doc
+
+
+namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
+    [<AutoOpen>]
+    module PathOpt_FromXml_Extensions =
+
+        open Amazingant.FSharp.TypeExpansion.Templates.FromXml
+        open System.Linq
+        open System.Xml
+
+        type PathOpt with
+            static member FromXmlNode (xml : XmlNode) : PathOpt =
+                let children = Enumerable.Cast<XmlNode> xml.ChildNodes
+                let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
+                let ``field`` = findEither children xmlAttrs "field"
+                {
+                    ``Field`` = ``field``;
+                }
+
+            static member FromXmlDoc (doc : XmlDocument) : PathOpt array =
+                Enumerable.Cast<XmlNode> (doc.SelectNodes("xpath/path_opt"))
+                |> Seq.map PathOpt.FromXmlNode
+                |> Seq.toArray
+            static member FromXmlDoc (xml : string) : PathOpt array =
+                let doc = XmlDocument()
+                doc.LoadXml xml
+                PathOpt.FromXmlDoc doc
+
+
+namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
+    [<AutoOpen>]
+    module PathColl_FromXml_Extensions =
+
+        open Amazingant.FSharp.TypeExpansion.Templates.FromXml
+        open System.Linq
+        open System.Xml
+
+        type PathColl with
+            static member FromXmlNode (xml : XmlNode) : PathColl =
+                let children = Enumerable.Cast<XmlNode> xml.ChildNodes
+                let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
+                let ``field`` = findEither children xmlAttrs "field"
+                {
+                    ``Field`` = ``field``;
+                }
+
+            static member FromXmlDoc (doc : XmlDocument) : PathColl array =
+                Enumerable.Cast<XmlNode> (doc.SelectNodes("xpath/path_coll"))
+                |> Seq.map PathColl.FromXmlNode
+                |> Seq.toArray
+            static member FromXmlDoc (xml : string) : PathColl array =
+                let doc = XmlDocument()
+                doc.LoadXml xml
+                PathColl.FromXmlDoc doc
+
+
+namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
+    [<AutoOpen>]
+    module PathOptColl_FromXml_Extensions =
+
+        open Amazingant.FSharp.TypeExpansion.Templates.FromXml
+        open System.Linq
+        open System.Xml
+
+        type PathOptColl with
+            static member FromXmlNode (xml : XmlNode) : PathOptColl =
+                let children = Enumerable.Cast<XmlNode> xml.ChildNodes
+                let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
+                let ``field`` = findEither children xmlAttrs "field"
+                {
+                    ``Field`` = ``field``;
+                }
+
+            static member FromXmlDoc (doc : XmlDocument) : PathOptColl array =
+                Enumerable.Cast<XmlNode> (doc.SelectNodes("xpath/path_opt_coll"))
+                |> Seq.map PathOptColl.FromXmlNode
+                |> Seq.toArray
+            static member FromXmlDoc (xml : string) : PathOptColl array =
+                let doc = XmlDocument()
+                doc.LoadXml xml
+                PathOptColl.FromXmlDoc doc
+
+
+namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
+    [<AutoOpen>]
     module TestFields_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
@@ -169,7 +277,7 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     if xs.Length = 0 then None
                     else xs |> Array.map (parse System.Int32.TryParse "maybefieldseq") |> Array.toSeq |> Some
                 let ``simplexpathstring`` = xml.SelectSingleNode("string").InnerText
-                let ``maybexpathstring`` = xml.SelectSingleNode("string_opt").InnerText |> Option.ofObj
+                let ``maybexpathstring`` = xml.SelectSingleNode("string_opt") |> tryInnerText
                 let ``xpathstringlist`` = xml.SelectNodes("string_coll") |> getInnerTexts |> Seq.toArray |> Array.toList
                 let ``xpathstringarray`` = xml.SelectNodes("string_coll") |> getInnerTexts |> Seq.toArray
                 let ``xpathstringseq`` = xml.SelectNodes("string_coll") |> getInnerTexts |> Seq.toArray |> Array.toSeq
@@ -373,6 +481,96 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     let xs = Seq.toArray (findAllNodes children "other_node_opt_coll")
                     if xs.Length = 0 then None
                     else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode |> Array.toSeq |> Some
+                let ``simplexpathnestedfield`` =
+                    xml.SelectSingleNode("xpath/path")
+                    |> Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode
+                let ``maybexpathnestedfield`` =
+                    xml.SelectSingleNode("xpath/path_opt")
+                    |> Option.ofObj
+                    |> Option.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathOpt.FromXmlNode
+                let ``xpathnestedfieldlist`` =
+                    xPathToXS xml "xpath/path_coll"
+                        Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathColl.FromXmlNode
+                     |> Array.toList
+                let ``xpathnestedfieldarray`` =
+                    xPathToXS xml "xpath/path_coll"
+                        Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathColl.FromXmlNode
+                let ``xpathnestedfieldseq`` =
+                    xPathToXS xml "xpath/path_coll"
+                        Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathColl.FromXmlNode
+                     |> Array.toSeq
+                let ``maybexpathnestedfieldlist`` =
+                    let xs = System.Linq.Enumerable.Cast<XmlNode> (xml.SelectNodes("xpath/path_opt_coll")) |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathOptColl.FromXmlNode |> Array.toList |> Some
+                let ``maybexpathnestedfieldarray`` =
+                    let xs = System.Linq.Enumerable.Cast<XmlNode> (xml.SelectNodes("xpath/path_opt_coll")) |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathOptColl.FromXmlNode |> Some
+                let ``maybexpathnestedfieldseq`` =
+                    let xs = System.Linq.Enumerable.Cast<XmlNode> (xml.SelectNodes("xpath/path_opt_coll")) |> Seq.toArray
+                    if xs.Length = 0 then None
+                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathOptColl.FromXmlNode |> Array.toSeq |> Some
+                let ``simplenestedxpathfield`` =
+                    xml.SelectSingleNode("other_node")
+                    |> Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
+                let ``maybenestedxpathfield`` =
+                    xml.SelectSingleNode("other_node_opt")
+                    |> Option.ofObj
+                    |> Option.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
+                let ``nestedxpathfieldlist`` =
+                    xPathToXS xml "other_node_coll"
+                        Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
+                     |> Array.toList
+                let ``nestedxpathfieldarray`` =
+                    xPathToXS xml "other_node_coll"
+                        Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
+                let ``nestedxpathfieldseq`` =
+                    xPathToXS xml "other_node_coll"
+                        Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
+                     |> Array.toSeq
+                let ``maybenestedxpathfieldlist`` =
+                    let xs = xPathToNodes xml "other_node_opt_coll"
+                    if xs.Length = 0 then None
+                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode |> Array.toList |> Some
+                let ``maybenestedxpathfieldarray`` =
+                    let xs = xPathToNodes xml "other_node_opt_coll"
+                    if xs.Length = 0 then None
+                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode |> Some
+                let ``maybenestedxpathfieldseq`` =
+                    let xs = xPathToNodes xml "other_node_opt_coll"
+                    if xs.Length = 0 then None
+                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode |> Array.toSeq |> Some
+                let ``simplexpathnestedxpathfield`` =
+                    xml.SelectSingleNode("other_node")
+                    |> Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
+                let ``maybexpathnestedxpathfield`` =
+                    xml.SelectSingleNode("other_node_opt")
+                    |> Option.ofObj
+                    |> Option.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode
+                let ``xpathnestedxpathfieldlist`` =
+                    xPathToXS xml "other_node_coll"
+                        Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode
+                     |> Array.toList
+                let ``xpathnestedxpathfieldarray`` =
+                    xPathToXS xml "other_node_coll"
+                        Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode
+                let ``xpathnestedxpathfieldseq`` =
+                    xPathToXS xml "other_node_coll"
+                        Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode
+                     |> Array.toSeq
+                let ``maybexpathnestedxpathfieldlist`` =
+                    let xs = xPathToNodes xml "other_node_opt_coll"
+                    if xs.Length = 0 then None
+                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode |> Array.toList |> Some
+                let ``maybexpathnestedxpathfieldarray`` =
+                    let xs = xPathToNodes xml "other_node_opt_coll"
+                    if xs.Length = 0 then None
+                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode |> Some
+                let ``maybexpathnestedxpathfieldseq`` =
+                    let xs = xPathToNodes xml "other_node_opt_coll"
+                    if xs.Length = 0 then None
+                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode |> Array.toSeq |> Some
                 {
                     ``SimpleString`` = ``simplestring``;
                     ``MaybeString`` = ``maybestring``;
@@ -454,6 +652,30 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``MaybeMultiAttrFieldList`` = ``maybemultiattrfieldlist``;
                     ``MaybeMultiAttrFieldArray`` = ``maybemultiattrfieldarray``;
                     ``MaybeMultiAttrFieldSeq`` = ``maybemultiattrfieldseq``;
+                    ``SimpleXPathNestedField`` = ``simplexpathnestedfield``;
+                    ``MaybeXPathNestedField`` = ``maybexpathnestedfield``;
+                    ``XPathNestedFieldList`` = ``xpathnestedfieldlist``;
+                    ``XPathNestedFieldArray`` = ``xpathnestedfieldarray``;
+                    ``XPathNestedFieldSeq`` = ``xpathnestedfieldseq``;
+                    ``MaybeXPathNestedFieldList`` = ``maybexpathnestedfieldlist``;
+                    ``MaybeXPathNestedFieldArray`` = ``maybexpathnestedfieldarray``;
+                    ``MaybeXPathNestedFieldSeq`` = ``maybexpathnestedfieldseq``;
+                    ``SimpleNestedXPathField`` = ``simplenestedxpathfield``;
+                    ``MaybeNestedXPathField`` = ``maybenestedxpathfield``;
+                    ``NestedXPathFieldList`` = ``nestedxpathfieldlist``;
+                    ``NestedXPathFieldArray`` = ``nestedxpathfieldarray``;
+                    ``NestedXPathFieldSeq`` = ``nestedxpathfieldseq``;
+                    ``MaybeNestedXPathFieldList`` = ``maybenestedxpathfieldlist``;
+                    ``MaybeNestedXPathFieldArray`` = ``maybenestedxpathfieldarray``;
+                    ``MaybeNestedXPathFieldSeq`` = ``maybenestedxpathfieldseq``;
+                    ``SimpleXPathNestedXPathField`` = ``simplexpathnestedxpathfield``;
+                    ``MaybeXPathNestedXPathField`` = ``maybexpathnestedxpathfield``;
+                    ``XPathNestedXPathFieldList`` = ``xpathnestedxpathfieldlist``;
+                    ``XPathNestedXPathFieldArray`` = ``xpathnestedxpathfieldarray``;
+                    ``XPathNestedXPathFieldSeq`` = ``xpathnestedxpathfieldseq``;
+                    ``MaybeXPathNestedXPathFieldList`` = ``maybexpathnestedxpathfieldlist``;
+                    ``MaybeXPathNestedXPathFieldArray`` = ``maybexpathnestedxpathfieldarray``;
+                    ``MaybeXPathNestedXPathFieldSeq`` = ``maybexpathnestedxpathfieldseq``;
                 }
 
             static member FromXmlDoc (doc : XmlDocument) : TestFields array =

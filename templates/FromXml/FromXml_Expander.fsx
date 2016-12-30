@@ -315,7 +315,7 @@ module Expander =
             // If the property has no attribute but the type has an XPath
             // attribute, and the type is not an option but is a collection...
             | None, Some x, Collection _, NormalType t, _, _ when (x :? XPathAttribute) ->
-                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\txPathToXS xml \"%s\"\n\t\t\t\t\t\t%s.FromXmlNode\n\t\t\t\t\t%s"
+                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tgetXPathNestedThingArray xml \"%s\"\n\t\t\t\t\t\t%s.FromXmlNode\n\t\t\t\t\t%s"
                     tempName
                     x.Name
                     t.FullName
@@ -356,7 +356,7 @@ module Expander =
             // our xml attributes, and the type is not an option but is a
             // collection...
             | Some x, Some _, Collection _, NormalType t, _, _ when (x :? XPathAttribute) ->
-                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\txPathToXS xml \"%s\"\n\t\t\t\t\t\t%s.FromXmlNode\n\t\t\t\t\t%s"
+                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tgetXPathNestedThingArray xml \"%s\"\n\t\t\t\t\t\t%s.FromXmlNode\n\t\t\t\t\t%s"
                     tempName
                     x.Name
                     t.FullName

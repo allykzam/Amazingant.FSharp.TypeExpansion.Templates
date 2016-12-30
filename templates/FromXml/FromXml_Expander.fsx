@@ -44,6 +44,15 @@ module Expander =
             | Collection (_, m) when m = "Array" -> ""
             | Collection (_, m) -> sprintf " |> Array.to%s" m
             | _ -> ""
+        /// Returns the appropriate function required to change an array to this
+        /// collection's type, if this value indicates a basic collection type
+        /// other than an array; if this value indicates an array, the id
+        /// function is returned instead
+        member x.ToCollectionOrID =
+            match x with
+            | Collection (_, m) when m = "Array" -> "id"
+            | Collection (_, m) -> sprintf "Array.to%s" m
+            | _ -> ""
         /// Generates an instance of this type from the given type information
         static member ForType (t : Type) =
             if t.IsArray then

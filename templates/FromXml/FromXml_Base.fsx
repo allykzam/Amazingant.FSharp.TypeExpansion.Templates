@@ -321,3 +321,12 @@ module Helpers =
         let node = x.SelectSingleNode path
         if isNull node then failwithf "No nodes or attributes could be found matching the XPath '%s' for the '%s' property" path name
         parser node
+
+    /// Finds the first node that matches the specified XPath, parses it with
+    /// the given parser, and returns the result. If no matching nodes are
+    /// found, returns None. Exceptions thrown by the parser are not handled.
+    let getXPathMaybeNestedThing (x : XmlNode) (path : string) (name : string) (parser : XmlNode -> 'T) : 'T option =
+        let node = x.SelectSingleNode path
+        match node with
+        | null -> None
+        | _ -> Some (parser node)

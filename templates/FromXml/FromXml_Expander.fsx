@@ -315,9 +315,10 @@ module Expander =
             // attribute, and the type is optional, and the type is not a
             // collection...
             | None, Some x, Option _, NormalType t, _, _ when (x :? XPathAttribute) ->
-                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\txml.SelectSingleNode(\"%s\")\n\t\t\t\t\t|> Option.ofObj\n\t\t\t\t\t|> Option.map %s.FromXmlNode"
+                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tgetXPathMaybeNestedThing xml \"%s\" \"%s\"\n\t\t\t\t\t\t%s.FromXmlNode"
                     tempName
                     x.Name
+                    p.Name
                     t.FullName
 
 

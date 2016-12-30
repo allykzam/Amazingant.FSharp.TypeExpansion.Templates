@@ -313,3 +313,11 @@ module Helpers =
     let getXPathMaybeNestedThingArray source path parser =
         let rs = getXPathNestedThingArray source path parser
         if rs.Length = 0 then None else Some rs
+
+    /// Finds the first node that matches the specified XPath, parses it with
+    /// the given parser, and returns the result. If no matching nodes are
+    /// found, an exception is thrown.
+    let getXPathNestedThing (x : XmlNode) (path : string) (name : string) (parser : XmlNode -> 'T) : 'T =
+        let node = x.SelectSingleNode path
+        if isNull node then failwithf "No nodes or attributes could be found matching the XPath '%s' for the '%s' property" path name
+        parser node

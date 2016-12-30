@@ -304,9 +304,10 @@ module Expander =
             // If the property has no attribute but the type has an XPath
             // attribute, and the type is neither optional nor a collection...
             | None, Some x, NormalType t, _, _, _ when (x :? XPathAttribute) ->
-                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\txml.SelectSingleNode(\"%s\")\n\t\t\t\t\t|> %s.FromXmlNode"
+                sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tgetXPathNestedThing xml \"%s\" \"%s\"\n\t\t\t\t\t\t%s.FromXmlNode"
                     tempName
                     x.Name
+                    p.Name
                     t.FullName
 
 

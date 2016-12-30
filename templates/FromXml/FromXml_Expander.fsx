@@ -36,13 +36,21 @@ module Expander =
         | Option of InnerType : Type
         /// Gets the inner type from this value
         member x.InnerType = match x with | NormalType x | Collection (x,_) | Option x -> x
+        /// Returns the appropriate forward-pipe operation (with a leading
+        /// space) required to change an array to this collection's type, if
+        /// this value indicates a basic collection type other than an array
+        member x.PipedToCollectionWithSpace =
+            match x with
+            | Collection (_, m) when m = "Array" -> ""
+            | Collection (_, m) -> sprintf " |> Array.to%s" m
+            | _ -> ""
         /// Returns the appropriate forward-pipe operation required to change an
         /// array to this collection's type, if this value indicates a basic
         /// collection type other than an array
         member x.PipedToCollection =
             match x with
             | Collection (_, m) when m = "Array" -> ""
-            | Collection (_, m) -> sprintf " |> Array.to%s" m
+            | Collection (_, m) -> sprintf "|> Array.to%s" m
             | _ -> ""
         /// Returns the appropriate function required to change an array to this
         /// collection's type, if this value indicates a basic collection type
@@ -152,7 +160,7 @@ module Expander =
                 sprintf "\t\t\t\tlet ``%s`` = findAllEither children xmlAttrs \"%s\" |> Seq.toArray%s"
                     tempName
                     tempName
-                    l1.PipedToCollection
+                    l1.PipedToCollectionWithSpace
 
             // If the property and its type have neither of the XML attributes,
             // and the type is an optional collection, and the type happens to
@@ -161,7 +169,7 @@ module Expander =
                 sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tlet xs = findAllEither children xmlAttrs \"%s\" |> Seq.toArray\n\t\t\t\t\tif xs.Length = 0 then None\n\t\t\t\t\telse xs%s |> Some"
                     tempName
                     tempName
-                    l2.PipedToCollection
+                    l2.PipedToCollectionWithSpace
 
             // If the property and its type have neither of the XML attributes,
             // and the type is neither optional nor a collection...
@@ -189,7 +197,7 @@ module Expander =
                     tempName
                     t.FullName
                     tempName
-                    l1.PipedToCollection
+                    l1.PipedToCollectionWithSpace
 
             // If the property and its type have neither of the XML attributes,
             // and the type is an optional collection...
@@ -199,7 +207,7 @@ module Expander =
                     tempName
                     t.FullName
                     tempName
-                    l2.PipedToCollection
+                    l2.PipedToCollectionWithSpace
 
             // If the property and its type have neither of the XML attributes,
             // and none of the above cases matched, then the data cannot be
@@ -235,7 +243,7 @@ module Expander =
                 sprintf "\t\t\t\tlet ``%s`` = xml.SelectNodes(\"%s\") |> getInnerTexts |> Seq.toArray%s"
                     tempName
                     x.Name
-                    l1.PipedToCollection
+                    l1.PipedToCollectionWithSpace
 
 
             // If the property has an XPath attribute, and the type is an
@@ -244,7 +252,7 @@ module Expander =
                 sprintf "\t\t\t\tlet ``%s`` =\n\t\t\t\t\tlet xs = xml.SelectNodes(\"%s\") |> getInnerTexts |> Seq.toArray\n\t\t\t\t\tif xs.Length = 0 then None\n\t\t\t\t\telse xs%s |> Some"
                     tempName
                     x.Name
-                    l2.PipedToCollection
+                    l2.PipedToCollectionWithSpace
 
 
             // If the property has an XPath attribute, and the type is neither
@@ -278,7 +286,7 @@ module Expander =
                     t.FullName
                     x.ParseFunction
                     tempName
-                    l1.PipedToCollection
+                    l1.PipedToCollectionWithSpace
 
 
             // If the property has an XPath attribute, and the type is an
@@ -290,7 +298,7 @@ module Expander =
                     t.FullName
                     x.ParseFunction
                     tempName
-                    l2.PipedToCollection
+                    l2.PipedToCollectionWithSpace
 
 
             // If the property has no attribute but the type has an XPath
@@ -319,7 +327,7 @@ module Expander =
                     tempName
                     x.Name
                     t.FullName
-                    l1.PipedToCollection
+                    l1.PipedToCollectionWithSpace
 
 
             // If the property has no attribute but the type has an XPath
@@ -329,7 +337,7 @@ module Expander =
                     tempName
                     x.Name
                     t.FullName
-                    l2.PipedToCollection
+                    l2.PipedToCollectionWithSpace
 
 
             // If the property has an XPath attribute and the type has any of
@@ -360,7 +368,7 @@ module Expander =
                     tempName
                     x.Name
                     t.FullName
-                    l1.PipedToCollection
+                    l1.PipedToCollectionWithSpace
 
 
             // If the property has an XPath attribute and the type has any of
@@ -370,7 +378,7 @@ module Expander =
                     tempName
                     x.Name
                     t.FullName
-                    l2.PipedToCollection
+                    l2.PipedToCollectionWithSpace
 
 
             // If the property has an XPath attribute, and none of the above
@@ -411,7 +419,7 @@ module Expander =
                     (attrStr x)
                     x.SourceCollection
                     x.Name
-                    l1.PipedToCollection
+                    l1.PipedToCollectionWithSpace
 
             // If the property has an XML attribute and its type does not, and
             // the type is an optional collection, and the type happens to be
@@ -422,7 +430,7 @@ module Expander =
                     (attrStr x)
                     x.SourceCollection
                     x.Name
-                    l2.PipedToCollection
+                    l2.PipedToCollectionWithSpace
 
             // If the property has an XML attribute and its type does not, and
             // the type is neither optional nor a collection...
@@ -459,7 +467,7 @@ module Expander =
                     t.FullName
                     x.ParseFunction
                     x.Name
-                    l1.PipedToCollection
+                    l1.PipedToCollectionWithSpace
 
             // If the property has an XML attribute and its type does not, and
             // the type is an optional collection...
@@ -472,7 +480,7 @@ module Expander =
                     t.FullName
                     x.ParseFunction
                     x.Name
-                    l2.PipedToCollection
+                    l2.PipedToCollectionWithSpace
 
             // If the property has an XML attribute and its type does not, but
             // its type is a collection of collections, inform the user that
@@ -518,7 +526,7 @@ module Expander =
                     tempName
                     x.Name
                     t.FullName
-                    l1.PipedToCollection
+                    l1.PipedToCollectionWithSpace
 
             // If the property does not have an XML attribute but its type does,
             // and the type is an optional collection...
@@ -531,7 +539,7 @@ module Expander =
                     tempName
                     x.Name
                     t.FullName
-                    l2.PipedToCollection
+                    l2.PipedToCollectionWithSpace
 
             // If the property does not have an XML attribute but its type does,
             // and the type is a collection of collections, inform the user that

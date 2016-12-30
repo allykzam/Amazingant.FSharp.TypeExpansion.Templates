@@ -1,0 +1,21 @@
+<test
+    string="string"
+    int="15"
+    >
+
+    <simplestring>simple string</simplestring>
+    <simplefield>1</simplefield>
+    <string>string</string>
+    <int>9</int>
+    <node>
+        <field>node</field>
+    </node>
+    <other_node>
+        <field>onode</field>
+    </other_node>
+    <xpath>
+        <path>
+            <field>xpath</field>
+        </path>
+    </xpath>
+</test>

@@ -24,7 +24,7 @@ open Amazingant.FSharp.TypeExpansion.Attributes
 [<XPath("xpath/path_opt_coll"); ExpandableType([| "FromXml" |])>] type PathOptColl = { Field : string; }
 
 
-[<XmlNode("Test"); ExpandableType([| "FromXml" |])>]
+[<XmlNode("test"); ExpandableType([| "FromXml" |])>]
 type TestFields =
     {
         // **** Simple fields **** //
@@ -151,7 +151,7 @@ type TestFields =
 
         // **** Fields with an XPath attribute on the field and an XPath attribute on the type **** //
         // These tests should hit the same match cases as the above fields
-        [<XPath("other_node"         )>] SimpleXPathNestedXPathField      :  Node              ;
+        [<XPath("other_node"         )>] SimpleXPathNestedXPathField      :  Path              ;
         [<XPath("other_node_opt"     )>]  MaybeXPathNestedXPathField      :  Path        option;
         [<XPath("other_node_coll"    )>]       XPathNestedXPathFieldList  :  Path list         ;
         [<XPath("other_node_coll"    )>]       XPathNestedXPathFieldArray :  Path array        ;

@@ -1,0 +1,99 @@
+<test
+    string="string"
+    string_opt="opt string"
+    string_coll="string coll 1"
+    string_opt_coll="opt string coll 1"
+
+    int="15"
+    int_opt="16"
+    int_coll="17"
+    int_opt_coll="18"
+    >
+
+    <simplestring>simple string</simplestring>
+    <maybestring>maybe string</maybestring>
+    <stringlist>first list element</stringlist><stringlist>second list element</stringlist>
+    <stringarray>first array element</stringarray><stringarray>second array element</stringarray>
+    <stringseq>first seq element</stringseq><stringseq>second seq element</stringseq>
+    <maybestringlist>first optional list element</maybestringlist><maybestringlist>second optional list element</maybestringlist>
+    <maybestringarray>first optional array element</maybestringarray><maybestringarray>second optional array element</maybestringarray>
+    <maybestringseq>first optional seq element</maybestringseq><maybestringseq>second optional seq element</maybestringseq>
+
+    <simplefield>1</simplefield>
+    <maybefield>2</maybefield>
+    <fieldlist>3</fieldlist>
+    <fieldarray>4</fieldarray>
+    <fieldseq>5</fieldseq>
+    <maybefieldlist>6</maybefieldlist>
+    <maybefieldarray>7</maybefieldarray>
+    <maybefieldseq>8</maybefieldseq>
+
+    <string>string</string>
+    <string_opt>opt string</string_opt>
+    <string_coll>string coll 1</string_coll><string_coll>string coll 2</string_coll>
+    <string_opt_coll>opt string coll 1</string_opt_coll><string_opt_coll>opt string coll 2</string_opt_coll>
+
+    <int>9</int>
+    <int_opt>10</int_opt>
+    <int_coll>11</int_coll><int_coll>12</int_coll>
+    <int_opt_coll>13</int_opt_coll><int_opt_coll>14</int_opt_coll>
+
+    <node>
+        <field>node</field>
+    </node>
+    <node_opt>
+        <field>opt node</field>
+    </node_opt>
+    <node_coll>
+        <field>node coll 1</field>
+    </node_coll>
+    <node_coll>
+        <field>node coll 2</field>
+    </node_coll>
+    <node_opt_coll>
+        <field>opt node coll 1</field>
+    </node_opt_coll>
+    <node_opt_coll>
+        <field>opt node coll 2</field>
+    </node_opt_coll>
+
+    <other_node>
+        <field>onode</field>
+    </other_node>
+    <other_node_opt>
+        <field>opt onode</field>
+    </other_node_opt>
+    <other_node_coll>
+        <field>onode coll 1</field>
+    </other_node_coll>
+    <other_node_coll>
+        <field>onode coll 2</field>
+    </other_node_coll>
+    <other_node_opt_coll>
+        <field>opt onode coll 1</field>
+    </other_node_opt_coll>
+    <other_node_opt_coll>
+        <field>opt onode coll 2</field>
+    </other_node_opt_coll>
+
+    <xpath>
+        <path>
+            <field>xpath</field>
+        </path>
+        <path_opt>
+            <field>xpath opt</field>
+        </path_opt>
+        <path_coll>
+            <field>xpath coll 1</field>
+        </path_coll>
+        <path_coll>
+            <field>xpath coll 2</field>
+        </path_coll>
+        <path_opt_coll>
+            <field>opt xpath coll 1</field>
+        </path_opt_coll>
+        <path_opt_coll>
+            <field>opt xpath coll 2</field>
+        </path_opt_coll>
+    </xpath>
+</test>

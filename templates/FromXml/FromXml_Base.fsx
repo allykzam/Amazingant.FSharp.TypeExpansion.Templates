@@ -305,3 +305,11 @@ module Helpers =
         |> System.Linq.Enumerable.Cast
         |> Seq.map parser
         |> Seq.toArray
+
+    /// Gathers nodes from the given source node using the given XPath, and then
+    /// pushes them through the specified parser. Returned result is an array to
+    /// ensure that the data is cached, regardless of the target collection
+    /// type. If zero matching nodes are found, returned result is None.
+    let getXPathMaybeNestedThingArray source path parser =
+        let rs = getXPathNestedThingArray source path parser
+        if rs.Length = 0 then None else Some rs

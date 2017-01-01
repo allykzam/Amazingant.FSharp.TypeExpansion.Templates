@@ -202,6 +202,11 @@ module Helpers =
         let doc = XmlDocument()
         doc.LoadXml xml
         thingFromDocXPath doc xpath fromNode
+    /// Returns the child nodes and attributes of the given XML node.
+    let inline getChildrenAndAttributes (node : XmlNode) : XmlNode seq * XmlAttribute seq =
+        let children = node.ChildNodes |> System.Linq.Enumerable.Cast
+        let attributes = node.Attributes |> System.Linq.Enumerable.Cast
+        (children, attributes)
     /// Calls the given parser function and passes it the specified value; if
     /// the parser function indicates that the given value was not valid, throws
     /// an exception including the specified name

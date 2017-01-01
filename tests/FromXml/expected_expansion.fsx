@@ -19,7 +19,6 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     module Node_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Linq
         open System.Xml
 
         type Node with
@@ -40,7 +39,6 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     module NodeOpt_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Linq
         open System.Xml
 
         type NodeOpt with
@@ -61,7 +59,6 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     module NodeColl_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Linq
         open System.Xml
 
         type NodeColl with
@@ -82,7 +79,6 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     module NodeOptColl_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Linq
         open System.Xml
 
         type NodeOptColl with
@@ -103,7 +99,6 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     module Path_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Linq
         open System.Xml
 
         type Path with
@@ -124,7 +119,6 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     module PathOpt_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Linq
         open System.Xml
 
         type PathOpt with
@@ -145,7 +139,6 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     module PathColl_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Linq
         open System.Xml
 
         type PathColl with
@@ -166,7 +159,6 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     module PathOptColl_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Linq
         open System.Xml
 
         type PathOptColl with
@@ -187,7 +179,6 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     module TestFields_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Linq
         open System.Xml
 
         type TestFields with

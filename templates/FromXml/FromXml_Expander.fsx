@@ -637,7 +637,6 @@ module Expander =
     module %s_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Linq
         open System.Xml
 
         type %s with

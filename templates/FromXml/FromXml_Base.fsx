@@ -174,6 +174,34 @@ open System.Xml
 /// Helpers used for the expanded FromXml code to simplify the processing of
 /// XML data
 module Helpers =
+    /// Uses the given function to process elements whose tag name match the
+    /// specified name, and returns the results as an array.
+    let inline thingFromDocElement (doc : XmlDocument) (tagName : string) (fromNode : XmlNode -> 'T) : 'T array =
+        doc.GetElementsByTagName tagName
+        |> System.Linq.Enumerable.Cast
+        |> Seq.map fromNode
+        |> Seq.toArray
+    /// Uses the given XML string to create an XML document, then uses the given
+    /// function to process elements whose tag name match the specified name,
+    /// and returns the results as an array
+    let inline thingFromStringElement (xml : string) (tagName : string) (fromNode : XmlNode -> 'T) : 'T array =
+        let doc = XmlDocument()
+        doc.LoadXml xml
+        thingFromDocElement doc tagName fromNode
+    /// Uses the given function to process elements found using the given XPath,
+    /// and returns the results as an array.
+    let inline thingFromDocXPath (doc : XmlDocument) (xpath : string) (fromNode : XmlNode -> 'T) : 'T array =
+        doc.SelectNodes xpath
+        |> System.Linq.Enumerable.Cast
+        |> Seq.map fromNode
+        |> Seq.toArray
+    /// Uses the given XML string to create an XML document, then uses the given
+    /// function to process elements found using the given XPath, and returns
+    /// the results as an array.
+    let inline thingFromStringXPath (xml : string) (xpath : string) (fromNode : XmlNode -> 'T) : 'T array =
+        let doc = XmlDocument()
+        doc.LoadXml xml
+        thingFromDocXPath doc xpath fromNode
     /// Calls the given parser function and passes it the specified value; if
     /// the parser function indicates that the given value was not valid, throws
     /// an exception including the specified name

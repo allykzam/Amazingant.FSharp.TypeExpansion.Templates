@@ -24,8 +24,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
 
         type Node with
             static member FromXmlNode (xml : XmlNode) : Node =
-                let children = Enumerable.Cast<XmlNode> xml.ChildNodes
-                let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
+                if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'Node' value from it"
+                let (children, xmlAttrs) = getChildrenAndAttributes xml
                 let ``field`` = findEither children xmlAttrs "field"
                 {
                     ``Field`` = ``field``;
@@ -45,8 +45,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
 
         type NodeOpt with
             static member FromXmlNode (xml : XmlNode) : NodeOpt =
-                let children = Enumerable.Cast<XmlNode> xml.ChildNodes
-                let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
+                if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'NodeOpt' value from it"
+                let (children, xmlAttrs) = getChildrenAndAttributes xml
                 let ``field`` = findEither children xmlAttrs "field"
                 {
                     ``Field`` = ``field``;
@@ -66,8 +66,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
 
         type NodeColl with
             static member FromXmlNode (xml : XmlNode) : NodeColl =
-                let children = Enumerable.Cast<XmlNode> xml.ChildNodes
-                let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
+                if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'NodeColl' value from it"
+                let (children, xmlAttrs) = getChildrenAndAttributes xml
                 let ``field`` = findEither children xmlAttrs "field"
                 {
                     ``Field`` = ``field``;
@@ -87,8 +87,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
 
         type NodeOptColl with
             static member FromXmlNode (xml : XmlNode) : NodeOptColl =
-                let children = Enumerable.Cast<XmlNode> xml.ChildNodes
-                let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
+                if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'NodeOptColl' value from it"
+                let (children, xmlAttrs) = getChildrenAndAttributes xml
                 let ``field`` = findEither children xmlAttrs "field"
                 {
                     ``Field`` = ``field``;
@@ -108,8 +108,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
 
         type Path with
             static member FromXmlNode (xml : XmlNode) : Path =
-                let children = Enumerable.Cast<XmlNode> xml.ChildNodes
-                let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
+                if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'Path' value from it"
+                let (children, xmlAttrs) = getChildrenAndAttributes xml
                 let ``field`` = findEither children xmlAttrs "field"
                 {
                     ``Field`` = ``field``;
@@ -129,8 +129,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
 
         type PathOpt with
             static member FromXmlNode (xml : XmlNode) : PathOpt =
-                let children = Enumerable.Cast<XmlNode> xml.ChildNodes
-                let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
+                if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'PathOpt' value from it"
+                let (children, xmlAttrs) = getChildrenAndAttributes xml
                 let ``field`` = findEither children xmlAttrs "field"
                 {
                     ``Field`` = ``field``;
@@ -150,8 +150,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
 
         type PathColl with
             static member FromXmlNode (xml : XmlNode) : PathColl =
-                let children = Enumerable.Cast<XmlNode> xml.ChildNodes
-                let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
+                if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'PathColl' value from it"
+                let (children, xmlAttrs) = getChildrenAndAttributes xml
                 let ``field`` = findEither children xmlAttrs "field"
                 {
                     ``Field`` = ``field``;
@@ -171,8 +171,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
 
         type PathOptColl with
             static member FromXmlNode (xml : XmlNode) : PathOptColl =
-                let children = Enumerable.Cast<XmlNode> xml.ChildNodes
-                let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
+                if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'PathOptColl' value from it"
+                let (children, xmlAttrs) = getChildrenAndAttributes xml
                 let ``field`` = findEither children xmlAttrs "field"
                 {
                     ``Field`` = ``field``;
@@ -192,8 +192,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
 
         type TestFields with
             static member FromXmlNode (xml : XmlNode) : TestFields =
-                let children = Enumerable.Cast<XmlNode> xml.ChildNodes
-                let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
+                if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'TestFields' value from it"
+                let (children, xmlAttrs) = getChildrenAndAttributes xml
                 let ``simplestring`` = findEither children xmlAttrs "simplestring"
                 let ``maybestring`` = tryFindEither children xmlAttrs "maybestring"
                 let ``stringlist`` = findAllEither children xmlAttrs "stringlist" |> Seq.toArray |> Array.toList

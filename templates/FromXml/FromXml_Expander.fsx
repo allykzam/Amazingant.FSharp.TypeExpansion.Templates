@@ -643,8 +643,7 @@ module Expander =
         type %s with
             static member FromXmlNode (xml : XmlNode) : %s =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a '%s' value from it"
-                let children = Enumerable.Cast<XmlNode> xml.ChildNodes
-                let xmlAttrs = Enumerable.Cast<XmlAttribute> xml.Attributes
+                let (children, xmlAttrs) = getChildrenAndAttributes xml
 %s
                 {
 %s

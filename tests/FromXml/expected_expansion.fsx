@@ -31,14 +31,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``Field`` = ``field``;
                 }
 
-            static member FromXmlDoc (doc : XmlDocument) : Node array =
-                Enumerable.Cast<XmlNode> (doc.GetElementsByTagName("node"))
-                |> Seq.map Node.FromXmlNode
-                |> Seq.toArray
-            static member FromXmlDoc (xml : string) : Node array =
-                let doc = XmlDocument()
-                doc.LoadXml xml
-                Node.FromXmlDoc doc
+            static member FromXmlDoc doc = thingFromDocElement doc "node" Node.FromXmlNode
+            static member FromXmlDoc xml = thingFromStringElement xml "node" Node.FromXmlNode
 
 
 namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
@@ -58,14 +52,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``Field`` = ``field``;
                 }
 
-            static member FromXmlDoc (doc : XmlDocument) : NodeOpt array =
-                Enumerable.Cast<XmlNode> (doc.GetElementsByTagName("node_opt"))
-                |> Seq.map NodeOpt.FromXmlNode
-                |> Seq.toArray
-            static member FromXmlDoc (xml : string) : NodeOpt array =
-                let doc = XmlDocument()
-                doc.LoadXml xml
-                NodeOpt.FromXmlDoc doc
+            static member FromXmlDoc doc = thingFromDocElement doc "node_opt" NodeOpt.FromXmlNode
+            static member FromXmlDoc xml = thingFromStringElement xml "node_opt" NodeOpt.FromXmlNode
 
 
 namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
@@ -85,14 +73,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``Field`` = ``field``;
                 }
 
-            static member FromXmlDoc (doc : XmlDocument) : NodeColl array =
-                Enumerable.Cast<XmlNode> (doc.GetElementsByTagName("node_coll"))
-                |> Seq.map NodeColl.FromXmlNode
-                |> Seq.toArray
-            static member FromXmlDoc (xml : string) : NodeColl array =
-                let doc = XmlDocument()
-                doc.LoadXml xml
-                NodeColl.FromXmlDoc doc
+            static member FromXmlDoc doc = thingFromDocElement doc "node_coll" NodeColl.FromXmlNode
+            static member FromXmlDoc xml = thingFromStringElement xml "node_coll" NodeColl.FromXmlNode
 
 
 namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
@@ -112,14 +94,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``Field`` = ``field``;
                 }
 
-            static member FromXmlDoc (doc : XmlDocument) : NodeOptColl array =
-                Enumerable.Cast<XmlNode> (doc.GetElementsByTagName("node_opt_coll"))
-                |> Seq.map NodeOptColl.FromXmlNode
-                |> Seq.toArray
-            static member FromXmlDoc (xml : string) : NodeOptColl array =
-                let doc = XmlDocument()
-                doc.LoadXml xml
-                NodeOptColl.FromXmlDoc doc
+            static member FromXmlDoc doc = thingFromDocElement doc "node_opt_coll" NodeOptColl.FromXmlNode
+            static member FromXmlDoc xml = thingFromStringElement xml "node_opt_coll" NodeOptColl.FromXmlNode
 
 
 namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
@@ -139,14 +115,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``Field`` = ``field``;
                 }
 
-            static member FromXmlDoc (doc : XmlDocument) : Path array =
-                Enumerable.Cast<XmlNode> (doc.SelectNodes("xpath/path"))
-                |> Seq.map Path.FromXmlNode
-                |> Seq.toArray
-            static member FromXmlDoc (xml : string) : Path array =
-                let doc = XmlDocument()
-                doc.LoadXml xml
-                Path.FromXmlDoc doc
+            static member FromXmlDoc doc = thingFromDocXPath doc "xpath/path" Path.FromXmlNode
+            static member FromXmlDoc xml = thingFromStringXPath xml "xpath/path" Path.FromXmlNode
 
 
 namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
@@ -166,14 +136,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``Field`` = ``field``;
                 }
 
-            static member FromXmlDoc (doc : XmlDocument) : PathOpt array =
-                Enumerable.Cast<XmlNode> (doc.SelectNodes("xpath/path_opt"))
-                |> Seq.map PathOpt.FromXmlNode
-                |> Seq.toArray
-            static member FromXmlDoc (xml : string) : PathOpt array =
-                let doc = XmlDocument()
-                doc.LoadXml xml
-                PathOpt.FromXmlDoc doc
+            static member FromXmlDoc doc = thingFromDocXPath doc "xpath/path_opt" PathOpt.FromXmlNode
+            static member FromXmlDoc xml = thingFromStringXPath xml "xpath/path_opt" PathOpt.FromXmlNode
 
 
 namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
@@ -193,14 +157,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``Field`` = ``field``;
                 }
 
-            static member FromXmlDoc (doc : XmlDocument) : PathColl array =
-                Enumerable.Cast<XmlNode> (doc.SelectNodes("xpath/path_coll"))
-                |> Seq.map PathColl.FromXmlNode
-                |> Seq.toArray
-            static member FromXmlDoc (xml : string) : PathColl array =
-                let doc = XmlDocument()
-                doc.LoadXml xml
-                PathColl.FromXmlDoc doc
+            static member FromXmlDoc doc = thingFromDocXPath doc "xpath/path_coll" PathColl.FromXmlNode
+            static member FromXmlDoc xml = thingFromStringXPath xml "xpath/path_coll" PathColl.FromXmlNode
 
 
 namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
@@ -220,14 +178,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``Field`` = ``field``;
                 }
 
-            static member FromXmlDoc (doc : XmlDocument) : PathOptColl array =
-                Enumerable.Cast<XmlNode> (doc.SelectNodes("xpath/path_opt_coll"))
-                |> Seq.map PathOptColl.FromXmlNode
-                |> Seq.toArray
-            static member FromXmlDoc (xml : string) : PathOptColl array =
-                let doc = XmlDocument()
-                doc.LoadXml xml
-                PathOptColl.FromXmlDoc doc
+            static member FromXmlDoc doc = thingFromDocXPath doc "xpath/path_opt_coll" PathOptColl.FromXmlNode
+            static member FromXmlDoc xml = thingFromStringXPath xml "xpath/path_opt_coll" PathOptColl.FromXmlNode
 
 
 namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
@@ -678,11 +630,5 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``MaybeXPathNestedXPathFieldSeq`` = ``maybexpathnestedxpathfieldseq``;
                 }
 
-            static member FromXmlDoc (doc : XmlDocument) : TestFields array =
-                Enumerable.Cast<XmlNode> (doc.GetElementsByTagName("test"))
-                |> Seq.map TestFields.FromXmlNode
-                |> Seq.toArray
-            static member FromXmlDoc (xml : string) : TestFields array =
-                let doc = XmlDocument()
-                doc.LoadXml xml
-                TestFields.FromXmlDoc doc
+            static member FromXmlDoc doc = thingFromDocElement doc "test" TestFields.FromXmlNode
+            static member FromXmlDoc xml = thingFromStringElement xml "test" TestFields.FromXmlNode

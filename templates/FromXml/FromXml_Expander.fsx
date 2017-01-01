@@ -606,19 +606,12 @@ module Expander =
                 // out of a single XML document, in case the type is stored as a
                 // collection in the XML
                 sprintf """
-            static member FromXmlDoc (doc : XmlDocument) : %s array =
-                Enumerable.Cast<XmlNode> (doc.GetElementsByTagName("%s"))
-                |> Seq.map %s.FromXmlNode
-                |> Seq.toArray
-            static member FromXmlDoc (xml : string) : %s array =
-                let doc = XmlDocument()
-                doc.LoadXml xml
-                %s.FromXmlDoc doc
+            static member FromXmlDoc doc = thingFromDocElement doc "%s" %s.FromXmlNode
+            static member FromXmlDoc xml = thingFromStringElement xml "%s" %s.FromXmlNode
 """
-                    t.Name
                     mainNodeName
                     t.Name
-                    t.Name
+                    mainNodeName
                     t.Name
 
             | [||], _ ->
@@ -627,19 +620,12 @@ module Expander =
                 // out of a single XML document, in case the type is stored as a
                 // collection in the XML
                 sprintf """
-            static member FromXmlDoc (doc : XmlDocument) : %s array =
-                Enumerable.Cast<XmlNode> (doc.SelectNodes("%s"))
-                |> Seq.map %s.FromXmlNode
-                |> Seq.toArray
-            static member FromXmlDoc (xml : string) : %s array =
-                let doc = XmlDocument()
-                doc.LoadXml xml
-                %s.FromXmlDoc doc
+            static member FromXmlDoc doc = thingFromDocXPath doc "%s" %s.FromXmlNode
+            static member FromXmlDoc xml = thingFromStringXPath xml "%s" %s.FromXmlNode
 """
-                    t.Name
                     pathName
                     t.Name
-                    t.Name
+                    pathName
                     t.Name
             // This case should never match, as it should have been caught above
             // when binding the `mainNodeName` value

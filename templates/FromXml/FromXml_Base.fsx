@@ -177,8 +177,9 @@ module Helpers =
     /// Uses the given function to process elements whose tag name match the
     /// specified name, and returns the results as an array.
     let inline thingFromDocElement (doc : XmlDocument) (tagName : string) (fromNode : XmlNode -> 'T) : 'T array =
-        doc.GetElementsByTagName tagName
+        doc.ChildNodes
         |> System.Linq.Enumerable.Cast
+        |> Seq.filter (fun (x : XmlNode) -> x.Name.Equals(tagName, StringComparison.OrdinalIgnoreCase))
         |> Seq.map fromNode
         |> Seq.toArray
     /// Uses the given XML string to create an XML document, then uses the given

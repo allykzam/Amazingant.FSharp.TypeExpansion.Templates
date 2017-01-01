@@ -1,5 +1,4 @@
-//#r "../../packages/Amazingant.FSharp.TypeExpansion/lib/net45/Amazingant.FSharp.TypeExpansion.Attributes.dll"
-#r @"M:\Users\amazingant\GitHub\Amazingant.FSharp.TypeExpansion\Source\Amazingant.FSharp.TypeExpansion\bin\Debug\Amazingant.FSharp.TypeExpansion.Attributes.dll"
+#r "../../packages/Amazingant.FSharp.TypeExpansion/lib/net45/Amazingant.FSharp.TypeExpansion.Attributes.dll"
 #load "../../templates/FromXml/FromXml_Base.fsx"
 
 namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests

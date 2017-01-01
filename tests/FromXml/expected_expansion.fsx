@@ -30,8 +30,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``Field`` = ``field``;
                 }
 
-            static member FromXmlDoc doc = thingFromDocElement doc "node" Node.FromXmlNode
-            static member FromXmlDoc xml = thingFromStringElement xml "node" Node.FromXmlNode
+            static member FromXmlDoc doc = thingFromDocElement doc "Node" Node.FromXmlNode
+            static member FromXmlDoc xml = thingFromStringElement xml "Node" Node.FromXmlNode
 
 
 namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
@@ -50,8 +50,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``Field`` = ``field``;
                 }
 
-            static member FromXmlDoc doc = thingFromDocElement doc "node_opt" NodeOpt.FromXmlNode
-            static member FromXmlDoc xml = thingFromStringElement xml "node_opt" NodeOpt.FromXmlNode
+            static member FromXmlDoc doc = thingFromDocElement doc "Node_Opt" NodeOpt.FromXmlNode
+            static member FromXmlDoc xml = thingFromStringElement xml "Node_Opt" NodeOpt.FromXmlNode
 
 
 namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
@@ -70,8 +70,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``Field`` = ``field``;
                 }
 
-            static member FromXmlDoc doc = thingFromDocElement doc "node_coll" NodeColl.FromXmlNode
-            static member FromXmlDoc xml = thingFromStringElement xml "node_coll" NodeColl.FromXmlNode
+            static member FromXmlDoc doc = thingFromDocElement doc "Node_Coll" NodeColl.FromXmlNode
+            static member FromXmlDoc xml = thingFromStringElement xml "Node_Coll" NodeColl.FromXmlNode
 
 
 namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
@@ -90,8 +90,8 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``Field`` = ``field``;
                 }
 
-            static member FromXmlDoc doc = thingFromDocElement doc "node_opt_coll" NodeOptColl.FromXmlNode
-            static member FromXmlDoc xml = thingFromStringElement xml "node_opt_coll" NodeOptColl.FromXmlNode
+            static member FromXmlDoc doc = thingFromDocElement doc "Node_Opt_Coll" NodeOptColl.FromXmlNode
+            static member FromXmlDoc xml = thingFromStringElement xml "Node_Opt_Coll" NodeOptColl.FromXmlNode
 
 
 namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
@@ -365,33 +365,33 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     if xs.Length = 0 then None
                     else xs |> Array.map (parse System.Int32.TryParse "int_opt_coll") |> Array.toSeq |> Some
                 let ``simplenestedfield`` =
-                    findNode children "node"
+                    findNode children "Node"
                     |> Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
                 let ``maybenestedfield`` =
-                    tryFindNode children "node_opt"
+                    tryFindNode children "Node_Opt"
                     |> Option.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeOpt.FromXmlNode
                 let ``nestedfieldlist`` =
-                    findAllNodes children "node_coll"
+                    findAllNodes children "Node_Coll"
                     |> Seq.toArray
                     |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeColl.FromXmlNode |> Array.toList
                 let ``nestedfieldarray`` =
-                    findAllNodes children "node_coll"
+                    findAllNodes children "Node_Coll"
                     |> Seq.toArray
                     |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeColl.FromXmlNode
                 let ``nestedfieldseq`` =
-                    findAllNodes children "node_coll"
+                    findAllNodes children "Node_Coll"
                     |> Seq.toArray
                     |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeColl.FromXmlNode |> Array.toSeq
                 let ``maybenestedfieldlist`` =
-                    let xs = Seq.toArray (findAllNodes children "node_opt_coll")
+                    let xs = Seq.toArray (findAllNodes children "Node_Opt_Coll")
                     if xs.Length = 0 then None
                     else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeOptColl.FromXmlNode |> Array.toList |> Some
                 let ``maybenestedfieldarray`` =
-                    let xs = Seq.toArray (findAllNodes children "node_opt_coll")
+                    let xs = Seq.toArray (findAllNodes children "Node_Opt_Coll")
                     if xs.Length = 0 then None
                     else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeOptColl.FromXmlNode |> Some
                 let ``maybenestedfieldseq`` =
-                    let xs = Seq.toArray (findAllNodes children "node_opt_coll")
+                    let xs = Seq.toArray (findAllNodes children "Node_Opt_Coll")
                     if xs.Length = 0 then None
                     else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeOptColl.FromXmlNode |> Array.toSeq |> Some
                 let ``simplemultiattrfield`` =
@@ -621,5 +621,5 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``MaybeXPathNestedXPathFieldSeq`` = ``maybexpathnestedxpathfieldseq``;
                 }
 
-            static member FromXmlDoc doc = thingFromDocElement doc "test" TestFields.FromXmlNode
-            static member FromXmlDoc xml = thingFromStringElement xml "test" TestFields.FromXmlNode
+            static member FromXmlDoc doc = thingFromDocElement doc "Test" TestFields.FromXmlNode
+            static member FromXmlDoc xml = thingFromStringElement xml "Test" TestFields.FromXmlNode

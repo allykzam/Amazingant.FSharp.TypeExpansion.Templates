@@ -36,30 +36,11 @@ module Expander =
         | Option of InnerType : Type
         /// Gets the inner type from this value
         member x.InnerType = match x with | NormalType x | Collection (x,_) | Option x -> x
-        /// Returns the appropriate forward-pipe operation (with a leading
-        /// space) required to change an array to this collection's type, if
-        /// this value indicates a basic collection type other than an array
-        member x.PipedToCollectionWithSpace =
+        /// Returns the name of the collection type, if this type level is a
+        /// collection.
+        member x.CollectionTypeName =
             match x with
-            | Collection (_, m) when m = "Array" -> ""
-            | Collection (_, m) -> sprintf " |> Array.to%s" m
-            | _ -> ""
-        /// Returns the appropriate forward-pipe operation required to change an
-        /// array to this collection's type, if this value indicates a basic
-        /// collection type other than an array
-        member x.PipedToCollection =
-            match x with
-            | Collection (_, m) when m = "Array" -> ""
-            | Collection (_, m) -> sprintf "|> Array.to%s" m
-            | _ -> ""
-        /// Returns the appropriate function required to change an array to this
-        /// collection's type, if this value indicates a basic collection type
-        /// other than an array; if this value indicates an array, the id
-        /// function is returned instead
-        member x.ToCollectionOrID =
-            match x with
-            | Collection (_, m) when m = "Array" -> "id"
-            | Collection (_, m) -> sprintf "Array.to%s" m
+            | Collection (_, m) -> m
             | _ -> ""
         /// Generates an instance of this type from the given type information
         static member ForType (t : Type) =

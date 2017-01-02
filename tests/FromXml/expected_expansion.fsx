@@ -19,15 +19,12 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     module Node_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Xml
 
         type Node with
-            static member FromXmlNode (xml : XmlNode) : Node =
+            static member FromXmlNode (xml : System.Xml.XmlNode) : Node =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'Node' value from it"
-                let (children, xmlAttrs) = getChildrenAndAttributes xml
-                let ``field`` = findEither children xmlAttrs "field"
                 {
-                    ``Field`` = ``field``;
+                    ``Field`` = (exactlyOne "tags or attributes" getEitherValues xml "Field" getInnerText);
                 }
 
             static member FromXmlDoc doc = thingFromDocElement doc "Node" Node.FromXmlNode
@@ -39,15 +36,12 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     module NodeOpt_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Xml
 
         type NodeOpt with
-            static member FromXmlNode (xml : XmlNode) : NodeOpt =
+            static member FromXmlNode (xml : System.Xml.XmlNode) : NodeOpt =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'NodeOpt' value from it"
-                let (children, xmlAttrs) = getChildrenAndAttributes xml
-                let ``field`` = findEither children xmlAttrs "field"
                 {
-                    ``Field`` = ``field``;
+                    ``Field`` = (exactlyOne "tags or attributes" getEitherValues xml "Field" getInnerText);
                 }
 
             static member FromXmlDoc doc = thingFromDocElement doc "Node_Opt" NodeOpt.FromXmlNode
@@ -59,15 +53,12 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     module NodeColl_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Xml
 
         type NodeColl with
-            static member FromXmlNode (xml : XmlNode) : NodeColl =
+            static member FromXmlNode (xml : System.Xml.XmlNode) : NodeColl =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'NodeColl' value from it"
-                let (children, xmlAttrs) = getChildrenAndAttributes xml
-                let ``field`` = findEither children xmlAttrs "field"
                 {
-                    ``Field`` = ``field``;
+                    ``Field`` = (exactlyOne "tags or attributes" getEitherValues xml "Field" getInnerText);
                 }
 
             static member FromXmlDoc doc = thingFromDocElement doc "Node_Coll" NodeColl.FromXmlNode
@@ -79,15 +70,12 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     module NodeOptColl_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Xml
 
         type NodeOptColl with
-            static member FromXmlNode (xml : XmlNode) : NodeOptColl =
+            static member FromXmlNode (xml : System.Xml.XmlNode) : NodeOptColl =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'NodeOptColl' value from it"
-                let (children, xmlAttrs) = getChildrenAndAttributes xml
-                let ``field`` = findEither children xmlAttrs "field"
                 {
-                    ``Field`` = ``field``;
+                    ``Field`` = (exactlyOne "tags or attributes" getEitherValues xml "Field" getInnerText);
                 }
 
             static member FromXmlDoc doc = thingFromDocElement doc "Node_Opt_Coll" NodeOptColl.FromXmlNode
@@ -99,15 +87,12 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     module Path_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Xml
 
         type Path with
-            static member FromXmlNode (xml : XmlNode) : Path =
+            static member FromXmlNode (xml : System.Xml.XmlNode) : Path =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'Path' value from it"
-                let (children, xmlAttrs) = getChildrenAndAttributes xml
-                let ``field`` = findEither children xmlAttrs "field"
                 {
-                    ``Field`` = ``field``;
+                    ``Field`` = (exactlyOne "tags or attributes" getEitherValues xml "Field" getInnerText);
                 }
 
             static member FromXmlDoc doc = thingFromDocXPath doc "xpath/path" Path.FromXmlNode
@@ -119,15 +104,12 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     module PathOpt_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Xml
 
         type PathOpt with
-            static member FromXmlNode (xml : XmlNode) : PathOpt =
+            static member FromXmlNode (xml : System.Xml.XmlNode) : PathOpt =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'PathOpt' value from it"
-                let (children, xmlAttrs) = getChildrenAndAttributes xml
-                let ``field`` = findEither children xmlAttrs "field"
                 {
-                    ``Field`` = ``field``;
+                    ``Field`` = (exactlyOne "tags or attributes" getEitherValues xml "Field" getInnerText);
                 }
 
             static member FromXmlDoc doc = thingFromDocXPath doc "xpath/path_opt" PathOpt.FromXmlNode
@@ -139,15 +121,12 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     module PathColl_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Xml
 
         type PathColl with
-            static member FromXmlNode (xml : XmlNode) : PathColl =
+            static member FromXmlNode (xml : System.Xml.XmlNode) : PathColl =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'PathColl' value from it"
-                let (children, xmlAttrs) = getChildrenAndAttributes xml
-                let ``field`` = findEither children xmlAttrs "field"
                 {
-                    ``Field`` = ``field``;
+                    ``Field`` = (exactlyOne "tags or attributes" getEitherValues xml "Field" getInnerText);
                 }
 
             static member FromXmlDoc doc = thingFromDocXPath doc "xpath/path_coll" PathColl.FromXmlNode
@@ -159,15 +138,12 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     module PathOptColl_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Xml
 
         type PathOptColl with
-            static member FromXmlNode (xml : XmlNode) : PathOptColl =
+            static member FromXmlNode (xml : System.Xml.XmlNode) : PathOptColl =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'PathOptColl' value from it"
-                let (children, xmlAttrs) = getChildrenAndAttributes xml
-                let ``field`` = findEither children xmlAttrs "field"
                 {
-                    ``Field`` = ``field``;
+                    ``Field`` = (exactlyOne "tags or attributes" getEitherValues xml "Field" getInnerText);
                 }
 
             static member FromXmlDoc doc = thingFromDocXPath doc "xpath/path_opt_coll" PathOptColl.FromXmlNode
@@ -179,446 +155,115 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
     module TestFields_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Xml
 
         type TestFields with
-            static member FromXmlNode (xml : XmlNode) : TestFields =
+            static member FromXmlNode (xml : System.Xml.XmlNode) : TestFields =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'TestFields' value from it"
-                let (children, xmlAttrs) = getChildrenAndAttributes xml
-                let ``simplestring`` = findEither children xmlAttrs "simplestring"
-                let ``maybestring`` = tryFindEither children xmlAttrs "maybestring"
-                let ``stringlist`` = findAllEither children xmlAttrs "stringlist" |> Seq.toArray |> Array.toList
-                let ``stringarray`` = findAllEither children xmlAttrs "stringarray" |> Seq.toArray
-                let ``stringseq`` = findAllEither children xmlAttrs "stringseq" |> Seq.toArray |> Array.toSeq
-                let ``maybestringlist`` =
-                    let xs = findAllEither children xmlAttrs "maybestringlist" |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.toList |> Some
-                let ``maybestringarray`` =
-                    let xs = findAllEither children xmlAttrs "maybestringarray" |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Some
-                let ``maybestringseq`` =
-                    let xs = findAllEither children xmlAttrs "maybestringseq" |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.toSeq |> Some
-                let ``simplefield`` = findEither children xmlAttrs "simplefield" |> (parse System.Int32.TryParse "simplefield")
-                let ``maybefield`` = tryFindEither children xmlAttrs "maybefield" |> (tryParse System.Int32.TryParse "maybefield")
-                let ``fieldlist`` = findAllEither children xmlAttrs "fieldlist" |> Seq.map (parse System.Int32.TryParse "fieldlist") |> Seq.toArray |> Array.toList
-                let ``fieldarray`` = findAllEither children xmlAttrs "fieldarray" |> Seq.map (parse System.Int32.TryParse "fieldarray") |> Seq.toArray
-                let ``fieldseq`` = findAllEither children xmlAttrs "fieldseq" |> Seq.map (parse System.Int32.TryParse "fieldseq") |> Seq.toArray |> Array.toSeq
-                let ``maybefieldlist`` =
-                    let xs = findAllEither children xmlAttrs "maybefieldlist" |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.map (parse System.Int32.TryParse "maybefieldlist") |> Array.toList |> Some
-                let ``maybefieldarray`` =
-                    let xs = findAllEither children xmlAttrs "maybefieldarray" |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.map (parse System.Int32.TryParse "maybefieldarray") |> Some
-                let ``maybefieldseq`` =
-                    let xs = findAllEither children xmlAttrs "maybefieldseq" |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.map (parse System.Int32.TryParse "maybefieldseq") |> Array.toSeq |> Some
-                let ``simplexpathstring`` = xml.SelectSingleNode("string").InnerText
-                let ``maybexpathstring`` = xml.SelectSingleNode("string_opt") |> tryInnerText
-                let ``xpathstringlist`` = xml.SelectNodes("string_coll") |> getInnerTexts |> Seq.toArray |> Array.toList
-                let ``xpathstringarray`` = xml.SelectNodes("string_coll") |> getInnerTexts |> Seq.toArray
-                let ``xpathstringseq`` = xml.SelectNodes("string_coll") |> getInnerTexts |> Seq.toArray |> Array.toSeq
-                let ``maybexpathstringlist`` =
-                    let xs = xml.SelectNodes("string_opt_coll") |> getInnerTexts |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.toList |> Some
-                let ``maybexpathstringarray`` =
-                    let xs = xml.SelectNodes("string_opt_coll") |> getInnerTexts |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Some
-                let ``maybexpathstringseq`` =
-                    let xs = xml.SelectNodes("string_opt_coll") |> getInnerTexts |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.toSeq |> Some
-                let ``simplexpathfield`` =
-                    xml.SelectSingleNode("int").InnerText
-                    |> (parse System.Int32.TryParse "simplexpathfield")
-                let ``maybexpathfield`` =
-                    xml.SelectSingleNode("int_opt")
-                    |> tryInnerText
-                    |> (tryParse System.Int32.TryParse "maybexpathfield")
-                let ``xpathfieldlist`` =
-                    xml.SelectNodes("int_coll")
-                    |> getInnerTexts
-                    |> Seq.map (parse System.Int32.TryParse "xpathfieldlist")
-                    |> Seq.toArray |> Array.toList
-                let ``xpathfieldarray`` =
-                    xml.SelectNodes("int_coll")
-                    |> getInnerTexts
-                    |> Seq.map (parse System.Int32.TryParse "xpathfieldarray")
-                    |> Seq.toArray
-                let ``xpathfieldseq`` =
-                    xml.SelectNodes("int_coll")
-                    |> getInnerTexts
-                    |> Seq.map (parse System.Int32.TryParse "xpathfieldseq")
-                    |> Seq.toArray |> Array.toSeq
-                let ``maybexpathfieldlist`` =
-                    let xs = xml.SelectNodes("int_opt_coll") |> getInnerTexts |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.map (parse System.Int32.TryParse "maybexpathfieldlist") |> Array.toList |> Some
-                let ``maybexpathfieldarray`` =
-                    let xs = xml.SelectNodes("int_opt_coll") |> getInnerTexts |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.map (parse System.Int32.TryParse "maybexpathfieldarray") |> Some
-                let ``maybexpathfieldseq`` =
-                    let xs = xml.SelectNodes("int_opt_coll") |> getInnerTexts |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.map (parse System.Int32.TryParse "maybexpathfieldseq") |> Array.toSeq |> Some
-                let ``simplenodestring`` = find children "string"
-                let ``maybenodestring`` = tryFind children "string_opt"
-                let ``nodestringlist`` = findAll children "string_coll" |> Seq.toArray |> Array.toList
-                let ``nodestringarray`` = findAll children "string_coll" |> Seq.toArray
-                let ``nodestringseq`` = findAll children "string_coll" |> Seq.toArray |> Array.toSeq
-                let ``maybenodestringlist`` =
-                    let xs = findAll children "string_opt_coll" |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.toList |> Some
-                let ``maybenodestringarray`` =
-                    let xs = findAll children "string_opt_coll" |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Some
-                let ``maybenodestringseq`` =
-                    let xs = findAll children "string_opt_coll" |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.toSeq |> Some
-                let ``simplenodefield`` =
-                    find children "int"
-                    |> (parse System.Int32.TryParse "int")
-                let ``maybenodefield`` =
-                    tryFind children "int_opt"
-                    |> (tryParse System.Int32.TryParse "int_opt")
-                let ``nodefieldlist`` =
-                    findAll children "int_coll"
-                    |> Seq.toArray
-                    |> Array.map (parse System.Int32.TryParse "int_coll") |> Array.toList
-                let ``nodefieldarray`` =
-                    findAll children "int_coll"
-                    |> Seq.toArray
-                    |> Array.map (parse System.Int32.TryParse "int_coll")
-                let ``nodefieldseq`` =
-                    findAll children "int_coll"
-                    |> Seq.toArray
-                    |> Array.map (parse System.Int32.TryParse "int_coll") |> Array.toSeq
-                let ``maybenodefieldlist`` =
-                    let xs = findAll children "int_opt_coll" |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.map (parse System.Int32.TryParse "int_opt_coll") |> Array.toList |> Some
-                let ``maybenodefieldarray`` =
-                    let xs = findAll children "int_opt_coll" |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.map (parse System.Int32.TryParse "int_opt_coll") |> Some
-                let ``maybenodefieldseq`` =
-                    let xs = findAll children "int_opt_coll" |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.map (parse System.Int32.TryParse "int_opt_coll") |> Array.toSeq |> Some
-                let ``simpleattrstring`` = findAttr xmlAttrs "string"
-                let ``maybeattrstring`` = tryFindAttr xmlAttrs "string_opt"
-                let ``attrstringlist`` = findAllAttr xmlAttrs "string_coll" |> Seq.toArray |> Array.toList
-                let ``attrstringarray`` = findAllAttr xmlAttrs "string_coll" |> Seq.toArray
-                let ``attrstringseq`` = findAllAttr xmlAttrs "string_coll" |> Seq.toArray |> Array.toSeq
-                let ``maybeattrstringlist`` =
-                    let xs = findAllAttr xmlAttrs "string_opt_coll" |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.toList |> Some
-                let ``maybeattrstringarray`` =
-                    let xs = findAllAttr xmlAttrs "string_opt_coll" |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Some
-                let ``maybeattrstringseq`` =
-                    let xs = findAllAttr xmlAttrs "string_opt_coll" |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.toSeq |> Some
-                let ``simpleattrfield`` =
-                    findAttr xmlAttrs "int"
-                    |> (parse System.Int32.TryParse "int")
-                let ``maybeattrfield`` =
-                    tryFindAttr xmlAttrs "int_opt"
-                    |> (tryParse System.Int32.TryParse "int_opt")
-                let ``attrfieldlist`` =
-                    findAllAttr xmlAttrs "int_coll"
-                    |> Seq.toArray
-                    |> Array.map (parse System.Int32.TryParse "int_coll") |> Array.toList
-                let ``attrfieldarray`` =
-                    findAllAttr xmlAttrs "int_coll"
-                    |> Seq.toArray
-                    |> Array.map (parse System.Int32.TryParse "int_coll")
-                let ``attrfieldseq`` =
-                    findAllAttr xmlAttrs "int_coll"
-                    |> Seq.toArray
-                    |> Array.map (parse System.Int32.TryParse "int_coll") |> Array.toSeq
-                let ``maybeattrfieldlist`` =
-                    let xs = findAllAttr xmlAttrs "int_opt_coll" |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.map (parse System.Int32.TryParse "int_opt_coll") |> Array.toList |> Some
-                let ``maybeattrfieldarray`` =
-                    let xs = findAllAttr xmlAttrs "int_opt_coll" |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.map (parse System.Int32.TryParse "int_opt_coll") |> Some
-                let ``maybeattrfieldseq`` =
-                    let xs = findAllAttr xmlAttrs "int_opt_coll" |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.map (parse System.Int32.TryParse "int_opt_coll") |> Array.toSeq |> Some
-                let ``simplenestedfield`` =
-                    findNode children "Node"
-                    |> Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
-                let ``maybenestedfield`` =
-                    tryFindNode children "Node_Opt"
-                    |> Option.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeOpt.FromXmlNode
-                let ``nestedfieldlist`` =
-                    findAllNodes children "Node_Coll"
-                    |> Seq.toArray
-                    |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeColl.FromXmlNode |> Array.toList
-                let ``nestedfieldarray`` =
-                    findAllNodes children "Node_Coll"
-                    |> Seq.toArray
-                    |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeColl.FromXmlNode
-                let ``nestedfieldseq`` =
-                    findAllNodes children "Node_Coll"
-                    |> Seq.toArray
-                    |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeColl.FromXmlNode |> Array.toSeq
-                let ``maybenestedfieldlist`` =
-                    let xs = Seq.toArray (findAllNodes children "Node_Opt_Coll")
-                    if xs.Length = 0 then None
-                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeOptColl.FromXmlNode |> Array.toList |> Some
-                let ``maybenestedfieldarray`` =
-                    let xs = Seq.toArray (findAllNodes children "Node_Opt_Coll")
-                    if xs.Length = 0 then None
-                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeOptColl.FromXmlNode |> Some
-                let ``maybenestedfieldseq`` =
-                    let xs = Seq.toArray (findAllNodes children "Node_Opt_Coll")
-                    if xs.Length = 0 then None
-                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeOptColl.FromXmlNode |> Array.toSeq |> Some
-                let ``simplemultiattrfield`` =
-                    findNode children "other_node"
-                    |> Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
-                let ``maybemultiattrfield`` =
-                    tryFindNode children "other_node_opt"
-                    |> Option.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
-                let ``multiattrfieldlist`` =
-                    findAllNodes children "other_node_coll"
-                    |> Seq.toArray
-                    |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode |> Array.toList
-                let ``multiattrfieldarray`` =
-                    findAllNodes children "other_node_coll"
-                    |> Seq.toArray
-                    |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
-                let ``multiattrfieldseq`` =
-                    findAllNodes children "other_node_coll"
-                    |> Seq.toArray
-                    |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode |> Array.toSeq
-                let ``maybemultiattrfieldlist`` =
-                    let xs = Seq.toArray (findAllNodes children "other_node_opt_coll")
-                    if xs.Length = 0 then None
-                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode |> Array.toList |> Some
-                let ``maybemultiattrfieldarray`` =
-                    let xs = Seq.toArray (findAllNodes children "other_node_opt_coll")
-                    if xs.Length = 0 then None
-                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode |> Some
-                let ``maybemultiattrfieldseq`` =
-                    let xs = Seq.toArray (findAllNodes children "other_node_opt_coll")
-                    if xs.Length = 0 then None
-                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode |> Array.toSeq |> Some
-                let ``simplexpathnestedfield`` =
-                    xml.SelectSingleNode("xpath/path")
-                    |> Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode
-                let ``maybexpathnestedfield`` =
-                    xml.SelectSingleNode("xpath/path_opt")
-                    |> Option.ofObj
-                    |> Option.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathOpt.FromXmlNode
-                let ``xpathnestedfieldlist`` =
-                    xPathToXS xml "xpath/path_coll"
-                        Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathColl.FromXmlNode
-                     |> Array.toList
-                let ``xpathnestedfieldarray`` =
-                    xPathToXS xml "xpath/path_coll"
-                        Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathColl.FromXmlNode
-                let ``xpathnestedfieldseq`` =
-                    xPathToXS xml "xpath/path_coll"
-                        Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathColl.FromXmlNode
-                     |> Array.toSeq
-                let ``maybexpathnestedfieldlist`` =
-                    let xs = System.Linq.Enumerable.Cast<XmlNode> (xml.SelectNodes("xpath/path_opt_coll")) |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathOptColl.FromXmlNode |> Array.toList |> Some
-                let ``maybexpathnestedfieldarray`` =
-                    let xs = System.Linq.Enumerable.Cast<XmlNode> (xml.SelectNodes("xpath/path_opt_coll")) |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathOptColl.FromXmlNode |> Some
-                let ``maybexpathnestedfieldseq`` =
-                    let xs = System.Linq.Enumerable.Cast<XmlNode> (xml.SelectNodes("xpath/path_opt_coll")) |> Seq.toArray
-                    if xs.Length = 0 then None
-                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathOptColl.FromXmlNode |> Array.toSeq |> Some
-                let ``simplenestedxpathfield`` =
-                    xml.SelectSingleNode("other_node")
-                    |> Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
-                let ``maybenestedxpathfield`` =
-                    xml.SelectSingleNode("other_node_opt")
-                    |> Option.ofObj
-                    |> Option.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
-                let ``nestedxpathfieldlist`` =
-                    xPathToXS xml "other_node_coll"
-                        Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
-                     |> Array.toList
-                let ``nestedxpathfieldarray`` =
-                    xPathToXS xml "other_node_coll"
-                        Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
-                let ``nestedxpathfieldseq`` =
-                    xPathToXS xml "other_node_coll"
-                        Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode
-                     |> Array.toSeq
-                let ``maybenestedxpathfieldlist`` =
-                    let xs = xPathToNodes xml "other_node_opt_coll"
-                    if xs.Length = 0 then None
-                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode |> Array.toList |> Some
-                let ``maybenestedxpathfieldarray`` =
-                    let xs = xPathToNodes xml "other_node_opt_coll"
-                    if xs.Length = 0 then None
-                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode |> Some
-                let ``maybenestedxpathfieldseq`` =
-                    let xs = xPathToNodes xml "other_node_opt_coll"
-                    if xs.Length = 0 then None
-                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode |> Array.toSeq |> Some
-                let ``simplexpathnestedxpathfield`` =
-                    xml.SelectSingleNode("other_node")
-                    |> Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode
-                let ``maybexpathnestedxpathfield`` =
-                    xml.SelectSingleNode("other_node_opt")
-                    |> Option.ofObj
-                    |> Option.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode
-                let ``xpathnestedxpathfieldlist`` =
-                    xPathToXS xml "other_node_coll"
-                        Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode
-                     |> Array.toList
-                let ``xpathnestedxpathfieldarray`` =
-                    xPathToXS xml "other_node_coll"
-                        Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode
-                let ``xpathnestedxpathfieldseq`` =
-                    xPathToXS xml "other_node_coll"
-                        Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode
-                     |> Array.toSeq
-                let ``maybexpathnestedxpathfieldlist`` =
-                    let xs = xPathToNodes xml "other_node_opt_coll"
-                    if xs.Length = 0 then None
-                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode |> Array.toList |> Some
-                let ``maybexpathnestedxpathfieldarray`` =
-                    let xs = xPathToNodes xml "other_node_opt_coll"
-                    if xs.Length = 0 then None
-                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode |> Some
-                let ``maybexpathnestedxpathfieldseq`` =
-                    let xs = xPathToNodes xml "other_node_opt_coll"
-                    if xs.Length = 0 then None
-                    else xs |> Array.map Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode |> Array.toSeq |> Some
                 {
-                    ``SimpleString`` = ``simplestring``;
-                    ``MaybeString`` = ``maybestring``;
-                    ``StringList`` = ``stringlist``;
-                    ``StringArray`` = ``stringarray``;
-                    ``StringSeq`` = ``stringseq``;
-                    ``MaybeStringList`` = ``maybestringlist``;
-                    ``MaybeStringArray`` = ``maybestringarray``;
-                    ``MaybeStringSeq`` = ``maybestringseq``;
-                    ``SimpleField`` = ``simplefield``;
-                    ``MaybeField`` = ``maybefield``;
-                    ``FieldList`` = ``fieldlist``;
-                    ``FieldArray`` = ``fieldarray``;
-                    ``FieldSeq`` = ``fieldseq``;
-                    ``MaybeFieldList`` = ``maybefieldlist``;
-                    ``MaybeFieldArray`` = ``maybefieldarray``;
-                    ``MaybeFieldSeq`` = ``maybefieldseq``;
-                    ``SimpleXPathString`` = ``simplexpathstring``;
-                    ``MaybeXPathString`` = ``maybexpathstring``;
-                    ``XPathStringList`` = ``xpathstringlist``;
-                    ``XPathStringArray`` = ``xpathstringarray``;
-                    ``XPathStringSeq`` = ``xpathstringseq``;
-                    ``MaybeXPathStringList`` = ``maybexpathstringlist``;
-                    ``MaybeXPathStringArray`` = ``maybexpathstringarray``;
-                    ``MaybeXPathStringSeq`` = ``maybexpathstringseq``;
-                    ``SimpleXPathField`` = ``simplexpathfield``;
-                    ``MaybeXPathField`` = ``maybexpathfield``;
-                    ``XPathFieldList`` = ``xpathfieldlist``;
-                    ``XPathFieldArray`` = ``xpathfieldarray``;
-                    ``XPathFieldSeq`` = ``xpathfieldseq``;
-                    ``MaybeXPathFieldList`` = ``maybexpathfieldlist``;
-                    ``MaybeXPathFieldArray`` = ``maybexpathfieldarray``;
-                    ``MaybeXPathFieldSeq`` = ``maybexpathfieldseq``;
-                    ``SimpleNodeString`` = ``simplenodestring``;
-                    ``MaybeNodeString`` = ``maybenodestring``;
-                    ``NodeStringList`` = ``nodestringlist``;
-                    ``NodeStringArray`` = ``nodestringarray``;
-                    ``NodeStringSeq`` = ``nodestringseq``;
-                    ``MaybeNodeStringList`` = ``maybenodestringlist``;
-                    ``MaybeNodeStringArray`` = ``maybenodestringarray``;
-                    ``MaybeNodeStringSeq`` = ``maybenodestringseq``;
-                    ``SimpleNodeField`` = ``simplenodefield``;
-                    ``MaybeNodeField`` = ``maybenodefield``;
-                    ``NodeFieldList`` = ``nodefieldlist``;
-                    ``NodeFieldArray`` = ``nodefieldarray``;
-                    ``NodeFieldSeq`` = ``nodefieldseq``;
-                    ``MaybeNodeFieldList`` = ``maybenodefieldlist``;
-                    ``MaybeNodeFieldArray`` = ``maybenodefieldarray``;
-                    ``MaybeNodeFieldSeq`` = ``maybenodefieldseq``;
-                    ``SimpleAttrString`` = ``simpleattrstring``;
-                    ``MaybeAttrString`` = ``maybeattrstring``;
-                    ``AttrStringList`` = ``attrstringlist``;
-                    ``AttrStringArray`` = ``attrstringarray``;
-                    ``AttrStringSeq`` = ``attrstringseq``;
-                    ``MaybeAttrStringList`` = ``maybeattrstringlist``;
-                    ``MaybeAttrStringArray`` = ``maybeattrstringarray``;
-                    ``MaybeAttrStringSeq`` = ``maybeattrstringseq``;
-                    ``SimpleAttrField`` = ``simpleattrfield``;
-                    ``MaybeAttrField`` = ``maybeattrfield``;
-                    ``AttrFieldList`` = ``attrfieldlist``;
-                    ``AttrFieldArray`` = ``attrfieldarray``;
-                    ``AttrFieldSeq`` = ``attrfieldseq``;
-                    ``MaybeAttrFieldList`` = ``maybeattrfieldlist``;
-                    ``MaybeAttrFieldArray`` = ``maybeattrfieldarray``;
-                    ``MaybeAttrFieldSeq`` = ``maybeattrfieldseq``;
-                    ``SimpleNestedField`` = ``simplenestedfield``;
-                    ``MaybeNestedField`` = ``maybenestedfield``;
-                    ``NestedFieldList`` = ``nestedfieldlist``;
-                    ``NestedFieldArray`` = ``nestedfieldarray``;
-                    ``NestedFieldSeq`` = ``nestedfieldseq``;
-                    ``MaybeNestedFieldList`` = ``maybenestedfieldlist``;
-                    ``MaybeNestedFieldArray`` = ``maybenestedfieldarray``;
-                    ``MaybeNestedFieldSeq`` = ``maybenestedfieldseq``;
-                    ``SimpleMultiAttrField`` = ``simplemultiattrfield``;
-                    ``MaybeMultiAttrField`` = ``maybemultiattrfield``;
-                    ``MultiAttrFieldList`` = ``multiattrfieldlist``;
-                    ``MultiAttrFieldArray`` = ``multiattrfieldarray``;
-                    ``MultiAttrFieldSeq`` = ``multiattrfieldseq``;
-                    ``MaybeMultiAttrFieldList`` = ``maybemultiattrfieldlist``;
-                    ``MaybeMultiAttrFieldArray`` = ``maybemultiattrfieldarray``;
-                    ``MaybeMultiAttrFieldSeq`` = ``maybemultiattrfieldseq``;
-                    ``SimpleXPathNestedField`` = ``simplexpathnestedfield``;
-                    ``MaybeXPathNestedField`` = ``maybexpathnestedfield``;
-                    ``XPathNestedFieldList`` = ``xpathnestedfieldlist``;
-                    ``XPathNestedFieldArray`` = ``xpathnestedfieldarray``;
-                    ``XPathNestedFieldSeq`` = ``xpathnestedfieldseq``;
-                    ``MaybeXPathNestedFieldList`` = ``maybexpathnestedfieldlist``;
-                    ``MaybeXPathNestedFieldArray`` = ``maybexpathnestedfieldarray``;
-                    ``MaybeXPathNestedFieldSeq`` = ``maybexpathnestedfieldseq``;
-                    ``SimpleNestedXPathField`` = ``simplenestedxpathfield``;
-                    ``MaybeNestedXPathField`` = ``maybenestedxpathfield``;
-                    ``NestedXPathFieldList`` = ``nestedxpathfieldlist``;
-                    ``NestedXPathFieldArray`` = ``nestedxpathfieldarray``;
-                    ``NestedXPathFieldSeq`` = ``nestedxpathfieldseq``;
-                    ``MaybeNestedXPathFieldList`` = ``maybenestedxpathfieldlist``;
-                    ``MaybeNestedXPathFieldArray`` = ``maybenestedxpathfieldarray``;
-                    ``MaybeNestedXPathFieldSeq`` = ``maybenestedxpathfieldseq``;
-                    ``SimpleXPathNestedXPathField`` = ``simplexpathnestedxpathfield``;
-                    ``MaybeXPathNestedXPathField`` = ``maybexpathnestedxpathfield``;
-                    ``XPathNestedXPathFieldList`` = ``xpathnestedxpathfieldlist``;
-                    ``XPathNestedXPathFieldArray`` = ``xpathnestedxpathfieldarray``;
-                    ``XPathNestedXPathFieldSeq`` = ``xpathnestedxpathfieldseq``;
-                    ``MaybeXPathNestedXPathFieldList`` = ``maybexpathnestedxpathfieldlist``;
-                    ``MaybeXPathNestedXPathFieldArray`` = ``maybexpathnestedxpathfieldarray``;
-                    ``MaybeXPathNestedXPathFieldSeq`` = ``maybexpathnestedxpathfieldseq``;
+                    ``SimpleString`` = (exactlyOne "tags or attributes" getEitherValues xml "SimpleString" getInnerText);
+                    ``MaybeString`` = (maybeOne getEitherValues xml "MaybeString" getInnerText);
+                    ``StringList`` = (getList getEitherValues xml "StringList" getInnerText);
+                    ``StringArray`` = (getArray getEitherValues xml "StringArray" getInnerText);
+                    ``StringSeq`` = (getSeq getEitherValues xml "StringSeq" getInnerText);
+                    ``MaybeStringList`` = (getMaybeList getEitherValues xml "MaybeStringList" getInnerText);
+                    ``MaybeStringArray`` = (getMaybeArray getEitherValues xml "MaybeStringArray" getInnerText);
+                    ``MaybeStringSeq`` = (getMaybeSeq getEitherValues xml "MaybeStringSeq" getInnerText);
+                    ``SimpleField`` = (exactlyOne "tags or attributes" getEitherValues xml "SimpleField" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``MaybeField`` = (maybeOne getEitherValues xml "MaybeField" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``FieldList`` = (getList getEitherValues xml "FieldList" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``FieldArray`` = (getArray getEitherValues xml "FieldArray" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``FieldSeq`` = (getSeq getEitherValues xml "FieldSeq" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``MaybeFieldList`` = (getMaybeList getEitherValues xml "MaybeFieldList" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``MaybeFieldArray`` = (getMaybeArray getEitherValues xml "MaybeFieldArray" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``MaybeFieldSeq`` = (getMaybeSeq getEitherValues xml "MaybeFieldSeq" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``SimpleXPathString`` = (exactlyOne "XPath" getXPathValues xml "string" getInnerText);
+                    ``MaybeXPathString`` = (maybeOne getXPathValues xml "string_opt" getInnerText);
+                    ``XPathStringList`` = (getList getXPathValues xml "string_coll" getInnerText);
+                    ``XPathStringArray`` = (getArray getXPathValues xml "string_coll" getInnerText);
+                    ``XPathStringSeq`` = (getSeq getXPathValues xml "string_coll" getInnerText);
+                    ``MaybeXPathStringList`` = (getMaybeList getXPathValues xml "string_opt_coll" getInnerText);
+                    ``MaybeXPathStringArray`` = (getMaybeArray getXPathValues xml "string_opt_coll" getInnerText);
+                    ``MaybeXPathStringSeq`` = (getMaybeSeq getXPathValues xml "string_opt_coll" getInnerText);
+                    ``SimpleXPathField`` = (exactlyOne "XPath" getXPathValues xml "int" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``MaybeXPathField`` = (maybeOne getXPathValues xml "int_opt" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``XPathFieldList`` = (getList getXPathValues xml "int_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``XPathFieldArray`` = (getArray getXPathValues xml "int_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``XPathFieldSeq`` = (getSeq getXPathValues xml "int_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``MaybeXPathFieldList`` = (getMaybeList getXPathValues xml "int_opt_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``MaybeXPathFieldArray`` = (getMaybeArray getXPathValues xml "int_opt_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``MaybeXPathFieldSeq`` = (getMaybeSeq getXPathValues xml "int_opt_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``SimpleNodeString`` = (exactlyOne "tags" getTagValues xml "string" getInnerText);
+                    ``MaybeNodeString`` = (maybeOne getTagValues xml "string_opt" getInnerText);
+                    ``NodeStringList`` = (getList getTagValues xml "string_coll" getInnerText);
+                    ``NodeStringArray`` = (getArray getTagValues xml "string_coll" getInnerText);
+                    ``NodeStringSeq`` = (getSeq getTagValues xml "string_coll" getInnerText);
+                    ``MaybeNodeStringList`` = (getMaybeList getTagValues xml "string_opt_coll" getInnerText);
+                    ``MaybeNodeStringArray`` = (getMaybeArray getTagValues xml "string_opt_coll" getInnerText);
+                    ``MaybeNodeStringSeq`` = (getMaybeSeq getTagValues xml "string_opt_coll" getInnerText);
+                    ``SimpleNodeField`` = (exactlyOne "tags" getTagValues xml "int" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``MaybeNodeField`` = (maybeOne getTagValues xml "int_opt" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``NodeFieldList`` = (getList getTagValues xml "int_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``NodeFieldArray`` = (getArray getTagValues xml "int_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``NodeFieldSeq`` = (getSeq getTagValues xml "int_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``MaybeNodeFieldList`` = (getMaybeList getTagValues xml "int_opt_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``MaybeNodeFieldArray`` = (getMaybeArray getTagValues xml "int_opt_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``MaybeNodeFieldSeq`` = (getMaybeSeq getTagValues xml "int_opt_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``SimpleAttrString`` = (exactlyOne "attributes" getAttrValues xml "string" getInnerText);
+                    ``MaybeAttrString`` = (maybeOne getAttrValues xml "string_opt" getInnerText);
+                    ``AttrStringList`` = (getList getAttrValues xml "string_coll" getInnerText);
+                    ``AttrStringArray`` = (getArray getAttrValues xml "string_coll" getInnerText);
+                    ``AttrStringSeq`` = (getSeq getAttrValues xml "string_coll" getInnerText);
+                    ``MaybeAttrStringList`` = (getMaybeList getAttrValues xml "string_opt_coll" getInnerText);
+                    ``MaybeAttrStringArray`` = (getMaybeArray getAttrValues xml "string_opt_coll" getInnerText);
+                    ``MaybeAttrStringSeq`` = (getMaybeSeq getAttrValues xml "string_opt_coll" getInnerText);
+                    ``SimpleAttrField`` = (exactlyOne "attributes" getAttrValues xml "int" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``MaybeAttrField`` = (maybeOne getAttrValues xml "int_opt" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``AttrFieldList`` = (getList getAttrValues xml "int_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``AttrFieldArray`` = (getArray getAttrValues xml "int_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``AttrFieldSeq`` = (getSeq getAttrValues xml "int_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``MaybeAttrFieldList`` = (getMaybeList getAttrValues xml "int_opt_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``MaybeAttrFieldArray`` = (getMaybeArray getAttrValues xml "int_opt_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``MaybeAttrFieldSeq`` = (getMaybeSeq getAttrValues xml "int_opt_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
+                    ``SimpleNestedField`` = (exactlyOne "tags" getTagValues xml "Node" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode);
+                    ``MaybeNestedField`` = (maybeOne getTagValues xml "Node_Opt" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeOpt.FromXmlNode);
+                    ``NestedFieldList`` = (getList getTagValues xml "Node_Coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeColl.FromXmlNode);
+                    ``NestedFieldArray`` = (getArray getTagValues xml "Node_Coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeColl.FromXmlNode);
+                    ``NestedFieldSeq`` = (getSeq getTagValues xml "Node_Coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeColl.FromXmlNode);
+                    ``MaybeNestedFieldList`` = (getMaybeList getTagValues xml "Node_Opt_Coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeOptColl.FromXmlNode);
+                    ``MaybeNestedFieldArray`` = (getMaybeArray getTagValues xml "Node_Opt_Coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeOptColl.FromXmlNode);
+                    ``MaybeNestedFieldSeq`` = (getMaybeSeq getTagValues xml "Node_Opt_Coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.NodeOptColl.FromXmlNode);
+                    ``SimpleMultiAttrField`` = (exactlyOne "tags" getTagValues xml "other_node" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode);
+                    ``MaybeMultiAttrField`` = (maybeOne getTagValues xml "other_node_opt" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode);
+                    ``MultiAttrFieldList`` = (getList getTagValues xml "other_node_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode);
+                    ``MultiAttrFieldArray`` = (getArray getTagValues xml "other_node_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode);
+                    ``MultiAttrFieldSeq`` = (getSeq getTagValues xml "other_node_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode);
+                    ``MaybeMultiAttrFieldList`` = (getMaybeList getTagValues xml "other_node_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode);
+                    ``MaybeMultiAttrFieldArray`` = (getMaybeArray getTagValues xml "other_node_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode);
+                    ``MaybeMultiAttrFieldSeq`` = (getMaybeSeq getTagValues xml "other_node_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode);
+                    ``SimpleXPathNestedField`` = (exactlyOne "XPath" getXPathValues xml "xpath/path" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode);
+                    ``MaybeXPathNestedField`` = (maybeOne getXPathValues xml "xpath/path_opt" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathOpt.FromXmlNode);
+                    ``XPathNestedFieldList`` = (getList getXPathValues xml "xpath/path_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathColl.FromXmlNode);
+                    ``XPathNestedFieldArray`` = (getArray getXPathValues xml "xpath/path_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathColl.FromXmlNode);
+                    ``XPathNestedFieldSeq`` = (getSeq getXPathValues xml "xpath/path_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathColl.FromXmlNode);
+                    ``MaybeXPathNestedFieldList`` = (getMaybeList getXPathValues xml "xpath/path_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathOptColl.FromXmlNode);
+                    ``MaybeXPathNestedFieldArray`` = (getMaybeArray getXPathValues xml "xpath/path_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathOptColl.FromXmlNode);
+                    ``MaybeXPathNestedFieldSeq`` = (getMaybeSeq getXPathValues xml "xpath/path_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.PathOptColl.FromXmlNode);
+                    ``SimpleNestedXPathField`` = (exactlyOne "XPath" getXPathValues xml "other_node" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode);
+                    ``MaybeNestedXPathField`` = (maybeOne getXPathValues xml "other_node_opt" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode);
+                    ``NestedXPathFieldList`` = (getList getXPathValues xml "other_node_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode);
+                    ``NestedXPathFieldArray`` = (getArray getXPathValues xml "other_node_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode);
+                    ``NestedXPathFieldSeq`` = (getSeq getXPathValues xml "other_node_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode);
+                    ``MaybeNestedXPathFieldList`` = (getMaybeList getXPathValues xml "other_node_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode);
+                    ``MaybeNestedXPathFieldArray`` = (getMaybeArray getXPathValues xml "other_node_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode);
+                    ``MaybeNestedXPathFieldSeq`` = (getMaybeSeq getXPathValues xml "other_node_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Node.FromXmlNode);
+                    ``SimpleXPathNestedXPathField`` = (exactlyOne "XPath" getXPathValues xml "other_node" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode);
+                    ``MaybeXPathNestedXPathField`` = (maybeOne getXPathValues xml "other_node_opt" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode);
+                    ``XPathNestedXPathFieldList`` = (getList getXPathValues xml "other_node_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode);
+                    ``XPathNestedXPathFieldArray`` = (getArray getXPathValues xml "other_node_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode);
+                    ``XPathNestedXPathFieldSeq`` = (getSeq getXPathValues xml "other_node_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode);
+                    ``MaybeXPathNestedXPathFieldList`` = (getMaybeList getXPathValues xml "other_node_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode);
+                    ``MaybeXPathNestedXPathFieldArray`` = (getMaybeArray getXPathValues xml "other_node_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode);
+                    ``MaybeXPathNestedXPathFieldSeq`` = (getMaybeSeq getXPathValues xml "other_node_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode);
                 }
 
             static member FromXmlDoc doc = thingFromDocElement doc "Test" TestFields.FromXmlNode

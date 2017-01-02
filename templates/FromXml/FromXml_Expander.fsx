@@ -215,10 +215,9 @@ module Expander =
     module %s_FromXml_Extensions =
 
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
-        open System.Xml
 
         type %s with
-            static member FromXmlNode (xml : XmlNode) : %s =
+            static member FromXmlNode (xml : System.Xml.XmlNode) : %s =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a '%s' value from it"
                 {
 %s

@@ -203,164 +203,78 @@ module Helpers =
         let doc = XmlDocument()
         doc.LoadXml xml
         thingFromDocXPath doc xpath fromNode
-    /// Returns the child nodes and attributes of the given XML node.
-    let inline getChildrenAndAttributes (node : XmlNode) : XmlNode seq * XmlAttribute seq =
-        let children = node.ChildNodes |> System.Linq.Enumerable.Cast
-        let attributes = node.Attributes |> System.Linq.Enumerable.Cast
-        (children, attributes)
-    /// Calls the given parser function and passes it the specified value; if
-    /// the parser function indicates that the given value was not valid, throws
-    /// an exception including the specified name
-    let inline parse (g : string -> bool * 'a) name value =
-        match g value with
-        | (false, _) -> failwithf "Value for '%s' was not valid" name
-        | (true , x) -> x
-    /// <summary>
-    /// If the value does not exist, or
-    /// <see cref="System.String.IsNullOrWhiteSpace" /> returns true for the
-    /// given value, then this function returns None. Otherwise, this function
-    /// calls <see cref="parse" />.
-    /// </summary>
-    /// <remarks>
-    /// If the given value is not empty but is not a valid value, an exception
-    /// will be thrown by <see cref="parse" />.
-    /// </remarks>
-    let inline tryParse (g : string -> bool * 'a) name value =
-        match value with
-        | None -> None
-        | Some x ->
-            if String.IsNullOrWhiteSpace x then
-                None
-            else
-                Some (parse g name x)
 
-
-    /// Gets the inner text from all XML attributes provided whose names match
-    /// the specified name
-    let findAllAttr (xs : XmlAttribute seq) x =
-        xs
-        |> Seq.filter (fun y -> y.Name.Equals(x, StringComparison.OrdinalIgnoreCase))
-        |> Seq.map (fun x -> x.InnerText)
-    /// Returns the inner text from the first matching XML attribute if any
-    /// attributes names match the specified name, returns None otherwise
-    let tryFindAttr xs x = findAllAttr xs x |> Seq.tryHead
-    /// Gets the inner text from the first matching XML attribute if any
-    /// attributes names match the specified name, throws an exception otherwise
-    let findAttr xs x =
-        tryFindAttr xs x
-        |> function
-           | None -> failwithf "The '%s' attribute could not be found" x
-           | Some x -> x
-
-
-    /// Gets all XML nodes from the provided collection whose names match the
-    /// specified name
-    let findAllNodes (xs : XmlNode seq) x =
-        xs |> Seq.filter (fun y -> y.Name.Equals(x, StringComparison.OrdinalIgnoreCase))
-    /// Gets the first XML node whose name matches the specified name; returns
-    /// None if no XML nodes match
-    let tryFindNode xs x = findAllNodes xs x |> Seq.tryHead
-    /// Gets the first XML node whose name matches the specified name; throws an
-    /// exception if no XML nodes match
-    let findNode xs x =
-        tryFindNode xs x
-        |> function
-           | None -> failwithf "The '%s' node could not be found" x
-           | Some x -> x
-
-
-    /// Gets the inner text from all XML nodes whose names match the specified
-    /// name
-    let findAll xs x =
-        findAllNodes xs x
-        |> Seq.map (fun x -> x.InnerText)
-    /// Gets the inner text of the first XML node whose name matches the
-    /// specified name; returns None if no XML nodes match
-    let tryFind xs x = findAll xs x |> Seq.tryHead
-    /// Gets the inner text of the first XML node whose name matches the
-    /// specified name; throws an exception if no XML nodes match
-    let find xs x =
-        tryFind xs x
-        |> function
-           | None -> failwithf "The '%s' node could not be found" x
-           | Some x -> x
-
-
-    /// Gets the inner text of all XML nodes and XML attributes whose names
-    /// match the specified name
-    let findAllEither (ys : XmlNode seq) (zs : XmlAttribute seq) (x : string) =
-        let needle = x.Replace("_", "")
-        let nodes =
-            ys
-            |> Seq.filter (fun y -> y.Name.Replace("_", "").Equals(needle, StringComparison.OrdinalIgnoreCase))
-            |> Seq.map (fun x -> x.InnerText)
-        let attrs =
-            zs
-            |> Seq.filter (fun z -> z.Name.Replace("_", "").Equals(needle, StringComparison.OrdinalIgnoreCase))
-            |> Seq.map (fun x -> x.InnerText)
-        Seq.append nodes attrs
-    /// Gets the inner text of the first XML node or XML attribute whose name
-    /// matches the specified name; returns None if no XML nodes or XML
-    /// attributes match
-    let tryFindEither ys zs x = findAllEither ys zs x |> Seq.tryHead
-    /// Gets the inner text of the first XML node or XML attribute whose name
-    /// matches the specified name; throws an exception if no XML nodes or XML
-    /// attributes match
-    let findEither ys zs x =
-        tryFindEither ys zs x
-        |> function
-           | None -> failwithf "No nodes or attributes could be found matching the name '%s'" x
-           | Some x -> x
-
-
-    /// Gets the inner text of every node in the given collection
-    let getInnerTexts (xs : XmlNodeList) : string seq =
-        System.Linq.Enumerable.Cast<XmlNode> xs
-        |> Seq.map (fun x -> x.InnerText)
-    /// Tries to get the inner text of a node, and returns None if the node or
-    /// its contents are null
-    let tryInnerText (x : XmlNode) : string option =
-        match Option.ofObj x with
-        | None -> None
-        | Some x -> Option.ofObj x.InnerText
-
-
-    // Uses the provided XPath to gets an array of XmlNodes
-    let xPathToNodes (source : XmlNode) (path : string) : XmlNode array =
-        source.SelectNodes(path)
+    /// Gathers all XML tags whose names match the given name and uses the given
+    /// parser to transform their inner text.
+    let getTagValues (xml : XmlNode) tagName (parser : XmlNode -> 'a) : 'a seq =
+        xml.ChildNodes
         |> System.Linq.Enumerable.Cast
-        |> Seq.toArray
+        |> Seq.filter (fun (x : XmlNode) -> x.Name.Equals(tagName, StringComparison.OrdinalIgnoreCase))
+        |> Seq.map parser
 
-    // Gathers nodes from the given source node using the given XPath, and then
-    // pushes them through the specified parser. Returned result is an array to
-    // ensure that the data is cached, regardless of the target collection type.
-    let getXPathNestedThingArray (source : XmlNode) (path : string) (parser : XmlNode -> 'a) : 'a array =
-        source.SelectNodes path
+    /// Gathers all XML attributes whose names match the given name and uses the
+    /// given parser to transform their inner text.
+    let getAttrValues (xml : XmlNode) attrName (parser : XmlNode -> 'a) : 'a seq =
+        xml.Attributes
+        |> System.Linq.Enumerable.Cast
+        |> Seq.filter (fun (x : XmlNode) -> x.Name.Equals(attrName, StringComparison.OrdinalIgnoreCase))
+        |> Seq.map parser
+
+    /// Gathers all XML tags and attributes whose names match the given name,
+    /// and uses the given parser to transform their inner text.
+    let getEitherValues xml tagOrAttr parser =
+        let xs =  getTagValues xml tagOrAttr parser
+        let ys = getAttrValues xml tagOrAttr parser
+        Seq.append xs ys
+
+    /// Gathers all nodes captured by the given XPath specifier, and uses the
+    /// given parser to transform their inner text.
+    let getXPathValues (xml : XmlNode) xpath (parser : XmlNode -> 'a) : 'a seq =
+        xml.SelectNodes xpath
         |> System.Linq.Enumerable.Cast
         |> Seq.map parser
-        |> Seq.toArray
 
-    /// Gathers nodes from the given source node using the given XPath, and then
-    /// pushes them through the specified parser. Returned result is an array to
-    /// ensure that the data is cached, regardless of the target collection
-    /// type. If zero matching nodes are found, returned result is None.
-    let getXPathMaybeNestedThingArray source path parser =
-        let rs = getXPathNestedThingArray source path parser
-        if rs.Length = 0 then None else Some rs
+    /// Converts a normal TryParse-style function into one which takes an XML
+    /// node and returns a result, throwing an exception if the inner text from
+    /// the node cannot be parsed.
+    let parserForStrings targetType (p : string -> bool * 'a) : XmlNode -> 'a =
+        fun x ->
+            match x with
+            | null -> failwithf "Trying to process a null XmlNode into a '%s'" targetType
+            | _ ->
+                match p x.InnerText with
+                | (true , x) -> x
+                | (false, _) -> failwithf "Invalid value '%s' could not be parsed as a '%s'" x.InnerText targetType
 
-    /// Finds the first node that matches the specified XPath, parses it with
-    /// the given parser, and returns the result. If no matching nodes are
-    /// found, an exception is thrown.
-    let getXPathNestedThing (x : XmlNode) (path : string) (name : string) (parser : XmlNode -> 'T) : 'T =
-        let node = x.SelectSingleNode path
-        if isNull node then failwithf "No nodes or attributes could be found matching the XPath '%s' for the '%s' property" path name
-        parser node
+    /// Acts as a "parser" for cases where a node's inner text is desired with
+    /// no further processing.
+    let getInnerText (x : XmlNode) = x.InnerText
 
-    /// Finds the first node that matches the specified XPath, parses it with
-    /// the given parser, and returns the result. If no matching nodes are
-    /// found, returns None. Exceptions thrown by the parser are not handled.
-    let getXPathMaybeNestedThing (x : XmlNode) (path : string) (name : string) (parser : XmlNode -> 'T) : 'T option =
-        let node = x.SelectSingleNode path
-        match node with
-        | null -> None
-        | _ -> Some (parser node)
+    /// Processes the given values and returns the first matching result, if any
+    /// matching results exist.
+    let maybeOne getter a b c = getter a b c |> Seq.tryHead
+
+    /// Processes the given values and returns the first matching result. If no
+    /// matching results are found, throws an exception.
+    let exactlyOne sourceType getter a b c =
+        let ret = getter a b c |> Seq.tryHead
+        match ret with
+        | None -> failwithf "No matching %s could be found matching '%s'" sourceType b
+        | Some x -> x
+
+    /// Processes the given values and returns all matching results as an array.
+    let getArray getter a b c : 'a array = getter a b c |> Seq.toArray
+    /// Processes the given values and returns all matching results as a list.
+    let getList  getter a b c : 'a list  = getter a b c |> Seq.toList
+    /// Processes the given values and returns all matching results in a cached
+    /// sequence, backed by an array.
+    let getSeq   getter a b c : 'a seq   = getter a b c |> Seq.toArray |> Seq.ofArray
+    /// Processes the given values and returns the results as an array. Returns
+    /// None if no matching results are found.
+    let getMaybeArray getter a b c : 'a array option = let rs = Seq.toArray (getter a b c) in if rs.Length = 0 then None else Some rs
+    /// Processes the given values and returns the results as a list. Returns
+    /// None if no matching results are found.
+    let getMaybeList  getter a b c : 'a list  option = let rs = Seq.toList  (getter a b c) in if rs.Length = 0 then None else Some rs
+    /// Processes the given values and returns the results in a cached sequence,
+    /// backed by an array. Returns None if no matching results are found.
+    let getMaybeSeq   getter a b c : 'a seq   option = let rs = getMaybeArray getter a b c in Option.map Seq.ofArray rs

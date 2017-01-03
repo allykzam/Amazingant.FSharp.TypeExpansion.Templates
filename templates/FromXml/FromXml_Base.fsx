@@ -204,35 +204,55 @@ module Helpers =
         doc.LoadXml xml
         thingFromDocXPath doc xpath fromNode
 
-    /// Gathers all XML tags whose names match the given name and uses the given
-    /// parser to transform their inner text.
-    let getTagValues (xml : XmlNode) tagName (parser : XmlNode -> 'a) : 'a seq =
-        xml.ChildNodes
-        |> System.Linq.Enumerable.Cast
-        |> Seq.filter (fun (x : XmlNode) -> x.Name.Equals(tagName, StringComparison.OrdinalIgnoreCase))
-        |> Seq.map parser
+    /// Returns a tuple whose second value is a function which gathers all XML
+    /// tags whose names match the given name and uses the given parser to
+    /// transform their inner text. The first tuple value is a stringy
+    /// definition of what the function fetches values from, for use in error
+    /// messages when values cannot be found.
+    let fromXmlTags : string * (XmlNode -> string -> (XmlNode -> 'a) -> 'a seq) =
+        "tags",
+        fun xml tagName parser ->
+            xml.ChildNodes
+            |> System.Linq.Enumerable.Cast
+            |> Seq.filter (fun (x : XmlNode) -> x.Name.Equals(tagName, StringComparison.OrdinalIgnoreCase))
+            |> Seq.map parser
 
-    /// Gathers all XML attributes whose names match the given name and uses the
-    /// given parser to transform their inner text.
-    let getAttrValues (xml : XmlNode) attrName (parser : XmlNode -> 'a) : 'a seq =
-        xml.Attributes
-        |> System.Linq.Enumerable.Cast
-        |> Seq.filter (fun (x : XmlNode) -> x.Name.Equals(attrName, StringComparison.OrdinalIgnoreCase))
-        |> Seq.map parser
+    /// Returns a tuple whose second value is a function which gathers all XML
+    /// attributes whose names match the given name and uses the given parser to
+    /// transform their inner text. The first tuple value is a stringy
+    /// definition of what the function fetches values from, for use in error
+    /// messages when values cannot be found.
+    let fromAttributes : string * (XmlNode -> string -> (XmlNode -> 'a) -> 'a seq) =
+        "attributes",
+        fun xml attrName parser ->
+            xml.Attributes
+            |> System.Linq.Enumerable.Cast
+            |> Seq.filter (fun (x : XmlNode) -> x.Name.Equals(attrName, StringComparison.OrdinalIgnoreCase))
+            |> Seq.map parser
 
-    /// Gathers all XML tags and attributes whose names match the given name,
-    /// and uses the given parser to transform their inner text.
-    let getEitherValues xml tagOrAttr parser =
-        let xs =  getTagValues xml tagOrAttr parser
-        let ys = getAttrValues xml tagOrAttr parser
-        Seq.append xs ys
+    /// Returns a tuple whose second value is a function which gathers all XML
+    /// tags and attributes whose names match the given name, and uses the given
+    /// parser to transform their inner text. The first tuple value is a stringy
+    /// definition of what the function fetches values from, for use in error
+    /// messages when values cannot be found.
+    let fromTagsOrAttributes : string * (XmlNode -> string -> (XmlNode -> 'a) -> 'a seq) =
+        "tags or attributes",
+        fun xml tagOrAttr parser ->
+            let xs = (snd fromXmlTags   ) xml tagOrAttr parser
+            let ys = (snd fromAttributes) xml tagOrAttr parser
+            Seq.append xs ys
 
-    /// Gathers all nodes captured by the given XPath specifier, and uses the
-    /// given parser to transform their inner text.
-    let getXPathValues (xml : XmlNode) xpath (parser : XmlNode -> 'a) : 'a seq =
-        xml.SelectNodes xpath
-        |> System.Linq.Enumerable.Cast
-        |> Seq.map parser
+    /// Returns a tuple whose second value is a function which gathers all nodes
+    /// captured by the given XPath specifier, and uses the given parser to
+    /// transform their inner text. The first tuple value is a stringy
+    /// definition of what the function fetches values from, for use in error
+    /// messages when values cannot be found.
+    let fromAnXPath : string * (XmlNode -> string -> (XmlNode -> 'a) -> 'a seq) =
+        "XPath",
+        fun xml xpath parser ->
+            xml.SelectNodes xpath
+            |> System.Linq.Enumerable.Cast
+            |> Seq.map parser
 
     /// Converts a normal TryParse-style function into one which takes an XML
     /// node and returns a result, throwing an exception if the inner text from
@@ -252,29 +272,29 @@ module Helpers =
 
     /// Processes the given values and returns the first matching result, if any
     /// matching results exist.
-    let maybeOne getter a b c = getter a b c |> Seq.tryHead
+    let maybeOne (_, getter) a b c = getter a b c |> Seq.tryHead
 
     /// Processes the given values and returns the first matching result. If no
     /// matching results are found, throws an exception.
-    let exactlyOne sourceType getter a b c =
+    let exactlyOne (sourceType, getter) a b c =
         let ret = getter a b c |> Seq.tryHead
         match ret with
         | None -> failwithf "No matching %s could be found matching '%s'" sourceType b
         | Some x -> x
 
     /// Processes the given values and returns all matching results as an array.
-    let getArray getter a b c : 'a array = getter a b c |> Seq.toArray
+    let getArray (_, getter) a b c : 'a array = getter a b c |> Seq.toArray
     /// Processes the given values and returns all matching results as a list.
-    let getList  getter a b c : 'a list  = getter a b c |> Seq.toList
+    let getList  (_, getter) a b c : 'a list  = getter a b c |> Seq.toList
     /// Processes the given values and returns all matching results in a cached
     /// sequence, backed by an array.
-    let getSeq   getter a b c : 'a seq   = getter a b c |> Seq.toArray |> Seq.ofArray
+    let getSeq   (_, getter) a b c : 'a seq   = getter a b c |> Seq.toArray |> Seq.ofArray
     /// Processes the given values and returns the results as an array. Returns
     /// None if no matching results are found.
-    let getMaybeArray getter a b c : 'a array option = let rs = Seq.toArray (getter a b c) in if rs.Length = 0 then None else Some rs
+    let getMaybeArray (_, getter) a b c : 'a array option = let rs = Seq.toArray (getter a b c) in if rs.Length = 0 then None else Some rs
     /// Processes the given values and returns the results as a list. Returns
     /// None if no matching results are found.
-    let getMaybeList  getter a b c : 'a list  option = let rs = Seq.toList  (getter a b c) in if rs.Length = 0 then None else Some rs
+    let getMaybeList  (_, getter) a b c : 'a list  option = let rs = Seq.toList  (getter a b c) in if rs.Length = 0 then None else Some rs
     /// Processes the given values and returns the results in a cached sequence,
     /// backed by an array. Returns None if no matching results are found.
-    let getMaybeSeq   getter a b c : 'a seq   option = let rs = getMaybeArray getter a b c in Option.map Seq.ofArray rs
+    let getMaybeSeq       getter  a b c : 'a seq   option = let rs = getMaybeArray getter a b c in Option.map Seq.ofArray rs

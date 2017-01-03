@@ -1,3 +1,15 @@
+#### 1.3.0 - 2017-01-03
+* #7: Added support for nested types with the XPath attribute in the FromXml
+  template
+* #8, 12: Added basic testing script for the FromXml template that includes a
+  field for each expected combination of types, fields, and attributes; actual
+  expanded results are compared against a reference copy, and parsing of valid
+  XML files is tested and validated
+* #13: Refactored the FromXml template to be simpler, and to produce moderately
+  shorter code
+* #11: Added a new RunTests build target to the build script, now required
+  before packaging the templates
+
 #### 1.2.1 - 2016-12-15
 * #5: Fix the tryInnerText FromXml helper returning the wrong type
 * #6: Fix indentation and return type in FromXml handling of optional

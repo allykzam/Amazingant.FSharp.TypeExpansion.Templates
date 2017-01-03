@@ -1,6 +1,8 @@
 type file
 id Amazingant.FSharp.TypeExpansion.Templates
 authors Anthony Perez
+copyright
+    Copyright (c) 2016 Anthony Perez a.k.a. amazingant
 description
     Packaged scripts for use as expansion templates
 projectUrl

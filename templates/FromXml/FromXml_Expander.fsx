@@ -1,6 +1,9 @@
 #if INTERACTIVE
 // Load the TypeExpansion.Attributes library from one of these two relative
-// paths in fsi and Visual Studio's script editor
+// paths in fsi and Visual Studio's script editor; note that error FS0211 warns
+// us that one of the specified paths does not exist, which should always be the
+// case for one of the two paths specified.
+#nowarn "0211"
 #I "../../packages/Amazingant.FSharp.TypeExpansion/lib/net45"
 #I "../../../Amazingant.FSharp.TypeExpansion/lib/net45"
 #r "Amazingant.FSharp.TypeExpansion.Attributes.dll"

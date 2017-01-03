@@ -117,15 +117,15 @@ module Expander =
                         match pAttr with
                         | Some x -> sprintf "(parserForStrings \"%s\" %s.%s)" l3.InnerType.FullName l3.InnerType.FullName x.ParseFunction
                         | None -> sprintf "(parserForStrings \"%s\" %s.TryParse)" l3.InnerType.FullName l3.InnerType.FullName
-            let (getter, sourceType) =
+            let getter =
                 match pAttr, nAttr with
-                | Some x, _ | None, Some x when (x :? XPathAttribute) -> "getXPathValues", "XPath"
-                | Some x, _ | None, Some x when (x :? XmlNodeAttribute) -> "getTagValues", "tags"
-                | Some x, None when (x :? XmlAttrAttribute) -> "getAttrValues", "attributes"
-                | _ -> "getEitherValues", "tags or attributes"
+                | Some x, _ | None, Some x when (x :? XPathAttribute) -> "fromAnXPath"
+                | Some x, _ | None, Some x when (x :? XmlNodeAttribute) -> "fromXmlTags"
+                | Some x, None when (x :? XmlAttrAttribute) -> "fromAttributes"
+                | _ -> "fromTagsOrAttributes"
             let retType =
                 match l1, l2, l3 with
-                | NormalType t, _, _ -> sprintf "exactlyOne \"%s\"" sourceType
+                | NormalType t, _, _ -> sprintf "exactlyOne"
                 | Option _, NormalType _, _ -> "maybeOne"
                 | Collection _, NormalType _, _ -> sprintf "get%s" l1.CollectionTypeName
                 | Option _, Collection _, NormalType _ -> sprintf "getMaybe%s" l2.CollectionTypeName

@@ -72,7 +72,7 @@ Target "GitTag" (fun _ ->
 Target "Default" DoNothing
 Target "Release" DoNothing
 
-"Package" ==> "Default"
+"RunTests" ==> "Package" ==> "Default"
 "Package" ==> "GitTag" ==> "Release"
 
 RunTargetOrDefault "Default"

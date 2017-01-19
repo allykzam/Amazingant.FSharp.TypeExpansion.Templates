@@ -272,7 +272,12 @@ module Helpers =
 
     /// Processes the given values and returns the first matching result, if any
     /// matching results exist.
-    let maybeOne (_, getter) a b c = getter a b c |> Seq.tryHead
+    let maybeOne (_, getter) xml field parser =
+        let data : System.Xml.XmlNode option = getter xml field id |> Seq.tryHead
+        match data with
+        | None -> None
+        | Some x when System.String.IsNullOrWhiteSpace x.InnerText -> None
+        | Some x -> Some <| parser x
 
     /// Processes the given values and returns the first matching result. If no
     /// matching results are found, throws an exception.

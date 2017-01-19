@@ -161,7 +161,7 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'TestFields' value from it"
                 {
                     ``SimpleString`` = (exactlyOne fromTagsOrAttributes xml "SimpleString" getInnerText);
-                    ``MaybeString`` = (maybeOne fromTagsOrAttributes xml "MaybeString" getInnerText);
+                    ``MaybeString`` = (maybeOneString fromTagsOrAttributes xml "MaybeString" getInnerText);
                     ``StringList`` = (getList fromTagsOrAttributes xml "StringList" getInnerText);
                     ``StringArray`` = (getArray fromTagsOrAttributes xml "StringArray" getInnerText);
                     ``StringSeq`` = (getSeq fromTagsOrAttributes xml "StringSeq" getInnerText);
@@ -177,7 +177,7 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``MaybeFieldArray`` = (getMaybeArray fromTagsOrAttributes xml "MaybeFieldArray" (parserForStrings "System.Int32" System.Int32.TryParse));
                     ``MaybeFieldSeq`` = (getMaybeSeq fromTagsOrAttributes xml "MaybeFieldSeq" (parserForStrings "System.Int32" System.Int32.TryParse));
                     ``SimpleXPathString`` = (exactlyOne fromAnXPath xml "string" getInnerText);
-                    ``MaybeXPathString`` = (maybeOne fromAnXPath xml "string_opt" getInnerText);
+                    ``MaybeXPathString`` = (maybeOneString fromAnXPath xml "string_opt" getInnerText);
                     ``XPathStringList`` = (getList fromAnXPath xml "string_coll" getInnerText);
                     ``XPathStringArray`` = (getArray fromAnXPath xml "string_coll" getInnerText);
                     ``XPathStringSeq`` = (getSeq fromAnXPath xml "string_coll" getInnerText);
@@ -193,7 +193,7 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``MaybeXPathFieldArray`` = (getMaybeArray fromAnXPath xml "int_opt_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
                     ``MaybeXPathFieldSeq`` = (getMaybeSeq fromAnXPath xml "int_opt_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
                     ``SimpleNodeString`` = (exactlyOne fromXmlTags xml "string" getInnerText);
-                    ``MaybeNodeString`` = (maybeOne fromXmlTags xml "string_opt" getInnerText);
+                    ``MaybeNodeString`` = (maybeOneString fromXmlTags xml "string_opt" getInnerText);
                     ``NodeStringList`` = (getList fromXmlTags xml "string_coll" getInnerText);
                     ``NodeStringArray`` = (getArray fromXmlTags xml "string_coll" getInnerText);
                     ``NodeStringSeq`` = (getSeq fromXmlTags xml "string_coll" getInnerText);
@@ -209,7 +209,7 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``MaybeNodeFieldArray`` = (getMaybeArray fromXmlTags xml "int_opt_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
                     ``MaybeNodeFieldSeq`` = (getMaybeSeq fromXmlTags xml "int_opt_coll" (parserForStrings "System.Int32" System.Int32.TryParse));
                     ``SimpleAttrString`` = (exactlyOne fromAttributes xml "string" getInnerText);
-                    ``MaybeAttrString`` = (maybeOne fromAttributes xml "string_opt" getInnerText);
+                    ``MaybeAttrString`` = (maybeOneString fromAttributes xml "string_opt" getInnerText);
                     ``AttrStringList`` = (getList fromAttributes xml "string_coll" getInnerText);
                     ``AttrStringArray`` = (getArray fromAttributes xml "string_coll" getInnerText);
                     ``AttrStringSeq`` = (getSeq fromAttributes xml "string_coll" getInnerText);

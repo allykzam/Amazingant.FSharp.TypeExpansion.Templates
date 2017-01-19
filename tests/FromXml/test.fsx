@@ -57,6 +57,12 @@ let ValidateSample (xmlPath : string) (fromXmlDoc : string -> 'T array) (exp : M
             let actual = getter.Invoke(x, [||])
             match expected, actual with
             | null, null -> ()
+            | null, _ ->
+                failwithf "Property '%s' of type '%s' has a null expected value, but its actual value is '%A'"
+                    property prop.PropertyType.FullName actual
+            | _, null ->
+                failwithf "Property '%s' of type '%s' has an expected value of '%A', but its actual value is null"
+                    property prop.PropertyType.FullName expected
             | _, _ ->
                 let eT = expected.GetType()
                 let aT = actual.GetType()
@@ -190,7 +196,7 @@ let ValidateFullSample() = ValidateSample "sample_data/full_sample.xml" TestFiel
 ValidateFullSample()
 
 
-let ValidatePartialSample() =
+let PartialSampleData =
     FullSampleData
     |> Map.add "MaybeString"                      (box (  None : (string            option)                 ))
     |> Map.add       "StringList"                 (box (([| |] : (string      array       )) |> Array.toList))
@@ -296,6 +302,17 @@ let ValidatePartialSample() =
     |> Map.add  "MaybeXPathNestedXPathFieldArray" (box (  None : (Path        array option)                 ))
     |> Map.add  "MaybeXPathNestedXPathFieldSeq"   (box (  None : (Path        seq   option)                 ))
 
+let ValidatePartialSample() =
+    PartialSampleData
     |> ValidateSample "sample_data/partial_sample.xml" TestFields.FromXmlDoc
 
 ValidatePartialSample()
+
+
+let ValidateEmptyNodesSample() =
+    PartialSampleData
+    |> Map.add "MaybeString"     (box "    ")
+    |> Map.add "MaybeAttrString" (box ""    )
+    |> ValidateSample "sample_data/empty_nodes_sample.xml" TestFields.FromXmlDoc
+
+ValidateEmptyNodesSample()

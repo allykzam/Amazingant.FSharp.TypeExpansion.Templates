@@ -311,8 +311,6 @@ ValidatePartialSample()
 
 let ValidateEmptyNodesSample() =
     PartialSampleData
-    |> Map.add "MaybeString"     (box "    ")
-    |> Map.add "MaybeAttrString" (box ""    )
     |> ValidateSample "sample_data/empty_nodes_sample.xml" TestFields.FromXmlDoc
 
 ValidateEmptyNodesSample()

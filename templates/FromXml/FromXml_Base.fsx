@@ -272,23 +272,12 @@ module Helpers =
 
     /// Processes the given values and returns the first matching result, if any
     /// matching results exist. If the first matching result is an empty string,
-    /// or only contains whitespace, no result is returned.
+    /// no result is returned.
     let maybeOne (_, getter) xml field parser =
         let data : System.Xml.XmlNode option = getter xml field id |> Seq.tryHead
         match data with
         | None -> None
         | Some x when System.String.IsNullOrWhiteSpace x.InnerText -> None
-        | Some x -> Some <| parser x
-
-    /// Processes the given values and returns the first matching result, if any
-    /// matching results exist. If the first matching result is an empty string,
-    /// or only contains whitespace, it is still processed through the given
-    /// parser function.
-    let maybeOneString (_, getter) xml field parser =
-        let data : System.Xml.XmlNode option = getter xml field id |> Seq.tryHead
-        match data with
-        | None -> None
-        | Some x when System.String.IsNullOrWhiteSpace x.InnerText -> Some <| parser x
         | Some x -> Some <| parser x
 
     /// Processes the given values and returns the first matching result. If no

@@ -190,7 +190,7 @@ let ValidateFullSample() = ValidateSample "sample_data/full_sample.xml" TestFiel
 ValidateFullSample()
 
 
-let ValidatePartialSample() =
+let PartialSampleData =
     FullSampleData
     |> Map.add "MaybeString"                      (box (  None : (string            option)                 ))
     |> Map.add       "StringList"                 (box (([| |] : (string      array       )) |> Array.toList))
@@ -296,6 +296,16 @@ let ValidatePartialSample() =
     |> Map.add  "MaybeXPathNestedXPathFieldArray" (box (  None : (Path        array option)                 ))
     |> Map.add  "MaybeXPathNestedXPathFieldSeq"   (box (  None : (Path        seq   option)                 ))
 
+let ValidatePartialSample() =
+    PartialSampleData
     |> ValidateSample "sample_data/partial_sample.xml" TestFields.FromXmlDoc
 
 ValidatePartialSample()
+
+
+let ValidateEmptyNodesSample() =
+    PartialSampleData
+    |> Map.add "MaybeString" (box "    ")
+    |> ValidateSample "sample_data/empty_nodes_sample.xml" TestFields.FromXmlDoc
+
+ValidateEmptyNodesSample()

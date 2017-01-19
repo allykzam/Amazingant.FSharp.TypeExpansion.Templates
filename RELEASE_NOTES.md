@@ -1,3 +1,8 @@
+#### 1.4.0 - 2017-01-19
+* #14: Populate optional fields as `None` if the target node is empty
+* #15: Add target field information to exceptions thrown when a `TryParse`
+  function indicates failure
+
 #### 1.3.0 - 2017-01-03
 * #7: Added support for nested types with the XPath attribute in the FromXml
   template

@@ -129,6 +129,7 @@ module Expander =
             let retType =
                 match l1, l2, l3 with
                 | NormalType t, _, _ -> sprintf "exactlyOne"
+                | Option _, NormalType t, _ when t = typeof<string> -> "maybeOneString"
                 | Option _, NormalType _, _ -> "maybeOne"
                 | Collection _, NormalType _, _ -> sprintf "get%s" l1.CollectionTypeName
                 | Option _, Collection _, NormalType _ -> sprintf "getMaybe%s" l2.CollectionTypeName

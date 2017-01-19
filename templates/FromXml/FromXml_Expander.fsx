@@ -118,8 +118,8 @@ module Expander =
                     then "getInnerText"
                     else
                         match pAttr with
-                        | Some x -> sprintf "(parserForStrings \"%s\" %s.%s)" l3.InnerType.FullName l3.InnerType.FullName x.ParseFunction
-                        | None -> sprintf "(parserForStrings \"%s\" %s.TryParse)" l3.InnerType.FullName l3.InnerType.FullName
+                        | Some x -> sprintf "(parserForStrings \"%s\" \"%s.%s\" %s.%s)" l3.InnerType.FullName p.DeclaringType.FullName p.Name l3.InnerType.FullName x.ParseFunction
+                        | None -> sprintf "(parserForStrings \"%s\" \"%s.%s\" %s.TryParse)" l3.InnerType.FullName p.DeclaringType.FullName p.Name l3.InnerType.FullName
             let getter =
                 match pAttr, nAttr with
                 | Some x, _ | None, Some x when (x :? XPathAttribute) -> "fromAnXPath"

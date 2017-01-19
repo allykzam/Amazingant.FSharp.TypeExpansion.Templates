@@ -257,14 +257,14 @@ module Helpers =
     /// Converts a normal TryParse-style function into one which takes an XML
     /// node and returns a result, throwing an exception if the inner text from
     /// the node cannot be parsed.
-    let parserForStrings targetType (p : string -> bool * 'a) : XmlNode -> 'a =
+    let parserForStrings targetType targetField (p : string -> bool * 'a) : XmlNode -> 'a =
         fun x ->
             match x with
-            | null -> failwithf "Trying to process a null XmlNode into a '%s'" targetType
+            | null -> failwithf "Trying to process a null XmlNode into a '%s' for the field '%s'" targetType targetField
             | _ ->
                 match p x.InnerText with
                 | (true , x) -> x
-                | (false, _) -> failwithf "Invalid value '%s' could not be parsed as a '%s'" x.InnerText targetType
+                | (false, _) -> failwithf "Invalid value '%s' could not be parsed as a '%s' for the field '%s'" x.InnerText targetType targetField
 
     /// Acts as a "parser" for cases where a node's inner text is desired with
     /// no further processing.

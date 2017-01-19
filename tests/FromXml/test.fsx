@@ -57,6 +57,12 @@ let ValidateSample (xmlPath : string) (fromXmlDoc : string -> 'T array) (exp : M
             let actual = getter.Invoke(x, [||])
             match expected, actual with
             | null, null -> ()
+            | null, _ ->
+                failwithf "Property '%s' of type '%s' has a null expected value, but its actual value is '%A'"
+                    property prop.PropertyType.FullName actual
+            | _, null ->
+                failwithf "Property '%s' of type '%s' has an expected value of '%A', but its actual value is null"
+                    property prop.PropertyType.FullName expected
             | _, _ ->
                 let eT = expected.GetType()
                 let aT = actual.GetType()

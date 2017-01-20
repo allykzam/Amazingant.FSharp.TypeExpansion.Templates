@@ -212,6 +212,45 @@ module Expander =
             // when binding the `mainNodeName` value
             | _, _ -> failwithf "The %s type either has both XmlNode and XPath attributes, multiples of one attribute, or some combination thereof." t.FullName
 
+        // Look for validation methods
+        let validation =
+            let getFuncs s u =
+                let p (x : System.Reflection.MethodInfo) =
+                    let ps = x.GetParameters()
+                    if ps.Length = 0 then not s
+                    elif ps.Length <> 1 then false
+                    else
+                        let pt = ps.[0].ParameterType
+                        if s then pt = t else pt = typeof<unit>
+                let ts (x : System.Reflection.MethodInfo) =
+                    if s then sprintf "%s.%s" x.DeclaringType.Name x.Name
+                    else sprintf "(fun x -> x.%s())" x.Name
+                t.GetMethods()
+                |> Seq.filter (fun x -> x.GetCustomAttributes(typeof<ValidationAttribute>, false).Length = 1)
+                |> Seq.filter (fun x -> x.IsStatic = s)
+                |> Seq.filter (fun x -> if u then x.ReturnType = typeof<System.Void> else x.ReturnType = typeof<ValidationResult>)
+                |> Seq.filter p
+                |> Seq.map ts
+                |> Seq.toArray
+            let staticUnion = getFuncs true  false
+            let staticUnit  = getFuncs true  true
+            let memberUnion = getFuncs false false
+            let memberUnit  = getFuncs false true
+            if staticUnion.Length = 0 && staticUnit.Length = 0 && memberUnion.Length = 0 && memberUnit.Length = 0
+            then ""
+            else
+                sprintf "
+                |> validateAll
+                    [ %s ]
+                    [ %s ]
+                    [ %s ]
+                    [ %s ]"
+                    (System.String.Join("; ", staticUnion))
+                    (System.String.Join("; ", staticUnit ))
+                    (System.String.Join("; ", memberUnion))
+                    (System.String.Join("; ", memberUnit ))
+
+
         // Start main result
         sprintf """namespace %s
     [<AutoOpen>]
@@ -220,16 +259,17 @@ module Expander =
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
 
         type %s with
-            static member FromXmlNode (xml : System.Xml.XmlNode) : %s =
+            static member FromXmlNode (xml : System.Xml.XmlNode) =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a '%s' value from it"
-                {
+                ({
 %s
-                }
+                } : %s)%s
 %s"""
             t.Namespace
             t.Name
             t.Name
             t.Name
-            t.Name
             setters
+            t.Name
+            validation
             fromDoc

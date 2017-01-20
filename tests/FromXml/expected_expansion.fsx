@@ -21,11 +21,11 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
 
         type Node with
-            static member FromXmlNode (xml : System.Xml.XmlNode) : Node =
+            static member FromXmlNode (xml : System.Xml.XmlNode) =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'Node' value from it"
-                {
+                ({
                     ``Field`` = (exactlyOne fromTagsOrAttributes xml "Field" getInnerText);
-                }
+                } : Node)
 
             static member FromXmlDoc doc = thingFromDocElement doc "Node" Node.FromXmlNode
             static member FromXmlDoc xml = thingFromStringElement xml "Node" Node.FromXmlNode
@@ -38,11 +38,11 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
 
         type NodeOpt with
-            static member FromXmlNode (xml : System.Xml.XmlNode) : NodeOpt =
+            static member FromXmlNode (xml : System.Xml.XmlNode) =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'NodeOpt' value from it"
-                {
+                ({
                     ``Field`` = (exactlyOne fromTagsOrAttributes xml "Field" getInnerText);
-                }
+                } : NodeOpt)
 
             static member FromXmlDoc doc = thingFromDocElement doc "Node_Opt" NodeOpt.FromXmlNode
             static member FromXmlDoc xml = thingFromStringElement xml "Node_Opt" NodeOpt.FromXmlNode
@@ -55,11 +55,11 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
 
         type NodeColl with
-            static member FromXmlNode (xml : System.Xml.XmlNode) : NodeColl =
+            static member FromXmlNode (xml : System.Xml.XmlNode) =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'NodeColl' value from it"
-                {
+                ({
                     ``Field`` = (exactlyOne fromTagsOrAttributes xml "Field" getInnerText);
-                }
+                } : NodeColl)
 
             static member FromXmlDoc doc = thingFromDocElement doc "Node_Coll" NodeColl.FromXmlNode
             static member FromXmlDoc xml = thingFromStringElement xml "Node_Coll" NodeColl.FromXmlNode
@@ -72,11 +72,11 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
 
         type NodeOptColl with
-            static member FromXmlNode (xml : System.Xml.XmlNode) : NodeOptColl =
+            static member FromXmlNode (xml : System.Xml.XmlNode) =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'NodeOptColl' value from it"
-                {
+                ({
                     ``Field`` = (exactlyOne fromTagsOrAttributes xml "Field" getInnerText);
-                }
+                } : NodeOptColl)
 
             static member FromXmlDoc doc = thingFromDocElement doc "Node_Opt_Coll" NodeOptColl.FromXmlNode
             static member FromXmlDoc xml = thingFromStringElement xml "Node_Opt_Coll" NodeOptColl.FromXmlNode
@@ -89,11 +89,11 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
 
         type Path with
-            static member FromXmlNode (xml : System.Xml.XmlNode) : Path =
+            static member FromXmlNode (xml : System.Xml.XmlNode) =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'Path' value from it"
-                {
+                ({
                     ``Field`` = (exactlyOne fromTagsOrAttributes xml "Field" getInnerText);
-                }
+                } : Path)
 
             static member FromXmlDoc doc = thingFromDocXPath doc "xpath/path" Path.FromXmlNode
             static member FromXmlDoc xml = thingFromStringXPath xml "xpath/path" Path.FromXmlNode
@@ -106,11 +106,11 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
 
         type PathOpt with
-            static member FromXmlNode (xml : System.Xml.XmlNode) : PathOpt =
+            static member FromXmlNode (xml : System.Xml.XmlNode) =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'PathOpt' value from it"
-                {
+                ({
                     ``Field`` = (exactlyOne fromTagsOrAttributes xml "Field" getInnerText);
-                }
+                } : PathOpt)
 
             static member FromXmlDoc doc = thingFromDocXPath doc "xpath/path_opt" PathOpt.FromXmlNode
             static member FromXmlDoc xml = thingFromStringXPath xml "xpath/path_opt" PathOpt.FromXmlNode
@@ -123,11 +123,11 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
 
         type PathColl with
-            static member FromXmlNode (xml : System.Xml.XmlNode) : PathColl =
+            static member FromXmlNode (xml : System.Xml.XmlNode) =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'PathColl' value from it"
-                {
+                ({
                     ``Field`` = (exactlyOne fromTagsOrAttributes xml "Field" getInnerText);
-                }
+                } : PathColl)
 
             static member FromXmlDoc doc = thingFromDocXPath doc "xpath/path_coll" PathColl.FromXmlNode
             static member FromXmlDoc xml = thingFromStringXPath xml "xpath/path_coll" PathColl.FromXmlNode
@@ -140,11 +140,11 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
 
         type PathOptColl with
-            static member FromXmlNode (xml : System.Xml.XmlNode) : PathOptColl =
+            static member FromXmlNode (xml : System.Xml.XmlNode) =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'PathOptColl' value from it"
-                {
+                ({
                     ``Field`` = (exactlyOne fromTagsOrAttributes xml "Field" getInnerText);
-                }
+                } : PathOptColl)
 
             static member FromXmlDoc doc = thingFromDocXPath doc "xpath/path_opt_coll" PathOptColl.FromXmlNode
             static member FromXmlDoc xml = thingFromStringXPath xml "xpath/path_opt_coll" PathOptColl.FromXmlNode
@@ -157,9 +157,9 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
         open Amazingant.FSharp.TypeExpansion.Templates.FromXml
 
         type TestFields with
-            static member FromXmlNode (xml : System.Xml.XmlNode) : TestFields =
+            static member FromXmlNode (xml : System.Xml.XmlNode) =
                 if isNull xml then failwithf "Given a null XmlNode and asked to parse a 'TestFields' value from it"
-                {
+                ({
                     ``SimpleString`` = (exactlyOne fromTagsOrAttributes xml "SimpleString" getInnerText);
                     ``MaybeString`` = (maybeOne fromTagsOrAttributes xml "MaybeString" getInnerText);
                     ``StringList`` = (getList fromTagsOrAttributes xml "StringList" getInnerText);
@@ -264,7 +264,12 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``MaybeXPathNestedXPathFieldList`` = (getMaybeList fromAnXPath xml "other_node_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode);
                     ``MaybeXPathNestedXPathFieldArray`` = (getMaybeArray fromAnXPath xml "other_node_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode);
                     ``MaybeXPathNestedXPathFieldSeq`` = (getMaybeSeq fromAnXPath xml "other_node_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode);
-                }
+                } : TestFields)
+                |> validateAll
+                    [ TestFields.ValidationOne ]
+                    [ TestFields.ValidationTwo ]
+                    [ (fun x -> x.ValidationThree()) ]
+                    [ (fun x -> x.ValidationFour()) ]
 
             static member FromXmlDoc doc = thingFromDocElement doc "Test" TestFields.FromXmlNode
             static member FromXmlDoc xml = thingFromStringElement xml "Test" TestFields.FromXmlNode

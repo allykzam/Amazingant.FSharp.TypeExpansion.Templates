@@ -159,3 +159,7 @@ type TestFields =
         [<XPath("other_node_opt_coll")>]  MaybeXPathNestedXPathFieldArray : (Path array) option;
         [<XPath("other_node_opt_coll")>]  MaybeXPathNestedXPathFieldSeq   : (Path seq  ) option;
     }
+    [<Validation>] static member    ValidationOne   (_ : TestFields) = ValidationResult.Valid
+    [<Validation>] static member    ValidationTwo   (_ : TestFields) = ()
+    [<Validation>]        member __.ValidationThree (              ) = ValidationResult.Valid
+    [<Validation>]        member __.ValidationFour  (              ) = ()

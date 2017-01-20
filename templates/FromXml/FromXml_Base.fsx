@@ -168,6 +168,22 @@ type XPathAttribute (path : string, parseFunc : string) =
 
 
 
+[<AttributeUsage(AttributeTargets.Method)>]
+/// <summary>
+/// Indicates that a function is to be used as validation after processing it
+/// from XML.
+/// </summary>
+type ValidationAttribute() =
+    inherit Attribute()
+
+
+[<RequireQualifiedAccess>]
+type ValidationResult =
+    | Valid
+    | Invalid of Message : string
+
+
+
 open System.Xml
 
 [<AutoOpen>]
@@ -304,3 +320,16 @@ module Helpers =
     /// Processes the given values and returns the results in a cached sequence,
     /// backed by an array. Returns None if no matching results are found.
     let getMaybeSeq       getter  a b c : 'a seq   option = let rs = getMaybeArray getter a b c in Option.map Seq.ofArray rs
+
+    /// Runs the given validation methods against the given value
+    let validateAll staticUnion staticUnit memberUnion memberUnit x =
+        let typeName = x.GetType().FullName
+        let inline check x =
+            match x with
+            | ValidationResult.Valid -> ()
+            | ValidationResult.Invalid msg -> failwithf "Validation failure processing a '%s' value: %s" typeName msg
+        staticUnion |> Seq.iter (fun f -> check (f x))
+        staticUnit  |> Seq.iter (fun f -> f x)
+        memberUnion |> Seq.iter (fun f -> check (f x))
+        memberUnit  |> Seq.iter (fun f -> f x)
+        x

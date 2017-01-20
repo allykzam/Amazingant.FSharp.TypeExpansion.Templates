@@ -1,3 +1,8 @@
+#### 1.5.0 - 2017-01-20
+* #16: Add new `Validation` attribute and `ValidationResult` types for FromXml
+  template; source types can now supply validation methods that will be executed
+  after XML processing is complete
+
 #### 1.4.0 - 2017-01-19
 * #14: Populate optional fields as `None` if the target node is empty
 * #15: Add target field information to exceptions thrown when a `TryParse`

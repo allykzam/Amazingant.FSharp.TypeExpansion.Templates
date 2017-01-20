@@ -265,6 +265,11 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``MaybeXPathNestedXPathFieldArray`` = (getMaybeArray fromAnXPath xml "other_node_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode);
                     ``MaybeXPathNestedXPathFieldSeq`` = (getMaybeSeq fromAnXPath xml "other_node_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode);
                 } : TestFields)
+                |> validateAll
+                    [ TestFields.ValidationOne ]
+                    [ TestFields.ValidationTwo ]
+                    [ (fun x -> x.ValidationThree()) ]
+                    [ (fun x -> x.ValidationFour()) ]
 
             static member FromXmlDoc doc = thingFromDocElement doc "Test" TestFields.FromXmlNode
             static member FromXmlDoc xml = thingFromStringElement xml "Test" TestFields.FromXmlNode

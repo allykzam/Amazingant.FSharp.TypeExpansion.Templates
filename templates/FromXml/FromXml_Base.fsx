@@ -168,6 +168,22 @@ type XPathAttribute (path : string, parseFunc : string) =
 
 
 
+[<AttributeUsage(AttributeTargets.Method)>]
+/// <summary>
+/// Indicates that a function is to be used as validation after processing it
+/// from XML.
+/// </summary>
+type ValidationAttribute() =
+    inherit Attribute()
+
+
+[<RequireQualifiedAccess>]
+type ValidationResult =
+    | Valid
+    | Invalid of Message : string
+
+
+
 open System.Xml
 
 [<AutoOpen>]

@@ -285,7 +285,7 @@ module Helpers =
     let exactlyOne (sourceType, getter) a b c =
         let ret = getter a b c |> Seq.tryHead
         match ret with
-        | None -> failwithf "No matching %s could be found matching '%s'" sourceType b
+        | None -> failwithf "No %s could be found matching '%s'" sourceType b
         | Some x -> x
 
     /// Processes the given values and returns all matching results as an array.

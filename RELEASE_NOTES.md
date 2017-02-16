@@ -1,3 +1,8 @@
+#### 1.5.1 - 2017-02-16
+* #17: Fix regression created in 1.3.0. In 1.2.1 and prior, underscores in node
+  and attribute names were ignored when searching for a value. This behavior has
+  been restored, and additional tests have been added to validate.
+
 #### 1.5.0 - 2017-01-20
 * #16: Add new `Validation` attribute and `ValidationResult` types for FromXml
   template; source types can now supply validation methods that will be executed

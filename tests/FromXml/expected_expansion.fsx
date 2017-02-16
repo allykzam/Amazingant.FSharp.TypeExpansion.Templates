@@ -264,6 +264,9 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``MaybeXPathNestedXPathFieldList`` = (getMaybeList fromAnXPath xml "other_node_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode);
                     ``MaybeXPathNestedXPathFieldArray`` = (getMaybeArray fromAnXPath xml "other_node_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode);
                     ``MaybeXPathNestedXPathFieldSeq`` = (getMaybeSeq fromAnXPath xml "other_node_opt_coll" Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.Path.FromXmlNode);
+                    ``IgnoreUnderscoreInNode`` = (exactlyOne fromXmlTags xml "underscored" (parserForStrings "System.Int32" "Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.TestFields.IgnoreUnderscoreInNode" System.Int32.TryParse));
+                    ``IgnoreUnderscoreInAttr`` = (exactlyOne fromAttributes xml "underscored" (parserForStrings "System.Int32" "Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.TestFields.IgnoreUnderscoreInAttr" System.Int32.TryParse));
+                    ``Underscored`` = (exactlyOne fromTagsOrAttributes xml "Underscored" (parserForStrings "System.Int32" "Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.TestFields.Underscored" System.Int32.TryParse));
                 } : TestFields)
                 |> validateAll
                     [ TestFields.ValidationOne ]

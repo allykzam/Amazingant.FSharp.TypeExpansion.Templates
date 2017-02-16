@@ -230,7 +230,7 @@ module Helpers =
         fun xml tagName parser ->
             xml.ChildNodes
             |> System.Linq.Enumerable.Cast
-            |> Seq.filter (fun (x : XmlNode) -> x.Name.Equals(tagName, StringComparison.OrdinalIgnoreCase))
+            |> Seq.filter (fun (x : XmlNode) -> x.Name.Replace("_", "").Equals(tagName.Replace("_", ""), StringComparison.OrdinalIgnoreCase))
             |> Seq.map parser
 
     /// Returns a tuple whose second value is a function which gathers all XML
@@ -243,7 +243,7 @@ module Helpers =
         fun xml attrName parser ->
             xml.Attributes
             |> System.Linq.Enumerable.Cast
-            |> Seq.filter (fun (x : XmlNode) -> x.Name.Equals(attrName, StringComparison.OrdinalIgnoreCase))
+            |> Seq.filter (fun (x : XmlNode) -> x.Name.Replace("_", "").Equals(attrName.Replace("_", ""), StringComparison.OrdinalIgnoreCase))
             |> Seq.map parser
 
     /// Returns a tuple whose second value is a function which gathers all XML

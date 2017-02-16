@@ -4,7 +4,11 @@
 
     string_opt=""
     int_opt=""
+
+    under_scored="17"
     >
+    <!-- Issue-related values -->
+    <under_scored>17</under_scored>
 
     <!-- This field should still populate, as a small amount of whitespace -->
     <maybestring>    </maybestring>

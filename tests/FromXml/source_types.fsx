@@ -158,6 +158,12 @@ type TestFields =
         [<XPath("other_node_opt_coll")>]  MaybeXPathNestedXPathFieldList  : (Path list ) option;
         [<XPath("other_node_opt_coll")>]  MaybeXPathNestedXPathFieldArray : (Path array) option;
         [<XPath("other_node_opt_coll")>]  MaybeXPathNestedXPathFieldSeq   : (Path seq  ) option;
+
+        // **** Fields needed to test issues **** //
+        // Issue #17
+        [<XmlNode("underscored")>] IgnoreUnderscoreInNode : int;
+        [<XmlAttr("underscored")>] IgnoreUnderscoreInAttr : int;
+                                         Underscored      : int;
     }
     [<Validation>] static member    ValidationOne   (_ : TestFields) = ValidationResult.Valid
     [<Validation>] static member    ValidationTwo   (_ : TestFields) = ()

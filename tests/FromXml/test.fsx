@@ -187,6 +187,11 @@ let FullSampleData =
         ( "MaybeXPathNestedXPathFieldList" , box ([| { Path.Field = "opt onode coll 1" }; { Path.Field = "opt onode coll 2" } |] |> Array.toList |> Some));
         ( "MaybeXPathNestedXPathFieldArray", box ([| { Path.Field = "opt onode coll 1" }; { Path.Field = "opt onode coll 2" } |]                 |> Some));
         ( "MaybeXPathNestedXPathFieldSeq"  , box ([| { Path.Field = "opt onode coll 1" }; { Path.Field = "opt onode coll 2" } |] |> Array.toSeq  |> Some));
+
+        // Issue-related values
+        ("IgnoreUnderscoreInNode", box (17));
+        ("IgnoreUnderscoreInAttr", box (17));
+        (      "Underscored"     , box (17));
     ]
     |> Map.ofList
 

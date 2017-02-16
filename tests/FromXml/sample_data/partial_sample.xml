@@ -1,7 +1,10 @@
 <test
     string="string"
     int="15"
+    under_scored="17"
     >
+    <!-- Issue-related values -->
+    <under_scored>17</under_scored>
 
     <simplestring>simple string</simplestring>
     <simplefield>1</simplefield>

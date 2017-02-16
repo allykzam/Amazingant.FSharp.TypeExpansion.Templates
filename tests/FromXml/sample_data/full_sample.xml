@@ -8,7 +8,12 @@
     int_opt="16"
     int_coll="17"
     int_opt_coll="18"
+
+    under_scored="17"
     >
+    <!-- Issue-related values -->
+    <under_scored>17</under_scored>
+
 
     <simplestring>simple string</simplestring>
     <maybestring>maybe string</maybestring>

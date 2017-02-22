@@ -1,3 +1,7 @@
+#### 2.0.0 - 2017-02-22
+* Update TypeExpansion paket reference to 1.0.0; this is considered a breaking
+  change, as it brings along a new version of the FSharp.Core package.
+
 #### 1.5.1 - 2017-02-16
 * #17: Fix regression created in 1.3.0. In 1.2.1 and prior, underscores in node
   and attribute names were ignored when searching for a value. This behavior has

@@ -1,7 +1,7 @@
 FRAMEWORK: NET45
 NUGET
   remote: https://api.nuget.org/v3/index.json
-    Amazingant.FSharp.TypeExpansion (1.0)
+    Amazingant.FSharp.TypeExpansion (1.0.1)
       FSharp.Core (4.1)
     FAKE (4.39.1)
     FSharp.Core (4.1)

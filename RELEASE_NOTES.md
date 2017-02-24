@@ -1,3 +1,7 @@
+#### 2.0.3 - 2017-02-24
+* Update TypeExpansion paket reference to 1.0.3 to once again fix references to
+  FSharp.Core using the wrong version
+
 #### 2.0.2 - 2017-02-24
 * Update TypeExpansion paket reference to 1.0.2 to fix the Attributes library
   using the wrong version of FSharp.Core

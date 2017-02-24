@@ -1,3 +1,6 @@
+#### 2.0.1 - 2017-02-24
+* Update TypeExpansion paket reference to 1.0.1 to fix test failure
+
 #### 2.0.0 - 2017-02-22
 * Update TypeExpansion paket reference to 1.0.0; this is considered a breaking
   change, as it brings along a new version of the FSharp.Core package.

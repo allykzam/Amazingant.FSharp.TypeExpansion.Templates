@@ -223,8 +223,8 @@ module Expander =
                         let pt = ps.[0].ParameterType
                         if s then pt = t else pt = typeof<unit>
                 let ts (x : System.Reflection.MethodInfo) =
-                    if s then sprintf "%s.%s" x.DeclaringType.Name x.Name
-                    else sprintf "(fun x -> x.%s())" x.Name
+                    if s then sprintf "%s.``%s``" x.DeclaringType.Name x.Name
+                    else sprintf "(fun x -> x.``%s``())" x.Name
                 t.GetMethods()
                 |> Seq.filter (fun x -> x.GetCustomAttributes(typeof<ValidationAttribute>, false).Length = 1)
                 |> Seq.filter (fun x -> x.IsStatic = s)

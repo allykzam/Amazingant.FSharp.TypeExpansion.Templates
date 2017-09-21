@@ -269,10 +269,10 @@ namespace Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
                     ``Underscored`` = (exactlyOne fromTagsOrAttributes xml "Underscored" (parserForStrings "System.Int32" "Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests.TestFields.Underscored" System.Int32.TryParse));
                 } : TestFields)
                 |> validateAll
-                    [ TestFields.ValidationOne ]
-                    [ TestFields.ValidationTwo ]
-                    [ (fun x -> x.ValidationThree()) ]
-                    [ (fun x -> x.ValidationFour()) ]
+                    [ TestFields.``ValidationOne`` ]
+                    [ TestFields.``ValidationTwo`` ]
+                    [ (fun x -> x.``ValidationThree``()) ]
+                    [ (fun x -> x.``ValidationFour``()) ]
 
             static member FromXmlDoc doc = thingFromDocElement doc "Test" TestFields.FromXmlNode
             static member FromXmlDoc xml = thingFromStringElement xml "Test" TestFields.FromXmlNode

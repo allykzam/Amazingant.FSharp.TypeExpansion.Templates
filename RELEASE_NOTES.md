@@ -1,3 +1,8 @@
+#### 2.1.0 - 2017-09-21
+* #19: Adjust FromXml expansion to wrap validation method names in backticks, so
+  that the validation method names can contain spaces without breaking the
+  expanded code.
+
 #### 2.0.3 - 2017-02-24
 * Update TypeExpansion paket reference to 1.0.3 to once again fix references to
   FSharp.Core using the wrong version

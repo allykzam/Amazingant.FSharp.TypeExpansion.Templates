@@ -16,6 +16,7 @@
 
     <simplestring>simple string</simplestring>
     <simplefield>1</simplefield>
+    <simpleunion>optionone</simpleunion>
     <string>string</string>
     <int>9</int>
     <node>

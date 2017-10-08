@@ -33,6 +33,15 @@
     <maybefieldarray>7</maybefieldarray>
     <maybefieldseq>8</maybefieldseq>
 
+    <simpleunion>OPTIONONE</simpleunion>
+    <maybeunion>OptionOne</maybeunion>
+    <unionlist>oPtIoNoNe</unionlist>
+    <unionarray>optionone</unionarray>
+    <unionseq>OPTIONone</unionseq>
+    <maybeunionlist>optionONE</maybeunionlist>
+    <maybeunionarray>OPtiONonE</maybeunionarray>
+    <maybeunionseq>OptionONE</maybeunionseq>
+
     <string>string</string>
     <string_opt>opt string</string_opt>
     <string_coll>string coll 1</string_coll><string_coll>string coll 2</string_coll>

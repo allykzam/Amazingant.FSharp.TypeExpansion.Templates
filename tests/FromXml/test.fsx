@@ -229,6 +229,14 @@ let PartialSampleData =
     |> Map.add   "MaybeFieldArray"                (box (  None : (int         array option)                 ))
     |> Map.add   "MaybeFieldSeq"                  (box (  None : (int         seq   option)                 ))
 
+    |> Map.add   "MaybeUnion"                     (box (  None : (SumType           option)                 ))
+    |> Map.add        "UnionList"                 (box (([| |] : (SumType     array       )) |> Array.toList))
+    |> Map.add        "UnionArray"                (box (([| |] : (SumType     array       ))                ))
+    |> Map.add        "UnionSeq"                  (box (([| |] : (SumType     array       )) |> Array.toSeq ))
+    |> Map.add   "MaybeUnionList"                 (box (  None : (SumType     list  option)                 ))
+    |> Map.add   "MaybeUnionArray"                (box (  None : (SumType     array option)                 ))
+    |> Map.add   "MaybeUnionSeq"                  (box (  None : (SumType     seq   option)                 ))
+
     |> Map.add  "MaybeXPathString"                (box (  None : (string            option)                 ))
     |> Map.add       "XPathStringList"            (box (([| |] : (string      array       )) |> Array.toList))
     |> Map.add       "XPathStringArray"           (box (([| |] : (string      array       ))                ))

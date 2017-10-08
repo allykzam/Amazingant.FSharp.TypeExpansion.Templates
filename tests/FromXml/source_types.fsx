@@ -54,6 +54,19 @@ type TestFields =
          MaybeFieldArray  : (int    array) option;
          MaybeFieldSeq    : (int    seq  ) option;
 
+        // **** Sum-type fields **** //
+        // These fields are specifically intended for testing union types which
+        // have no fields in any of their cases.
+        SimpleUnion      :  SumType              ;
+         MaybeUnion      :  SumType        option;
+              UnionList  :  SumType list         ;
+              UnionArray :  SumType array        ;
+              UnionSeq   :  SumType seq          ;
+         MaybeUnionList  : (SumType list ) option;
+         MaybeUnionArray : (SumType array) option;
+         MaybeUnionSeq   : (SumType seq  ) option;
+
+
         // **** XPath fields **** //
         // Strings with an XPath attribute on the field
         [<XPath("string"         )>] SimpleXPathString      :  string              ;

@@ -98,6 +98,15 @@ let FullSampleData =
         (  "MaybeFieldArray", box ([| 7 |]                 |> Some));
         (  "MaybeFieldSeq"  , box ([| 8 |] |> Array.toSeq  |> Some));
 
+        ("SimpleUnion"     , box (    OptionOne                            ));
+        ( "MaybeUnion"     , box (    OptionOne |> Some                    ));
+        (      "UnionList" , box ( [| OptionOne |] |> Array.toList         ));
+        (      "UnionArray", box ( [| OptionOne |]                         ));
+        (      "UnionSeq"  , box ( [| OptionOne |] |> Array.toSeq          ));
+        ( "MaybeUnionList" , box ( [| OptionOne |] |> Array.toList |> Some ));
+        ( "MaybeUnionArray", box ( [| OptionOne |]                 |> Some ));
+        ( "MaybeUnionSeq"  , box ( [| OptionOne |] |> Array.toSeq  |> Some ));
+
         ("SimpleXPathString"     , box         "string"     );
         ( "MaybeXPathString"     , box (Some   "opt string"));
         (      "XPathStringList" , box ([|     "string coll 1";     "string coll 2" |] |> Array.toList        ));

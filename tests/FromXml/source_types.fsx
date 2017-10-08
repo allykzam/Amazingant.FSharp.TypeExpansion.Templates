@@ -22,6 +22,12 @@ open Amazingant.FSharp.TypeExpansion.Attributes
 [<XPath("xpath/path_coll"    ); ExpandableType([| "FromXml" |])>] type PathColl    = { Field : string; }
 [<XPath("xpath/path_opt_coll"); ExpandableType([| "FromXml" |])>] type PathOptColl = { Field : string; }
 
+// This basic sum type is here to test basic processing of sum types with no
+// fields.
+type SumType =
+    | OptionOne
+    | OptionTwo
+
 
 [<XmlNode("Test"); ExpandableType([| "FromXml" |])>]
 type TestFields =

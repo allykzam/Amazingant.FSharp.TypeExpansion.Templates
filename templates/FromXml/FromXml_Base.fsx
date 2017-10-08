@@ -282,6 +282,41 @@ module Helpers =
                 | (true , x) -> x
                 | (false, _) -> failwithf "Invalid value '%s' could not be parsed as a '%s' for the field '%s'" x.InnerText targetType targetField
 
+
+    /// <summary>
+    /// Attempts to find and return a case of the union type
+    /// <typeparamref name="'T" /> whose name matches the text within an
+    /// <see cref="XmlNode" />.
+    /// </summary>
+    /// <remarks>
+    /// The text comparison done is not case-sensitive; that is, a union with a
+    /// case named "CaseA" would successfully be returned from this function
+    /// function given the input node contained the text "cAsEa".
+    ///
+    /// Union cases which contain fields are not processed.
+    /// </remarks>
+    let parserForSimpleUnion<'T> targetType targetField : XmlNode -> 'T =
+        fun x ->
+            match x with
+            | null -> failwithf "Trying to process a null XmlNode into a '%s' for the field '%s'" targetType targetField
+            | _ ->
+                let innerText = x.InnerText
+                match String.IsNullOrWhiteSpace innerText with
+                | true -> failwithf "Empty text cannot be processed into a '%s' for the field '%s'" targetType targetField
+                | false ->
+                    Microsoft.FSharp.Reflection.FSharpType.GetUnionCases(typeof<'T>)
+                    |> Seq.filter
+                        (fun x ->
+                            x.Name.Equals(innerText, StringComparison.OrdinalIgnoreCase) &&
+                            x.GetFields().Length = 0
+                        )
+                    |> Seq.tryHead
+                    |> function
+                       | Some x -> Microsoft.FSharp.Reflection.FSharpValue.MakeUnion(x, [||]) :?> 'T
+                       | None ->
+                            failwithf "The text %A does not match any cases of the union type '%s', being processed for the field '%s'"
+                                innerText targetType targetField
+
     /// Acts as a "parser" for cases where a node's inner text is desired with
     /// no further processing.
     let getInnerText (x : XmlNode) = x.InnerText

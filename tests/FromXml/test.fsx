@@ -39,6 +39,7 @@ open Amazingant.FSharp.TypeExpansion.Templates.FromXml.Tests
 
 
 let ValidateSample (xmlPath : string) (fromXmlDoc : string -> 'T array) (exp : Map<string, obj>) : unit =
+    printfn "Processing %A" xmlPath
     let data =
         let file = System.IO.Path.Combine(__SOURCE_DIRECTORY__, xmlPath)
         let doc = System.IO.File.ReadAllText file

@@ -65,6 +65,111 @@ reference to build a template for that lensing library, if doing so will improve
 its usefulness and/or usability.
 
 
+
+
+### ImmutableViewModel
+
+This template builds a view model for use with WPF, backed by the user-defined
+data model. Generated view models contain a backing state, using the data model
+type. There are a few third-party dependencies required for this template; see
+the end of this template's documentation for more information.
+
+With this template, fields and properties on the base data model are replicated
+as properties on the generated view model. These properties contain both getters
+and setters, meaning that, as an example, a string field from the data model can
+be bound to a `TextBox` in the UI, allowing users to modify the field's
+contents. When a property's setter is called, if modifications are not already
+in-progress, the view model's internal state will be replaced with the requested
+changes, and the appropriate property changed events will be raised.
+
+Fields which are typed as an F# List will be exposed in the view model as a
+`ReadOnlyObservableCollection`, although operations on these lists are currently
+reported to WPF as a complete clear and re-build of the collection. Fields which
+are typed as an F# Map will be exposed as an `ObservableDictionary` (see the
+Third-Party Dependencies section below) containing the appropriate types. This
+supports nesting types quite a bit as well, including automatic use of generated
+view model types in the nested maps. Note that while the `ObservableDictionary`
+type and its contents (including any generated view model types) are mutable,
+and can be modified without properly informing the main view model of a state
+change, such changes will be overwritten when the associated field(s) change in
+the backing state. Likewise, as such changes will not be reported up to the main
+view model, commands operating on the main view model will be given a state
+value that does not include those changes. This behavior will change at some
+point when a `ReadOnlyObservableMap` type can be written.
+
+When a view model type is nested within a collection in another view model, to
+better support WPF, consider adding the `ObservableCollectionKey` attribute to a
+field or property on the nested view model's base data model type. If the nested
+data model contains a single field which can uniquely identify it, operations on
+the containing map will take this into account, and update the nested view
+model's state when appropriate. Without using this attribute, when the nested
+data model changes in any way, the nested view model will be completely
+replaced, leading WPF UI elements to lose state. As an example, in my
+prototyping phase, I displayed a map in a WPF `TreeView`; when a nested data
+model changes, the UI would lose its selection if the attribute is not used, but
+would retain its selection with the attribute.
+
+Data transformation functions can be defined in an appropriate module, and will
+cause `ICommand` instances to be generated on the view model. To do this, the
+module must be marked with the `HelperModule` attribute, e.g.
+`[<ImmutableViewModel.HelperModule(typeof<DataModel>)>]`. When this attribute is
+found, `ICommand` instances will be made for any function matching one of the
+expected type signatures. While one of these commands executes, the view model's
+internal state will be flagged as being processed; this status can be checked
+with the `InternalState_IsProcessing` property. While an asynchronous command
+executes, all commands will be disabled, ensuring that multiple state changes do
+not have to be merged together somehow.
+
+When defining a data transformation function, assuming the data model is very
+unoriginally named `DataModel`, the functions should be typed as
+`DataModel -> DataModel` for a simple synchronous command, or
+`DataModel -> 'a -> DataModel` for a synchronous command that takes a parameter.
+Replacing the final return type with `Async<DataModel>` will result in an
+asynchronous command.
+
+If a command's ability to execute depends on the current state, e.g. if your
+data model has an optional "selected value" field and you are defining commands
+that operate on the selected value, copy the main function's name, and define a
+separate function with "_CanExec" on the end of the name. This function must
+take the same parameters as the main function, but return a boolean. When a
+function with a matching name is detected, it will be checked for the
+appropriate signature, and used to enable and disable the command appropriately.
+Be aware that your "_CanExec" function will not override the internal behavior
+of disabling all commands while an asynchronous command executes.
+
+Last, for any properties or commands which depend upon the value of fields in
+the data model, in the module with the matching `HelperModule` attribute, define
+one or more functions with the `PropertyDependencies` attribute. These functions
+must take a value of your data model type, and return one of `Expr * Expr`,
+`(Expr * Expr) list`, or `Expr * (Expr list)`. See the XML documentation on the
+`PropertyDependencies` attribute for more details. Be aware that if you have
+defined "_CanExec" functions for enabling and disabling commands based on
+current state, you almost certainly need to define dependencies for those
+commands, otherwise they will not automatically enable and disable when the
+state is updated.
+
+
+
+#### Third-party dependencies.
+
+As a warning, this template requires a few extra dependencies. The NLog logging
+library is used to log warnings when attempting to change internal state at
+invalid times. This is easy enough to remove; locate the `logger` value created
+by calling `NLog.LogManager.GetCurrentClassLogger()`, comment it out, and fix
+the new compiler errors. Calls to the logger can either be replaced with your
+own logging tools, or just with `()` to act as a no-op.
+
+The `ObservableDictionary` type defined above is a third-party class written in
+C#, and must be compiled and added to your project seperately. The source code
+for this class has been included, or can be found at [DrWPF's website][drwpf],
+and has its own license documented at the top of the file. At some point it
+would be nice to replace this class with a type defined within the "base" file
+for the template, but this existing code saved a fair amount of development time
+during the prototyping phase of the template.
+
+
+
+
 ### FromXml
 
 This template provides a `FromXmlNode` extension method for any type provided to
@@ -220,3 +325,4 @@ details.
 
 [xml-provider]: https://fsharp.github.io/FSharp.Data/library/XmlProvider.html
 [license]: https://github.com/amazingant/Amazingant.FSharp.TypeExpansion.Templates/blob/master/LICENSE
+[drwpf]: http://drwpf.com/blog/2007/09/16/can-i-bind-my-itemscontrol-to-a-dictionary/

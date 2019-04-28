@@ -123,7 +123,7 @@ module Expander =
                     let nestedType = Array.last(t.GetGenericArguments())
                     match hasViewModel nestedType, getKeyField nestedType with
                     | true, Some p ->
-                        sprintf "xs\n%s|> Seq.toArray\n%s|> Seq.iter\n%s\t(fun key ->\n%s\t\tif ys.IsEmpty then xs.Clear()else\n%s\t\tmatch ys |> List.tryFindIndex (fun y -> y.%s = key.%s) with\n%s\t\t| None -> key |> xs.Remove |> ignore\n%s\t\t| Some yi when ys.[yi] = key.InternalState_CurrentValue -> ()\n%s\t\t| Some yi ->\n%s\t\t\tlet xi = xs |> Seq.findIndex (fun x -> x.%s = key.%s)\n%s\t\t\t(xs.[xi] :> Amazingant.FSharp.TypeExpansion.Templates.ImmutableViewModel.IImmutableViewModelBase<_>).UpdateField(fun _ -> ys.[yi])\n%s\t)"
+                        sprintf "xs\n%s|> Seq.toArray\n%s|> Seq.iter\n%s\t(fun key ->\n%s\t\tif ys.IsEmpty then xs.Clear() else\n%s\t\tmatch ys |> List.tryFindIndex (fun y -> y.%s = key.%s) with\n%s\t\t| None -> key |> xs.Remove |> ignore\n%s\t\t| Some yi when ys.[yi] = key.InternalState_CurrentValue -> ()\n%s\t\t| Some yi ->\n%s\t\t\tlet xi = xs |> Seq.findIndex (fun x -> x.%s = key.%s)\n%s\t\t\t(xs.[xi] :> Amazingant.FSharp.TypeExpansion.Templates.ImmutableViewModel.IImmutableViewModelBase<_>).UpdateField(fun _ -> ys.[yi])\n%s\t)"
                             baseIndent baseIndent baseIndent baseIndent baseIndent p.Name p.Name baseIndent baseIndent baseIndent baseIndent p.Name p.Name baseIndent baseIndent
                     | _ ->
                         sprintf "xs\n%s|> Seq.toArray\n%s|> Seq.iter\n%s\t(fun key ->\n%s\t\tif not (List.contains key ys)\n%s\t\tthen key |> xs.Remove |> ignore\n%s\t)"

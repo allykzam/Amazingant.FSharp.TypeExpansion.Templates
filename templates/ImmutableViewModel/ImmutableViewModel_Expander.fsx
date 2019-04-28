@@ -196,9 +196,15 @@ module Expander =
                         let generic = x.PropertyType.GetGenericTypeDefinition()
                         if generic = typeof<int list>.GetGenericTypeDefinition() then
                             let innerType = Array.head(x.PropertyType.GetGenericArguments())
-                            sprintf "\tlet ``%s_immutable_view_model_observable_list`` = ivm.MakeObservableList<%s> \"%s\""
-                                x.Name (getTypeNameWithViewModel innerType) x.Name
-                            |> Some
+                            match getKeyField innerType with
+                            | Some p ->
+                                sprintf "\tlet ``%s_immutable_view_model_observable_list`` = ivm.MakeObservableList<%s,_>(\"%s\", fun x -> x.%s)"
+                                    x.Name (getTypeName innerType) x.Name p.Name
+                                |> Some
+                            | None ->
+                                sprintf "\tlet ``%s_immutable_view_model_observable_list`` = ivm.MakeObservableList<%s> \"%s\""
+                                    x.Name (getTypeName innerType) x.Name
+                                |> Some
                         elif generic = typeof<Map<int, int>>.GetGenericTypeDefinition() then
                             handleObservableMap x |> Some
                         else None

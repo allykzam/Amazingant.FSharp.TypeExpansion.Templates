@@ -318,7 +318,7 @@ Points of note with the `XPath` attribute:
 License
 -------
 
-This project is Copyright © 2016-2017 Anthony Perez a.k.a. amazingant, and is
+This project is Copyright © 2016-2019 Anthony Perez a.k.a. amazingant, and is
 licensed under the MIT license. See the [LICENSE file][license] for more
 details.
 

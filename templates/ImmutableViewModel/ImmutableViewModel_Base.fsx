@@ -104,6 +104,8 @@ type IImmutableViewModelBase<'T> =
     abstract member IsProcessing : bool
     /// Builds a read-only observable collection for the specified field.
     abstract member MakeObservableList<'a> : fieldName:string -> System.Collections.ObjectModel.ReadOnlyObservableCollection<'a>
+    /// Builds a read-only observable collection for the specified field.
+    abstract member MakeObservableList<'a, 'b when 'a : equality and 'b : equality> : fieldName:string * getKey:('a -> 'b) -> System.Collections.ObjectModel.ReadOnlyObservableCollection<'a>
     /// When the specified field is modified, calls the given update function
     /// to keep an observable dictionary up-to-date with the backing map.
     abstract member TrackObservableDictionary : fieldName:string * updateValues:(obj -> unit) -> unit
@@ -624,6 +626,34 @@ type ImmutableViewModelBase<'T when 'T : equality and 'T : comparison>(makeDefau
                 | :? ('a list) as xs ->
                     observable.Clear()
                     xs |> Seq.iter observable.Add
+                | _ -> ()
+            observableCollections <- observableCollections |> Map.add fieldName newF
+            System.Collections.ObjectModel.ReadOnlyObservableCollection<'a>(observable)
+
+        member __.MakeObservableList<'a, 'b when 'a : equality and 'b : equality> (fieldName, getKey) =
+            let _ : 'a -> 'b = getKey
+            let observable = System.Collections.ObjectModel.ObservableCollection<'a>([])
+            let newF (y : obj) =
+                match y with
+                | :? ('a list) as ys ->
+                    if ys.IsEmpty then observable.Clear() else
+                    observable
+                    |> Seq.toArray
+                    |> Seq.iter
+                        (fun key ->
+                            match ys |> List.tryFindIndex (fun y -> (getKey key) = (getKey y)) with
+                            | None -> key |> observable.Remove |> ignore
+                            | Some yi when ys.[yi] = key -> ()
+                            | Some yi ->
+                                let xi = observable |> Seq.findIndex (fun x -> (getKey x) = (getKey key))
+                                observable.[xi] <- ys.[yi]
+                        )
+                    ys
+                    |> Seq.iteri
+                        (fun i y ->
+                            if observable.[i] <> y then
+                                observable.Insert(i, y)
+                        )
                 | _ -> ()
             observableCollections <- observableCollections |> Map.add fieldName newF
             System.Collections.ObjectModel.ReadOnlyObservableCollection<'a>(observable)

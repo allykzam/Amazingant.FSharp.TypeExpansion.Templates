@@ -373,20 +373,38 @@ module Expander =
             props
             |> Seq.map
                 (fun x ->
+                    let isReadOnly =
+                        let bindingFlags =
+                            System.Reflection.BindingFlags.NonPublic |||
+                            System.Reflection.BindingFlags.Instance
+                        let field = x.DeclaringType.GetField(x.Name + "@", bindingFlags)
+                        match field with
+                        | null -> false
+                        | _ ->
+                            field.GetCustomAttributes(typeof<ReadOnlyAttribute>, true)
+                            |> Array.tryHead
+                            |> Option.isSome
+                    let doReadOnly (f : string -> string) writer =
+                        match isReadOnly with
+                        | true -> writer
+                        | false -> writer + (f x.Name)
                     let f() =
-                        sprintf "\tmember __.``%s``\n\t\twith get () = ivm.CurrentValue.``%s``\n\t\tand set value = ivm.UpdateField (fun x -> { x with ``%s`` = value })"
-                            x.Name x.Name x.Name
+                        sprintf "\tmember __.``%s``\n\t\twith get () = ivm.CurrentValue.``%s``"
+                            x.Name x.Name
+                        |> doReadOnly (sprintf "\n\t\tand set value = ivm.UpdateField (fun x -> { x with ``%s`` = value })")
                     match x.PropertyType.IsGenericType with
                     | false -> f()
                     | true ->
                         let generic = x.PropertyType.GetGenericTypeDefinition()
                         if generic = typeof<int option>.GetGenericTypeDefinition() then
                             let optionWrapped =
-                                sprintf "\tmember __.``%s``\n\t\twith get () = ivm.CurrentValue.``%s``\n\t\tand set value = ivm.UpdateField (fun x -> { x with ``%s`` = value })"
-                                    x.Name x.Name x.Name
+                                sprintf "\tmember __.``%s``\n\t\twith get () = ivm.CurrentValue.``%s``"
+                                    x.Name x.Name
+                                |> doReadOnly (sprintf "\n\t\tand set value = ivm.UpdateField (fun x -> { x with ``%s`` = value })")
                             let wpfWritable =
-                                sprintf "\tmember __.``%s_Bindable``\n\t\twith get () = ivm.CurrentValue.``%s`` |> optionToNull\n\t\tand set value = ivm.UpdateField (fun x -> { x with ``%s`` = (optionOfNull value) })"
-                                    x.Name x.Name x.Name
+                                sprintf "\tmember __.``%s_Bindable``\n\t\twith get () = ivm.CurrentValue.``%s`` |> optionToNull"
+                                    x.Name x.Name
+                                |> doReadOnly (sprintf "\n\t\tand set value = ivm.UpdateField (fun x -> { x with ``%s`` = (optionOfNull value) })")
                             optionWrapped + "\n" + wpfWritable
                         elif generic = typeof<Map<int, int>>.GetGenericTypeDefinition() then
                             sprintf "%s\n\tmember __.``%s_Bindable``\n\t\twith get () = ``%s_immutable_view_model_observable_map``"

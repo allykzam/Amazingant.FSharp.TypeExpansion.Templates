@@ -67,6 +67,11 @@ type ObservableCollectionKeyAttribute() =
     inherit System.Attribute()
 
 
+[<System.AttributeUsageAttribute(System.AttributeTargets.Field)>]
+type ReadOnlyAttribute() =
+    inherit System.Attribute()
+
+
 /// Helper for holding an internal state and whether or not processing is
 /// currently being done on it.
 type State<'T> =

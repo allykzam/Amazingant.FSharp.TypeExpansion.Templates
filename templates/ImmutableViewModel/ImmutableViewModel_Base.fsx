@@ -108,9 +108,9 @@ type IImmutableViewModelBase<'T> =
     /// Indicates whether or not an asynchronous update is in progress.
     abstract member IsProcessing : bool
     /// Builds a read-only observable collection for the specified field.
-    abstract member MakeObservableList<'a> : fieldName:string -> System.Collections.ObjectModel.ReadOnlyObservableCollection<'a>
+    abstract member MakeObservableList<'a> : fieldName:string * startData:list<'a> -> System.Collections.ObjectModel.ReadOnlyObservableCollection<'a>
     /// Builds a read-only observable collection for the specified field.
-    abstract member MakeObservableList<'a, 'b when 'a : equality and 'b : equality> : fieldName:string * getKey:('a -> 'b) -> System.Collections.ObjectModel.ReadOnlyObservableCollection<'a>
+    abstract member MakeObservableList<'a, 'b when 'a : equality and 'b : equality> : fieldName:string * startData:list<'a> * getKey:('a -> 'b) -> System.Collections.ObjectModel.ReadOnlyObservableCollection<'a>
     /// When the specified field is modified, calls the given update function
     /// to keep an observable dictionary up-to-date with the backing map.
     abstract member TrackObservableDictionary : fieldName:string * updateValues:(obj -> unit) -> unit
@@ -624,8 +624,8 @@ type ImmutableViewModelBase<'T when 'T : equality and 'T : comparison>(makeDefau
                 | Available _ -> false
                 | Processing _ -> true
 
-        member __.MakeObservableList<'a> fieldName =
-            let observable = System.Collections.ObjectModel.ObservableCollection<'a>([])
+        member __.MakeObservableList<'a> (fieldName, startData) =
+            let observable = System.Collections.ObjectModel.ObservableCollection<'a>(startData)
             let newF (x : obj) =
                 match x with
                 | :? ('a list) as xs ->
@@ -635,9 +635,9 @@ type ImmutableViewModelBase<'T when 'T : equality and 'T : comparison>(makeDefau
             observableCollections <- observableCollections |> Map.add fieldName newF
             System.Collections.ObjectModel.ReadOnlyObservableCollection<'a>(observable)
 
-        member __.MakeObservableList<'a, 'b when 'a : equality and 'b : equality> (fieldName, getKey) =
+        member __.MakeObservableList<'a, 'b when 'a : equality and 'b : equality> (fieldName, startData, getKey) =
             let _ : 'a -> 'b = getKey
-            let observable = System.Collections.ObjectModel.ObservableCollection<'a>([])
+            let observable = System.Collections.ObjectModel.ObservableCollection<'a>(startData)
             let newF (y : obj) =
                 match y with
                 | :? ('a list) as ys ->

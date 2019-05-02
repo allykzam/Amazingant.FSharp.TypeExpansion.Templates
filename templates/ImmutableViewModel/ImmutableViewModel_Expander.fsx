@@ -180,8 +180,8 @@ module Expander =
 
         let observableType = makeObservableType x.PropertyType
         let mapType = makeNonObservableType x.PropertyType
-        sprintf "\tlet ``%s_immutable_view_model_observable_map`` =\n\t\tlet xs = %s()\n\t\tlet _xs = xs\n\t\tlet removeValues (ys : %s) =\n\t\t\t%s\n\n\t\tlet addValues (ys : %s) =\n\t\t\tlet value = ys\n\t\t\t%s\n\n\t\tlet updateData (x : obj) =\n\t\t\tx |> unbox |> removeValues\n\t\t\tx |> unbox |> addValues\n\t\tivm.TrackObservableDictionary(\"%s\", updateData)\n\t\txs"
-            x.Name observableType mapType (removeValues x.PropertyType 1) mapType (addValues x.PropertyType 1) x.Name
+        sprintf "\tlet ``%s_immutable_view_model_observable_map`` =\n\t\tlet xs = %s()\n\t\tlet _xs = xs\n\t\tlet removeValues (ys : %s) =\n\t\t\t%s\n\n\t\tlet addValues (ys : %s) =\n\t\t\tlet value = ys\n\t\t\t%s\n\n\t\tlet updateData (x : obj) =\n\t\t\tx |> unbox |> removeValues\n\t\t\tx |> unbox |> addValues\n\t\tupdateData ivm.CurrentValue.``%s``\n\t\tivm.TrackObservableDictionary(\"%s\", updateData)\n\t\txs"
+            x.Name observableType mapType (removeValues x.PropertyType 1) mapType (addValues x.PropertyType 1) x.Name x.Name
 
     let getObservableLists (props : System.Reflection.PropertyInfo array) : string =
         match props with
@@ -198,12 +198,12 @@ module Expander =
                             let innerType = Array.head(x.PropertyType.GetGenericArguments())
                             match getKeyField innerType with
                             | Some p ->
-                                sprintf "\tlet ``%s_immutable_view_model_observable_list`` = ivm.MakeObservableList<%s,_>(\"%s\", fun x -> x.%s)"
-                                    x.Name (getTypeName innerType) x.Name p.Name
+                                sprintf "\tlet ``%s_immutable_view_model_observable_list`` = ivm.MakeObservableList<%s,_>(\"%s\", ivm.CurrentValue.``%s``, fun x -> x.%s)"
+                                    x.Name (getTypeName innerType) x.Name x.Name p.Name
                                 |> Some
                             | None ->
-                                sprintf "\tlet ``%s_immutable_view_model_observable_list`` = ivm.MakeObservableList<%s> \"%s\""
-                                    x.Name (getTypeName innerType) x.Name
+                                sprintf "\tlet ``%s_immutable_view_model_observable_list`` = ivm.MakeObservableList<%s>(\"%s\", ivm.CurrentValue.``%s``)"
+                                    x.Name (getTypeName innerType) x.Name x.Name
                                 |> Some
                         elif generic = typeof<Map<int, int>>.GetGenericTypeDefinition() then
                             handleObservableMap x |> Some

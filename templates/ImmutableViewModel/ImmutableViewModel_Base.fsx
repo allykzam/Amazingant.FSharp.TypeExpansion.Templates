@@ -111,6 +111,7 @@ type IImmutableViewModelBase<'T> =
     abstract member MakeObservableList<'a> : fieldName:string * startData:list<'a> -> System.Collections.ObjectModel.ReadOnlyObservableCollection<'a>
     /// Builds a read-only observable collection for the specified field.
     abstract member MakeObservableList<'a, 'b when 'a : equality and 'b : equality> : fieldName:string * startData:list<'a> * getKey:('a -> 'b) -> System.Collections.ObjectModel.ReadOnlyObservableCollection<'a>
+    abstract member MakeObservableSet<'a when 'a : comparison> : fieldName:string * startData:Set<'a> -> System.Collections.ObjectModel.ReadOnlyObservableCollection<'a>
     /// When the specified field is modified, calls the given update function
     /// to keep an observable dictionary up-to-date with the backing map.
     abstract member TrackObservableDictionary : fieldName:string * updateValues:(obj -> unit) -> unit
@@ -658,6 +659,26 @@ type ImmutableViewModelBase<'T when 'T : equality and 'T : comparison>(makeDefau
                         (fun i y ->
                             if observable.[i] <> y then
                                 observable.Insert(i, y)
+                        )
+                | _ -> ()
+            observableCollections <- observableCollections |> Map.add fieldName newF
+            System.Collections.ObjectModel.ReadOnlyObservableCollection<'a>(observable)
+
+
+        member __.MakeObservableSet<'a when 'a : comparison> (fieldName, (startData : Set<'a>)) =
+            let observable = System.Collections.ObjectModel.ObservableCollection<'a>(startData)
+            let newF (x : obj) =
+                match x with
+                | :? (Set<'a>) as xs ->
+                    if xs.IsEmpty then observable.Clear() else
+                    if observable.Count = 0 then xs |> Seq.iter observable.Add else
+                    let ys = Set.ofSeq observable
+                    (ys - xs) |> Set.iter (observable.Remove >> ignore)
+                    xs
+                    |> Seq.iteri
+                        (fun i x ->
+                            if observable.[i] <> x
+                            then observable.Insert(i, x)
                         )
                 | _ -> ()
             observableCollections <- observableCollections |> Map.add fieldName newF

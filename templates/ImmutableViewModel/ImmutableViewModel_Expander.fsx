@@ -194,8 +194,8 @@ module Expander =
                     | false -> None
                     | true ->
                         let generic = x.PropertyType.GetGenericTypeDefinition()
+                        let innerType = Array.head(x.PropertyType.GetGenericArguments())
                         if generic = typeof<int list>.GetGenericTypeDefinition() then
-                            let innerType = Array.head(x.PropertyType.GetGenericArguments())
                             match getKeyField innerType with
                             | Some p ->
                                 sprintf "\tlet ``%s_immutable_view_model_observable_list`` = ivm.MakeObservableList<%s,_>(\"%s\", ivm.CurrentValue.``%s``, fun x -> x.%s)"
@@ -205,6 +205,10 @@ module Expander =
                                 sprintf "\tlet ``%s_immutable_view_model_observable_list`` = ivm.MakeObservableList<%s>(\"%s\", ivm.CurrentValue.``%s``)"
                                     x.Name (getTypeName innerType) x.Name x.Name
                                 |> Some
+                        elif generic = typeof<Set<int>>.GetGenericTypeDefinition() then
+                            sprintf "\tlet ``%s_immutable_view_model_observable_set`` = ivm.MakeObservableSet<%s>(\"%s\", ivm.CurrentValue.``%s``)"
+                                x.Name (getTypeName innerType) x.Name x.Name
+                            |> Some
                         elif generic = typeof<Map<int, int>>.GetGenericTypeDefinition() then
                             handleObservableMap x |> Some
                         else None
@@ -409,10 +413,13 @@ module Expander =
                         elif generic = typeof<Map<int, int>>.GetGenericTypeDefinition() then
                             sprintf "%s\n\tmember __.``%s_Bindable``\n\t\twith get () = ``%s_immutable_view_model_observable_map``"
                                 (f()) x.Name x.Name
-                        elif generic <> typeof<int list>.GetGenericTypeDefinition() then f()
-                        else
+                        elif generic = typeof<Set<int>>.GetGenericTypeDefinition() then
+                            sprintf "%s\n\tmember __.``%s_Bindable``\n\t\twith get () = ``%s_immutable_view_model_observable_set``"
+                                (f()) x.Name x.Name
+                        elif generic = typeof<int list>.GetGenericTypeDefinition() then
                             sprintf "%s\n\tmember __.``%s_Bindable`` with get () = ``%s_immutable_view_model_observable_list``"
                                 (f()) x.Name x.Name
+                        else f()
                 )
         let commandProperties =
             commands

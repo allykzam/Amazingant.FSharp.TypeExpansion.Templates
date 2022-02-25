@@ -10,10 +10,13 @@ source_types.fsx
 
 open Amazingant.FSharp.TypeExpansion
 
+[<Literal>]
+let SourceDirectory = __SOURCE_DIRECTORY__
+
 type LoadSourceTypes =
     Expand<
         SourceFiles,
-        WorkingDirectory=(__SOURCE_DIRECTORY__),
+        WorkingDirectory=SourceDirectory,
         References="System,System.Xml,System.Core",
         CompilerFlags="--define:TYPE_EXPANSION",
         OutputPath="actual_expansion.fsx",

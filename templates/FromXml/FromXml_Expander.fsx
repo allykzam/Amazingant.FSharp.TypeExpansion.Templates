@@ -21,11 +21,12 @@ open Amazingant.FSharp.TypeExpansion.Attributes
 /// Contains type expansion code for the FromXml functions
 module Expander =
     /// <summary>
-    /// Helper type for processing types of Option<'T> or basic collection types
+    /// Helper type for processing types of Option&lt;'T&gt; or basic collection
+    /// types
     /// </summary>
     /// <remarks>
     /// This type considers arrays, the
-    /// <see cref="System.Collections.Generic.IEnumerable<'T>" /> (i.e. `'T seq`
+    /// <see cref="System.Collections.Generic.IEnumerable{'T}" /> (i.e. `'T seq`
     /// in F# code) and F#'s `list` type to be collections. No other collection
     /// types are processed as a collection.
     /// </remarks>

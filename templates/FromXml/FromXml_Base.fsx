@@ -21,12 +21,6 @@ type IXmlAttribute =
     abstract member SourceCollection : string
 
 
-[<AttributeUsage(
-    AttributeTargets.Class    |||
-    AttributeTargets.Struct   |||
-    AttributeTargets.Field    |||
-    AttributeTargets.Property
-    )>]
 /// <summary>
 /// Indicates a type or value that can be set using the contents of an XML node
 /// </summary>
@@ -43,6 +37,12 @@ type IXmlAttribute =
 /// The provided name is used in a case-insensitive comparison against XML node
 /// names
 /// </remarks>
+[<AttributeUsage(
+    AttributeTargets.Class    |||
+    AttributeTargets.Struct   |||
+    AttributeTargets.Field    |||
+    AttributeTargets.Property
+    )>]
 type XmlNodeAttribute (name : string, parseFunc : string) =
     inherit Attribute()
 
@@ -73,10 +73,6 @@ type XmlNodeAttribute (name : string, parseFunc : string) =
 
 
 
-[<AttributeUsage(
-    AttributeTargets.Field    |||
-    AttributeTargets.Property
-    )>]
 /// <summary>
 /// Indicates a value that can be set using the contents of an XML attribute
 /// </summary>
@@ -93,6 +89,10 @@ type XmlNodeAttribute (name : string, parseFunc : string) =
 /// The provided name is used in a case-insensitive comparison against XML
 /// attribute names
 /// </remarks>
+[<AttributeUsage(
+    AttributeTargets.Field    |||
+    AttributeTargets.Property
+    )>]
 type XmlAttrAttribute (name : string, parseFunc : string) =
     inherit Attribute()
 
@@ -123,12 +123,6 @@ type XmlAttrAttribute (name : string, parseFunc : string) =
 
 
 
-[<AttributeUsage(
-    AttributeTargets.Class    |||
-    AttributeTargets.Struct   |||
-    AttributeTargets.Field    |||
-    AttributeTargets.Property
-    )>]
 /// <summary>
 /// Indicates a value that can be set using the contents of a value to be
 /// gathered via an XPath
@@ -142,6 +136,12 @@ type XmlAttrAttribute (name : string, parseFunc : string) =
 /// return a boolean and the target type, where the boolean indicates whether or
 /// not the input string was valid.
 /// </param>
+[<AttributeUsage(
+    AttributeTargets.Class    |||
+    AttributeTargets.Struct   |||
+    AttributeTargets.Field    |||
+    AttributeTargets.Property
+    )>]
 type XPathAttribute (path : string, parseFunc : string) =
     inherit Attribute()
 
@@ -168,11 +168,11 @@ type XPathAttribute (path : string, parseFunc : string) =
 
 
 
-[<AttributeUsage(AttributeTargets.Method)>]
 /// <summary>
 /// Indicates that a function is to be used as validation after processing it
 /// from XML.
 /// </summary>
+[<AttributeUsage(AttributeTargets.Method)>]
 type ValidationAttribute() =
     inherit Attribute()
 
@@ -186,9 +186,9 @@ type ValidationResult =
 
 open System.Xml
 
-[<AutoOpen>]
 /// Helpers used for the expanded FromXml code to simplify the processing of
 /// XML data
+[<AutoOpen>]
 module Helpers =
     /// Uses the given function to process elements whose tag name match the
     /// specified name, and returns the results as an array.

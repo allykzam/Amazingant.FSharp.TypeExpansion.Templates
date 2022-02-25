@@ -1,3 +1,13 @@
+#### 3.0.0 - 2022-02-25
+* Update the TypeExpansion paket reference to 2.2.1 so I can build/test this
+  library. This is a breaking change, even though you can theoretically still
+  use these templates with the previous versions.
+* Adjust use of XML documentation and attributes in the FromXml template's base
+  code, to prevent the Visual Studio 2022 release of fsc from flagging it with
+  warnings. This should stop failures of the type expansion process.
+* Adjust FromXml test code to work around a Visual Studio 2019 F# compiler bug
+  relating to use of `__SOURCE_DIRECTORY__` when invoking a type provider.
+
 #### 2.1.0 - 2017-09-21
 * #19: Adjust FromXml expansion to wrap validation method names in backticks, so
   that the validation method names can contain spaces without breaking the

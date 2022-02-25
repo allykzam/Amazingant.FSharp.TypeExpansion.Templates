@@ -1,5 +1,7 @@
-#r "../../packages/Amazingant.FSharp.TypeExpansion/lib/net45/Amazingant.FSharp.TypeExpansion.Attributes.dll"
-#r "../../packages/Amazingant.FSharp.TypeExpansion/lib/net45/Amazingant.FSharp.TypeExpansion.dll"
+#r "../../packages/FSharp.Core/lib/net45/FSharp.Core.dll"
+#I "../../packages/Amazingant.FSharp.TypeExpansion/lib/net47"
+#r "../../packages/Amazingant.FSharp.TypeExpansion/lib/net47/Amazingant.FSharp.TypeExpansion.Attributes.dll"
+#r "../../packages/Amazingant.FSharp.TypeExpansion/lib/net47/Amazingant.FSharp.TypeExpansion.dll"
 
 [<Literal>]
 let SourceFiles = """

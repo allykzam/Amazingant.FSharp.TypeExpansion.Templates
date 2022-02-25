@@ -1,9 +1,7 @@
-FRAMEWORK: NET45
+RESTRICTION: == net45
 NUGET
   remote: https://api.nuget.org/v3/index.json
-    Amazingant.FSharp.TypeExpansion (1.0.3)
-      FSharp.Core (4.1)
+    Amazingant.FSharp.TypeExpansion (2.2.1)
+      FSharp.Core (>= 4.1 < 5.0)
     FAKE (4.39.1)
-    FSharp.Core (4.1)
-      System.ValueTuple (>= 4.3)
-    System.ValueTuple (4.3)
+    FSharp.Core (4.7.0)

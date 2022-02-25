@@ -2,4 +2,4 @@ framework: net45
 source https://api.nuget.org/v3/index.json
 
 nuget FAKE
-nuget Amazingant.FSharp.TypeExpansion 1.0.3
+nuget Amazingant.FSharp.TypeExpansion 2.2.1
